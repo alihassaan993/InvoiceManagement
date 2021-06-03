@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>      
+  <session-factory>
+    <!-- Database connection settings -->
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://localhost:3306/invoices</property>
+    <property name="connection.username">root</property>
+    <property name="connection.password">Dec2019$</property>
+    <property name="show_sql">false</property>
+	<property name="connection.pool_size">1</property>
+
+	<property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+            
+       
+    <mapping class="com.accounting.data.Customer" />
+    <mapping class="com.accounting.data.Car" />
+    <mapping class="com.accounting.data.Product" />
+    <mapping class="com.accounting.data.ProductTax" />
+    
+  </session-factory>
+</hibernate-configuration>
