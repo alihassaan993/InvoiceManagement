@@ -39,10 +39,10 @@ public class CustomerAction {
         		
         	response+="[";
         	Customer _customer=results.get(index);
-        	response+="\""+_customer.getCustomerName() + "\"" + ",";
+        	response+="\""+_customer.getFirstName() + "\"" + ",";
+        	response+="\"" + _customer.getLastName() + "\"" + ",";
         	response+="\"" + _customer.getEmail() + "\"" + ",";
-        	response+="\"" + _customer.getAddress() + "\"" + ",";
-        	response+="\"" + _customer.getCategoryID() + "\"" + ",";
+        	response+="\"" + _customer.getMobilePhone() + "\"" + ",";
         	response+="\" <button>Edit</button> \"" + "]";
         	
         }
@@ -52,36 +52,14 @@ public class CustomerAction {
         
 	}
 	
-	public void create() throws Exception {
+	public void create(Customer customer) throws Exception {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		
-		Customer customer=new Customer();
-		customer.setCustomerName("Ali Hassaan");
-		customer.setEmail("alihassaan@gmail.com");
-		customer.setAddress("Muscat");
-		customer.setCategoryID(1);
-		
-		Car car1=new Car();
-		car1.setModel("Ford Explorer");
-		car1.setMake("2010");
-		car1.setPlateNo("Y 58602");
-		
-		Car car2=new Car();
-		car2.setModel("Ford Edge");
-		car2.setMake("2010");
-		car2.setPlateNo("Y 1232");
 		
 		try {
 			session.beginTransaction();
 	    	
 	    	session.save(customer);
-	    	
-	    	car1.setCustomerID(customer.getCustomerID());
-	    	car2.setCustomerID(customer.getCustomerID());
-	    	
-	    	session.save(car1);
-	    	session.save(car2);
 	    	
 	    	session.getTransaction().commit();
 		}catch(Exception err) {

@@ -7,7 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
-import com.accounting.data.Product;
+import com.accounting.data.Customer;
 import com.accounting.action.CustomerAction;
 
 /**
@@ -46,14 +46,14 @@ public class CustomerResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public String saveProduct(final Product product) {
+    public String saveCustomer(final Customer customer) {
     	
     	String response="2";
     	
     	try {
 	    	//System.out.println("i am receving in POST "+ product.getProductName());
-	    	ProductAction prodAction=new ProductAction();
-	    	prodAction.create(product);
+	    	CustomerAction prodAction=new CustomerAction();
+	    	prodAction.create(customer);
 	    	
 	    	response="1";
 	    	

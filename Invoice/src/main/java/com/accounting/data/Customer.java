@@ -21,49 +21,82 @@ public class Customer {
 	@Column(name = "customerID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int customerID;
-	private String customerName;
-	private String email;
-	private String address;
-	private String phoneNo;
-	private int categoryID;
 	
+	private String firstName;
+	private String lastName;
+	private String mobilePhone;
+	private String officePhone;
+	private String billingAddress;
+	private String email;
+	
+	private int categoryID;
+
 	public int getCustomerID() {
 		return customerID;
 	}
+
 	public void setCustomerID(int customerID) {
 		this.customerID = customerID;
 	}
-	public String getCustomerName() {
-		return customerName;
+
+	public String getFirstName() {
+		return firstName;
 	}
-	public void setCustomerName(String customerName) {
-		this.customerName = customerName;
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-	public String getEmail() {
-		return email;
+
+	public String getLastName() {
+		return lastName;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
-	public String getAddress() {
-		return address;
+
+	public String getMobilePhone() {
+		return mobilePhone;
 	}
-	public void setAddress(String address) {
-		this.address = address;
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
 	}
-	public String getPhoneNo() {
-		return phoneNo;
+
+	public String getOfficePhone() {
+		return officePhone;
 	}
-	public void setPhoneNo(String phoneNo) {
-		this.phoneNo = phoneNo;
+
+	public void setOfficePhone(String officePhone) {
+		this.officePhone = officePhone;
 	}
+
+	public String getBillingAddress() {
+		return billingAddress;
+	}
+
+	public void setBillingAddress(String billingAddress) {
+		this.billingAddress = billingAddress;
+	}
+
 	public int getCategoryID() {
 		return categoryID;
 	}
+
 	public void setCategoryID(int categoryID) {
 		this.categoryID = categoryID;
 	}
 
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	
+	
 	
 	
 }
