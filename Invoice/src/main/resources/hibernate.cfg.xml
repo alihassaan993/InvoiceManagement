@@ -20,6 +20,8 @@
     <mapping class="com.accounting.data.Car" />
     <mapping class="com.accounting.data.Product" />
     <mapping class="com.accounting.data.ProductTax" />
+    <mapping class="com.accounting.data.Estimate" />
+    <mapping class="com.accounting.data.EstimateProduct" />
     
   </session-factory>
 </hibernate-configuration>
