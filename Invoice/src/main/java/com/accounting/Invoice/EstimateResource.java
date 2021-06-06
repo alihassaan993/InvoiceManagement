@@ -11,12 +11,10 @@ import com.accounting.data.Estimate;
 import com.accounting.action.EstimateAction;
 
 /**
- * Root resource (exposed at "product" path)
+ * Root resource (exposed at "estimate" path)
  */
 
-import com.accounting.action.ProductAction;
-
-@Path("/estimate")
+@Path("estimate")
 public class EstimateResource {
 
     /**
