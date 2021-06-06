@@ -44,7 +44,7 @@
 </script>
 
 <div class="modal fade" id="myModal" role="dialog">
-	<div class="modal-dialog">
+	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
 				<h4 class="modal-title"> Add New Customer </h4>
@@ -53,47 +53,58 @@
 		<form method="POST" action="javascript:submitForm();" id="productForm">
 		
 		<div id="result"></div>	
-		
-		  <div class="form-group">
-		
+		<div class="container">	
+		   <div class="row">
+		   	<div class="col-md-6">
 			<label for="firstName">First Name</label>
-			<input type="text" name="firstName" id="firstName" placeHolder="First Name" required/>
-		
+			<input type="text" class="form-control" name="firstName" id="firstName" placeHolder="First Name" required/>
+			</div>
+			<div class="col-md-6">
 			<label for="lastName">Last Name</label>
-			<input type="text" name="lastName" id="lastName" placeHolder="Last Name" required/>
-
+			<input type="text" class="form-control" name="lastName" id="lastName" placeHolder="Last Name" required/>
+			</div>
 		  </div>
-		  <div class="form-group">
+			<div class="row">
+			<div class="col-md-12">
 		
 			<label for="email">Email</label>
-			<input type="email" name="email" id="email" placeHolder="Email" required/>
+			<input type="email" class="form-control" name="email" id="email" placeHolder="Email" required/>
 		
-		  </div>
-		  <div class="form-group">
-		
+		 	</div>
+		 	</div>
+		 	<div class="row">
+		 	<div class="col-md-6">
+		 		
 			<label for="mobilePhone">Mobile Number</label>
-			<input type="tel" name="mobilePhone" id="mobilePhone" placeHolder="Mobile Number" required/>
-		
+			<input type="tel" class="form-control" name="mobilePhone" id="mobilePhone" placeHolder="Mobile Number" required/>
+			
+			</div>
+			<div class="col-md-6">
 			<label for="officePhone">Office Number</label>
-			<input type="tel" name="officePhone" id="officePhone" placeHolder="Office Number"/>
-
-		  </div>
-		
-		  <div class="form-group">
+			<input type="tel" class="form-control" name="officePhone" id="officePhone" placeHolder="Office Number"/>
+			</div>
+			</div>
+			<div class="row">
+			<div class="col-md-12">		
 		
 			<label for="billingAddress">Billing Address</label>
-			<input type="text" name="billingAddress" id="billingAddress" placeHolder="Billing Address" required/>
+			<textarea class="form-control" name="billingAddress" id="billingAddress" 
+				placeHolder="Billing Address" 
+			rows="3"></textarea>
 		
-		  </div>  
+		
+		  	</div>
+		  	</div>  
 
+			<div class="row">
+			<div class="col-md-12">
 		    
-		  <div class="form-group" align="center">
 		
 			<button type="submit" class="btn btn-primary">Submit</button>
 		
-		  </div>  
-		 
-		  
+		 </div>
+		 </div>
+		  </div>
 		</form>
 		
 

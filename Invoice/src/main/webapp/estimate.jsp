@@ -1,14 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
 
 	<script>
 	$(document).ready(function() {
 		$('#customerTable').DataTable( {
 	    	  "ajax": {
-	    		    "url": "http://localhost:8080/Invoice/webapi/customer"
+	    		    "url": "http://localhost:8080/Invoice/webapi/estimate"
 	    		  },
+	    columns:[
+	    	data:"estimateNo",
+	    	data:"creationDate",
+	    	data:"customerName"
+	    ],
 	    dom: '<"toolbar">frtip',
 	    select:true
 	    } );
@@ -20,12 +21,9 @@
 	<table id="customerTable" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
+                <th>Quotation Number</th>
+                <th>Creation Date</th>
+                <th>Customer Name</th>
             </tr>
         </thead>
   	</table>
-  	
- 

@@ -1,5 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+
+  	<% 
+  		String _page=request.getParameter("show");
+  		String pageName="";
+  		if(_page!=null){
+	  		switch (_page){
+	  		case "customer":
+	  			pageName="customer.jsp";
+	  			break;
+	  		case "product":
+	  			pageName="productform.jsp";
+	  			break;
+	  		case "estimate":
+	  			pageName="estimate.jsp";
+	  			break;	
+	  		}
+  		}
+  	%>
+  	
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,15 +117,15 @@
 
 <main>
  
-  <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px;">
+  <div class="d-flex flex-column flex-shrink-0 p-3 text-white" style="width: 280px; background-color: rgba(25, 94, 148, 1)">
     <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-      <span class="fs-4">BEST AMERICAN TYRES WORK</span>
+      <span class="fs-4"><h1>BEST AMERICAN TYRES WORK</h1></span>
     </a>
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <a href="menu.jsp?show=customer" class="nav-link active" aria-current="page">
-          <svg class="bi me-2" width="16" height="16"><use xlink:href=""/></svg>
+        <a href="menu.jsp?show=customer" class="<%=_page.equals("customer")?"nav-link active":"nav-link text-white"%>">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#home"/></svg>
           Home
         </a>
       </li>
@@ -116,13 +136,13 @@
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
+        <a href="menu.jsp?show=estimate" class="<%=_page.equals("estimate")?"nav-link active":"nav-link text-white"%>">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
-          Orders
+          Estimates
         </a>
       </li>
       <li>
-        <a href="#" class="nav-link text-white">
+        <a href="menu.jsp?show=product" class="<%=_page.equals("product")?"nav-link active":"nav-link text-white"%>" aria-current="page">
           <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
           Products
         </a>
@@ -143,21 +163,7 @@
   </div>
 
   <div style="width:100%">
-  	<% 
-  		String _page=request.getParameter("show");
-  		String pageName="";
-  		if(_page!=null){
-	  		switch (_page){
-	  		case "customer":
-	  			pageName="customer.jsp";
-	  			break;
-	  		case "product":
-	  			pageName="productform.jsp";
-	  			break;
-	  		}
-  		}
-  	%>
-  	
+
   	<jsp:include page="<%=pageName%>"/>
   	
   </div>
