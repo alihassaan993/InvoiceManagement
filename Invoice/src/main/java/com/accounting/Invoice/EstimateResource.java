@@ -16,7 +16,7 @@ import com.accounting.action.EstimateAction;
 
 import com.accounting.action.ProductAction;
 
-@Path("/estimates")
+@Path("/estimate")
 public class EstimateResource {
 
     /**
@@ -25,7 +25,6 @@ public class EstimateResource {
      *
      * @return String that will be returned as a text/plain response.
      */
-	@Path("/fetch")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getIt() {
