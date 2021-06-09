@@ -19,7 +19,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "estimate")
 public class Estimate {
-	
+	@Id
+	@Column(name = "estimateID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int estimateID;
 	private Date creationDate;
 	private String status;

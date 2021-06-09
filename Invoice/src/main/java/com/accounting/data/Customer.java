@@ -29,7 +29,7 @@ public class Customer {
 	private String billingAddress;
 	private String email;
 	
-	private int categoryID;
+	private String categoryID;
 
 	public int getCustomerID() {
 		return customerID;
@@ -79,11 +79,11 @@ public class Customer {
 		this.billingAddress = billingAddress;
 	}
 
-	public int getCategoryID() {
+	public String getCategoryID() {
 		return categoryID;
 	}
 
-	public void setCategoryID(int categoryID) {
+	public void setCategoryID(String categoryID) {
 		this.categoryID = categoryID;
 	}
 

@@ -10,7 +10,8 @@ import org.hibernate.query.Query;
 
 import com.accounting.data.Customer;
 import com.accounting.data.Product;
-import com.accounting.data.Car;
+import com.accounting.data.Estimate;
+import com.accounting.data.EstimateProduct;
 import com.accounting.util.HibernateUtil;
 import com.google.gson.Gson;
 
@@ -21,13 +22,50 @@ public class EstimateAction {
 	public String fetch() throws Exception{
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<Customer> results = null;
 		
-		String hql = "FROM Customer";
-        Query query = session.createQuery(hql);
-        List<Customer> results = query.getResultList();
-        session.close();       
-		
+		try {
+			String hql = "FROM Estimate";
+	        Query query = session.createQuery(hql);
+	        results = query.getResultList();
+	              
+		}catch(Exception err) {
+			err.printStackTrace();
+		}finally {
+			session.close(); 
+		}
         return new Gson().toJson(results);
 	}	
+	
+	public String create(Estimate estimate) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		try {
+			
+			session.save(estimate);
+			
+			List<EstimateProduct> estimateProducts = estimate.getEstimateProducts();
+			
+			for(int index=0;index<estimateProducts.size();index++) {
+				
+				session.save((EstimateProduct)estimateProducts.get(index));
+				
+			}
+			
+			session.getTransaction().commit();
+			
+		}catch(Exception err) {
+			session.getTransaction().rollback();
+			err.printStackTrace();
+			
+		}finally {
+			
+			session.close();
+			
+		}
+		
+		return "Error";
+	}
 
 }

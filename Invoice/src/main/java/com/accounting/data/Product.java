@@ -3,13 +3,18 @@ package com.accounting.data;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.Table;	
+import javax.persistence.JoinColumn;
 
 @Entity
 @Table(name = "product")
@@ -25,13 +30,8 @@ public class Product {
 	private int cost;
 	private int price;
 	
-	//@Column(insertable=false,updatable=false)
-	@OneToMany (mappedBy="product")
+	@OneToMany(mappedBy = "product")
 	private List<ProductTax> taxID;
-	
-	
-	
-	
 
 	public List<ProductTax> getTaxID() {
 		return taxID;
@@ -78,6 +78,30 @@ public class Product {
 	}
 
 	
-	
+	public String toString() {
+		
+		String response="";
+		
+		response+="{";
+		response+="\"productID\":" + productID + ",";
+		response+="\"productName\":\"" + productName + "\",";
+		response+="\"description\":\"" + description + "\",";
+		response+="\"price\":" + price + ",";
+		response+="\"cost\":" + cost + ",";
+		response+="\"taxIDs\":[";
+		for(int index=0;index<taxID.size();index++) {
+			if(index>0)
+        		response+=",";
+			
+			response+=taxID.get(index).getTax().getTaxID();
+					
+		}
+		response+="]";
+		
+		response+="}";
+		
+		return response;
+		
+	}
 	
 }

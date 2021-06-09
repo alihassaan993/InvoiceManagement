@@ -1,24 +1,26 @@
 
 	<script>
 	$(document).ready(function() {
-		$('#customerTable').DataTable( {
+		$('#estimateTable').DataTable( {
 	    	  "ajax": {
-	    		    "url": "http://localhost:8080/Invoice/webapi/estimate"
+	    		    "url": "../Invoice/webapi/estimate"
 	    		  },
 	    columns:[
-	    	data:"estimateNo",
-	    	data:"creationDate",
-	    	data:"customerName"
+	    	{data:"estimateNo"},
+	    	{data:"creationDate"},
+	    	{data:"customerName"}
 	    ],
-	    dom: '<"toolbar">frtip',
+	    dom: '<"etoolbar">frtip',
 	    select:true
 	    } );
-		 $("div.toolbar").html('<button class="btn" data-toggle="modal" data-target="#myModal">Add New</button>');
+		 $("div.etoolbar").html('<button class="btn" data-toggle="modal" data-target="#createEstimate">Add New</button>');
 	} );
 	</script>
+	<jsp:include page="estimateform.jsp" />  
+	<jsp:include page="customerlist.jsp" />
 	<jsp:include page="customerform.jsp" />  
 
-	<table id="customerTable" class="table table-striped table-bordered" style="width:100%">
+	<table id="estimateTable" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>Quotation Number</th>

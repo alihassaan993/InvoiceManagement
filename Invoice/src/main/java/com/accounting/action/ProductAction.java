@@ -4,6 +4,7 @@ package com.accounting.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.transaction.Transactional;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,11 +28,14 @@ public class ProductAction {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		
 		Product _product=new Product();
-		
+		try {
        
 		_product=session.get(Product.class, product.getProductID());
-		
-        session.close();
+		}catch(Exception err) {
+			err.printStackTrace();
+		}finally {
+	        session.close();
+		}
         
 
         return new Gson().toJson(_product);
@@ -41,29 +45,33 @@ public class ProductAction {
 	public String fetch() throws Exception{
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		String response="[";
 		
-		String hql = "FROM Product";
-        Query query = session.createQuery(hql);
-        List<Product> results = query.getResultList();
-        session.close();
+		try {
+			String hql = "FROM Product";
+	        Query query = session.createQuery(hql);
+	        List<Product> results = query.getResultList();
+	        //String _response=new Gson().toJson(results);
+	
+	       
+	        
+	        for(int index=0;index<results.size();index++) {
+	        	if(index>0)
+	        		response+=",";
+	        		       	
+	        	Product _prod=results.get(index);
+	        	response+=_prod.toString();
+	        }
+	        
+	        response+="]";
 
-        String response="{ \"data\":[";
         
-        for(int index=0;index<results.size();index++) {
-        	if(index>0)
-        		response+=",";
-        		
-        	response+="[";
-        	Product _prod=results.get(index);
-        	response+="\""+_prod.getProductName() + "\"" + ",";
-        	response+="\"" + _prod.getDescription() + "\"" + ",";
-        	response+="\"" + _prod.getCost() + "\"" + ",";
-        	response+="\"" + _prod.getPrice() + "\"" + ",";
-        	response+="\" <button>Edit</button> \"" + "]";
-        	
-        }
-        
-        response+="]}";
+
+		}catch(Exception err) {
+			err.printStackTrace();
+		}finally {
+			session.close();	
+		}
         
         return response;
 		
@@ -79,14 +87,14 @@ public class ProductAction {
 			
 			session.save(product);
 			
-			List<ProductTax> taxIDs=product.getTaxID();
-			
-			for(int index=0;index<taxIDs.size();index++)			
-			{	
-				ProductTax prodTax=taxIDs.get(index);
-				prodTax.setProduct(product);
-				session.save(prodTax);
-			}
+//			List<ProductTax> taxIDs=product.getTaxID();
+//			
+//			for(int index=0;index<taxIDs.size();index++)			
+//			{	
+//				ProductTax prodTax=taxIDs.get(index);
+//				prodTax.setProduct(product);
+//				session.save(prodTax);
+//			}
 			session.getTransaction().commit();
 			
 		}catch(Exception err) {

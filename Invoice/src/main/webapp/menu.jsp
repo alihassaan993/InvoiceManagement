@@ -34,7 +34,13 @@
 
 	<link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/sidebars/">
 
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
+ <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
+    
     <style>
       .bd-placeholder-img {
         font-size: 1.125rem;
@@ -43,6 +49,10 @@
         -moz-user-select: none;
         user-select: none;
       }
+      .yScroll{
+			overflow-y:auto;
+			height:400px;
+		}
 
       @media (min-width: 768px) {
         .bd-placeholder-img-lg {

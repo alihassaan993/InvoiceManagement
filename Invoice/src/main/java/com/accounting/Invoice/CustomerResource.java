@@ -46,7 +46,7 @@ public class CustomerResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.TEXT_PLAIN)
-    public String saveCustomer(final Customer customer) {
+    public String saveCustomer(Customer customer) {
     	
     	String response="2";
     	

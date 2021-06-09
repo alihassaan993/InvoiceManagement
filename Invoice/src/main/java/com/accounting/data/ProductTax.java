@@ -1,6 +1,7 @@
 package com.accounting.data;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +12,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "productTax")
+@Embeddable
 public class ProductTax {
 
 	@Id
@@ -19,19 +21,34 @@ public class ProductTax {
 	private int productTaxID;
 	
 	@ManyToOne
-	@JoinColumn(name="productID",nullable=false)
+	@JoinColumn(name="productID")
 	private Product product;
 	
+	@ManyToOne
+	@JoinColumn(name="taxID")	
+	private Tax tax;
+	
+	private int percentage;
 	
 	
-	
+	public Tax getTax() {
+		return tax;
+	}
+	public void setTax(Tax tax) {
+		this.tax = tax;
+	}
+	public int getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(int percentage) {
+		this.percentage = percentage;
+	}
 	public Product getProduct() {
 		return product;
 	}
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	private int taxID;
 	public int getProductTaxID() {
 		return productTaxID;
 	}
@@ -43,12 +60,6 @@ public class ProductTax {
 	}
 	public void setProductID(Product productID) {
 		this.product = productID;
-	}
-	public int getTaxID() {
-		return taxID;
-	}
-	public void setTaxID(int taxID) {
-		this.taxID = taxID;
 	}
 	
 	

@@ -23,7 +23,7 @@ import com.accounting.data.Estimate;
 public class EstimateProduct {
 
 	@Id
-	@Column(name = "customerID")
+	@Column(name = "estimateProductID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int estimateProductID;
 	private int price;
@@ -32,6 +32,10 @@ public class EstimateProduct {
 	@ManyToOne
 	@JoinColumn(name="estimateID",nullable=false)
 	private Estimate estimate;
+	
+	@ManyToOne
+	@JoinColumn(name="productID",nullable=false)
+	private Product product;
 	
 	public int getEstimateProductID() {
 		return estimateProductID;

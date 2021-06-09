@@ -68,8 +68,15 @@ $(document).ready(function() {
 
     $('#example').DataTable( {
     	  "ajax": {
-    		    "url": "http://localhost:8080/Invoice/webapi/product"
+    		    "url": "http://localhost:8080/Invoice/webapi/product",
+    		    "dataSrc":""
     		  },
+    		  columns:[
+    			  {data:"productName"},
+    			  {data:"description"},
+    			  {data:"cost"},
+    			  {data:"price"}
+    		  ],
               		  
     dom: '<"toolbar">rtip',
     select:true
@@ -160,7 +167,6 @@ $(document).ready(function() {
                 <th>Description</th>
                 <th>Cost</th>
                 <th>Price</th>
-                <th>Edit</th>
             </tr>
         </thead>
   	</table>

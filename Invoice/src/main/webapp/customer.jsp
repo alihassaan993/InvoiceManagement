@@ -7,12 +7,19 @@
 	$(document).ready(function() {
 		$('#customerTable').DataTable( {
 	    	  "ajax": {
-	    		    "url": "http://localhost:8080/Invoice/webapi/customer"
+	    		    "url": "http://localhost:8080/Invoice/webapi/customer",
+	    		    "dataSrc":""
 	    		  },
+	    		  columns:[
+	    			  {data:"firstName"},
+	    			  {data:"lastName"},
+	    			  {data:"email"},
+	    			  {data:"mobilePhone"}
+	    		  ],
 	    dom: '<"toolbar">frtip',
 	    select:true
 	    } );
-		 $("div.toolbar").html('<button class="btn" data-toggle="modal" data-target="#myModal">Add New</button>');
+		 $("div.toolbar").html('<button class="btn" data-toggle="modal" data-target="#createCustomer">Add New</button>');
 	} );
 	</script>
 	<jsp:include page="customerform.jsp" />  

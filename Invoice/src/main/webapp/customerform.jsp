@@ -13,7 +13,7 @@
   		
  		requestSTR=requestSTR+"}";
  		
- 		//alert(requestSTR);
+ 		alert(requestSTR);
  		
 	  var xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {
@@ -30,20 +30,26 @@
 	     
 	    }
 	  };
-	  xhttp.open("POST", "http://localhost:8080/Invoice/webapi/customer", true);
+	  xhttp.open("POST", "../Invoice/webapi/customer", true);
 	  xhttp.setRequestHeader("Content-Type", "application/json");
 	  xhttp.send(requestSTR); 
 	} 
 
  	function resetForm(){
- 		document.getElementById("customerName").value="";
+ 		document.getElementById("firstName").value="";
+ 		document.getElementById("lastName").value="";
  		document.getElementById("email").value="";
- 		document.getElementById("address").value="";
+ 		document.getElementById("mobilePhone").value="";
+ 		document.getElementById("officePhone").value="";
+ 		document.getElementById("billingAddress").value="";
+
+ 		$("#customerTable").DataTable().ajax.reload();
+ 		$('#createCustomer').modal('hide');
  	}
  	
 </script>
 
-<div class="modal fade" id="myModal" role="dialog">
+<div class="modal fade" id="createCustomer" role="dialog">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
