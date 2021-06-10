@@ -43,13 +43,19 @@ public class EstimateAction {
 		
 		try {
 			
+			session.beginTransaction();
+			
+			session.save(estimate.getCar());
+			
 			session.save(estimate);
 			
 			List<EstimateProduct> estimateProducts = estimate.getEstimateProducts();
 			
 			for(int index=0;index<estimateProducts.size();index++) {
 				
-				session.save((EstimateProduct)estimateProducts.get(index));
+				EstimateProduct estimateProduct=(EstimateProduct)estimateProducts.get(index);
+				estimateProduct.setEstimate(estimate);
+				session.save(estimateProduct);
 				
 			}
 			

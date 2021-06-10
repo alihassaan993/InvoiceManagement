@@ -41,24 +41,16 @@ public class EstimateResource {
         return response;
     }
     
-//    @POST
-//    @Consumes(MediaType.APPLICATION_JSON)
-//    @Produces(MediaType.TEXT_PLAIN)
-//    public String saveCustomer(final Customer customer) {
-//    	
-//    	String response="2";
-//    	
-//    	try {
-//	    	//System.out.println("i am receving in POST "+ product.getProductName());
-//	    	CustomerAction prodAction=new CustomerAction();
-//	    	prodAction.create(customer);
-//	    	
-//	    	response="1";
-//	    	
-//    	}catch(Exception err) {
-//    		err.printStackTrace();
-//    	}
-//        return response;
-//    }   
+  
+   @POST
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.TEXT_PLAIN)
+    public String createEstimate(Estimate estimate) {
+	   
+	    EstimateAction estimateAction=new EstimateAction();
+	    estimateAction.create(estimate);
+	   	
+    	return "";
+    }
     
 }

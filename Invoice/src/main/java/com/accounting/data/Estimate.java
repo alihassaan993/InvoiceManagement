@@ -13,7 +13,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.CreationTimestamp;
 
 
 @Entity
@@ -23,9 +26,20 @@ public class Estimate {
 	@Column(name = "estimateID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int estimateID;
+	
+	@CreationTimestamp
 	private Date creationDate;
 	private String status;
 	private String estimateNo;
+	private float salesTax;
+	private float californiaTax;
+	private float labourCost;
+	private float recyclingCharges;
+	private float totalAmount;
+	
+    @OneToOne
+    @JoinColumn(name = "carID")
+	private Car car;
 	
 	@ManyToOne
 	@JoinColumn(name="customerID",nullable=false)
@@ -81,6 +95,55 @@ public class Estimate {
 	public void setEstimateProducts(List<EstimateProduct> estimateProducts) {
 		this.estimateProducts = estimateProducts;
 	}
+
+	public float getSalesTax() {
+		return salesTax;
+	}
+
+	public void setSalesTax(float salesTax) {
+		this.salesTax = salesTax;
+	}
+
+	public float getCaliforniaTax() {
+		return californiaTax;
+	}
+
+	public void setCaliforniaTax(float californiaTax) {
+		this.californiaTax = californiaTax;
+	}
+
+	public float getLabourCost() {
+		return labourCost;
+	}
+
+	public void setLabourCost(float labourCost) {
+		this.labourCost = labourCost;
+	}
+
+	public float getRecyclingCharges() {
+		return recyclingCharges;
+	}
+
+	public void setRecyclingCharges(float recyclingCharges) {
+		this.recyclingCharges = recyclingCharges;
+	}
+
+	public float getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(float totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
+	public Car getCar() {
+		return car;
+	}
+
+	public void setCar(Car car) {
+		this.car = car;
+	}
+	
 	
 	
 	

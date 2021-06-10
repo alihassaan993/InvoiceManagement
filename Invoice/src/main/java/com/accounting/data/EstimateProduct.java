@@ -26,8 +26,11 @@ public class EstimateProduct {
 	@Column(name = "estimateProductID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int estimateProductID;
-	private int price;
+	private float price;
 	private int discount;
+	private float amount;
+	private int quantity;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="estimateID",nullable=false)
@@ -43,10 +46,10 @@ public class EstimateProduct {
 	public void setEstimateProductID(int estimateProductID) {
 		this.estimateProductID = estimateProductID;
 	}
-	public int getPrice() {
+	public float getPrice() {
 		return price;
 	}
-	public void setPrice(int price) {
+	public void setPrice(float price) {
 		this.price = price;
 	}
 	public int getDiscount() {
@@ -60,6 +63,24 @@ public class EstimateProduct {
 	}
 	public void setEstimate(Estimate estimate) {
 		this.estimate = estimate;
+	}
+	public float getAmount() {
+		return amount;
+	}
+	public void setAmount(float amount) {
+		this.amount = amount;
+	}
+	public int getQuantity() {
+		return quantity;
+	}
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
 	

@@ -15,6 +15,7 @@
 	var position=2;
 	
 	$(document).ready(function() {
+		//alert("Populating Products");
 		populateProductDropDown('#selectProduct1')
 	} );
 	
@@ -66,6 +67,7 @@
 		document.getElementById("californiaTax").value=0;
 		document.getElementById("salesTax").value=0;
 		
+		totalAmount=0;
 		//alert(position);
 
 		for(var k=1;k<=position;k++){
@@ -78,6 +80,7 @@
 				}
 			
  			var amount=parseFloat(document.getElementById("amount"+k).value);
+ 			totalAmount+=amount;
 			
 			var	result;		
 				
@@ -97,6 +100,8 @@
 		 			
 					salesTax=salesTax+amount;
 					
+					totalAmount+=salesTax;
+					
 					document.getElementById("salesTax").value=salesTax.toFixed(2);
 		
 				}else if (result.taxIDs[i]==2){
@@ -105,12 +110,20 @@
 		 			amount=amount*0.0027;
 		 			
 		 			californiaTax=californiaTax+amount;
+		 			totalAmount+=californiaTax;
 					
 					document.getElementById("californiaTax").value=californiaTax.toFixed(2);
 					
 				}
 			}
 		}
+		var labourCost=parseInt(document.getElementById("labourCost").value);
+		totalAmount=totalAmount+labourCost;
+		
+		var recyclingCharges=parseInt(document.getElementById("recyclingCharges").value);
+		totalAmount+=recyclingCharges;
+		
+		document.getElementById("totalAmount").value=totalAmount.toFixed(2);
 		
 	}
 	
@@ -152,10 +165,103 @@
 		document.getElementById("products").deleteRow(rowID);
 		//position=position-1;
 	}
+
+	function saveEstimate(){
+		formData="";
+		//alert("i am here");
+		customerName=document.getElementById("customerName").value.split("-");
+		
+		// Customer Car Details//
+		customerID=customerName[0];	
+		model=document.getElementById("model").value;
+		plateNo=document.getElementById("plateNo").value;
+		odoMeter=document.getElementById("odometer").value;
+		make=document.getElementById("make").value;
+		
+		// Summary Data
+		salesTax=document.getElementById("salesTax").value;
+		californiaTax=document.getElementById("californiaTax").value;
+		labourCost=document.getElementById("labourCost").value;
+		recyclingCharges=document.getElementById("recyclingCharges").value;
+		totalAmount=document.getElementById("totalAmount").value;
+		
+		
+		formData="{\"car\":{\"customerID\":"+ customerID;
+		formData+=",\"model\":\""+ model +"\"";
+		formData+=",\"plateNo\":\""+ plateNo +"\"";
+		formData+=",\"odoMeter\":\""+ odoMeter +"\"";
+		formData+=",\"make\":\""+ make +"\"},";
+		
+		//alert(formData);
+		
+		formData+="\"estimateProducts\":[";
+		// Estimate Product Details
+ 		for(index=1;index<=position;index++){
+			try {
+				productID=document.getElementById("selectProduct"+index).value;
+				quantity=document.getElementById("quantity"+index).value;
+				price=document.getElementById("price"+index).value;
+				amount=document.getElementById("amount"+index).value;
+				
+				if(index>1)
+					formData+=",";
+				
+				formData+="{";
+				formData+="\"productID\":"+productID;
+				formData+=",\"quantity\":"+quantity;
+				formData+=",\"amount\":"+amount;
+				formData+=",\"price\":"+price;
+				
+				formData+=",\"product\":{\"productID\":"+ productID +"}";
+				
+				formData+="}";
+			}
+			catch(err) {
+				continue;
+			}
+		} 
+		formData+="]";
+		
+		formData+=",\"customer\":{\"customerID\":"+customerID+"}";
+		
+		formData+=",\"salesTax\":"+salesTax;
+		formData+=",\"californiaTax\":"+californiaTax;
+		formData+=",\"labourCost\":"+labourCost;
+		formData+=",\"recyclingCharges\":"+recyclingCharges;
+		formData+=",\"totalAmount\":"+totalAmount;
+		
+		formData+="}";
+		
+		document.getElementById("odometer").value=formData;
+		
+		//Submitting Request
+		  var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		    	if(this.responseText=="1"){
+		     		//document.getElementById("result").innerHTML = "Successfully added the Product!!!"
+		     		//resetForm();
+		     		alert("Estimate Added Successfully");
+		    	}
+	     		else{
+	     			//document.getElementById("result").innerHTML ="Cannot add Customer at this time!!!";
+	     		}
+		     	
+		     		
+		     
+		    }
+		  };
+		  xhttp.open("POST", "../Invoice/webapi/estimate", true);
+		  xhttp.setRequestHeader("Content-Type", "application/json");
+		  xhttp.send(formData); 
+		
+		
+	}
 	
 	</script>
 
 <div class="modal fade" id="createEstimate" tabindex="-1"  role="dialog">
+<form action="#" id="estimateForm" name="estimateForm">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
@@ -171,7 +277,7 @@
 						<div class="col-md-12">
 							
 							<div class="input-group mb-3">
-								<input type="text" class="form-control" name="customerName" id="customerName" placeHolder="Select Customer" required/>
+								<input type="text" class="form-control" name="customerName" id="customerName" placeHolder="Select Customer" required readonly/>
 								<div class="input-group-append">
 									<button type="button" class="btn btn-outline-secondary" data-toggle="modal" data-target="#customerList">Search</button>
 								</div>
@@ -191,7 +297,7 @@
 					<div class="row">
 						<div class="col-md-6">
 							<label for="model">ODO Meter</label>
-							<input type="text" class="form-control input-sm" name="model" id="model" placeHolder="ODO Meter Reading" required/>
+							<input type="text" class="form-control input-sm" name="odometer" id="odometer" placeHolder="ODO Meter Reading" required/>
 						</div>
 						<div class="col-md-6">
 							<label for="make">Make</label>
@@ -216,7 +322,7 @@
 			            	<td><input class="form-control" type="number" id="quantity1" onchange="javascript:calculateAmount('1')" value="0"/></td>
 			            	<td><input class="form-control" type="text" id="price1" value="0" readonly/></td>
 			            	<td><input class="form-control" type="number" id="amount1" value="0"/></td>
-			            	<td><a class="delete" title="Delete" data-toggle="tooltip" href="javascript:deleteRow('1')"><i class="material-icons">&#xE872;</i></a></td>
+			            	<td>&nbsp;</td>
 			            </tr>
 			        </thead>
 				</table>
@@ -246,15 +352,56 @@
 					</div>				
 				</div>
 			</div>	
-			
+
+			<div class="row">
+			<div class="col-8">&nbsp;</div>
+				<div class="col-4">
+					<div class="input-group input-group-sm mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text" id="inputGroup-sizing-sm">Labour Cost</span>
+					  </div>
+					  <input class="form-control" type="text" id="labourCost" name="labourCost" value="0" onchange="javascript:calculateTax(0)"/>
+					</div>				
+				</div>
+			</div>			
+
+			<div class="row">
+			<div class="col-8">&nbsp;</div>
+				<div class="col-4">
+					<div class="input-group input-group-sm mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text" id="inputGroup-sizing-sm">Recycling Charges</span>
+					  </div>
+					  <input class="form-control" type="text" id="recyclingCharges" name="recyclingCharges" value="0" onchange="javascript:calculateTax(0)"/>
+					</div>				
+				</div>
+			</div>	
+
+			<div class="row">
+			<div class="col-8">&nbsp;</div>
+				<div class="col-4">
+					<div class="input-group input-group-sm mb-3">
+					  <div class="input-group-prepend">
+					    <span class="input-group-text" id="inputGroup-sizing-sm">Total Amount</span>
+					  </div>
+					  <input class="form-control" type="text" id="totalAmount" name="totalAmount" value="0" readonly/>
+					</div>				
+				</div>
+			</div>	
+
+
 		</div>			
 	
 
 		</div>
       <div class="modal-footer">
        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary" onclick="javascript:saveEstimate();">Save changes</button>
       </div>
 	</div>
 </div>
+</form>
+<script type="text/javascript">
+
+</script>
 </div>

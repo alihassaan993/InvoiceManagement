@@ -18,9 +18,20 @@ public class Car {
 	private int carID;
 	private String model;
 	private String plateNo;
-	private String color;
+	//private String color;
 	private String make;
 	private int customerID;
+	
+	private String odoMeter;
+	
+	
+	
+	public String getOdoMeter() {
+		return odoMeter;
+	}
+	public void setOdoMeter(String odoMeter) {
+		this.odoMeter = odoMeter;
+	}
 	public int getCarID() {
 		return carID;
 	}
@@ -39,12 +50,12 @@ public class Car {
 	public void setPlateNo(String plateNo) {
 		this.plateNo = plateNo;
 	}
-	public String getColor() {
-		return color;
-	}
-	public void setColor(String color) {
-		this.color = color;
-	}
+//	public String getColor() {
+//		return color;
+//	}
+//	public void setColor(String color) {
+//		this.color = color;
+//	}
 	public String getMake() {
 		return make;
 	}
