@@ -54,6 +54,18 @@ public class EstimateResource {
     	return response;
     }
    
+   @POST
+   @Path("generateInvoice/{id}")
+   @Consumes(MediaType.APPLICATION_JSON)
+   @Produces(MediaType.TEXT_PLAIN)
+    public String generateInvoice(@PathParam("id") Integer id) {
+	   
+	    EstimateAction estimateAction=new EstimateAction();
+	    String response=estimateAction.generateInvoice(id.intValue());
+	   	
+    	return response;
+    }   
+   
    @GET
    @Path("/{id}")
    public String fetch(@PathParam("id") Integer id) {

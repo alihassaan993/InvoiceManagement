@@ -25,6 +25,8 @@
     <mapping class="com.accounting.data.Estimate" />
     <mapping class="com.accounting.data.EstimateProduct" />
     <mapping class="com.accounting.data.User" />
+    <mapping class="com.accounting.data.Invoice" />
+    <mapping class="com.accounting.data.InvoiceProduct"/>
     
   </session-factory>
 </hibernate-configuration>

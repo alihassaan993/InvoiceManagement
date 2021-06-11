@@ -2,6 +2,16 @@
     pageEncoding="UTF-8"%>
 
   	<% 
+  		String userName=(String)request.getSession().getAttribute("userName");
+  		
+  		if(userName==null){
+  	  		String verifiedUserName=request.getParameter("verifiedUserName");
+			if(verifiedUserName==null)
+  				response.sendRedirect("login.jsp");
+			else
+				request.getSession().setAttribute("userName", verifiedUserName);
+  		}
+  	
   		String _page=request.getParameter("show");
   		String pageName="";
   		if(_page!=null){
@@ -14,6 +24,9 @@
 	  			break;
 	  		case "estimate":
 	  			pageName="estimate.jsp";
+	  			break;	
+	  		case "invoice":
+	  			pageName="invoice.jsp";
 	  			break;	
 	  		}
   		}else{
@@ -142,7 +155,7 @@ div.content {
 <body>
 
 <div class="sidebar">
-<h4><font color="white">BEST AMERICAN TYRES WORK</font></h4>
+<h4><font color="white">invoicing</font></h4>
 <br/>
 <br/>
   <a class="<%=_page.equals("customer")?"active":""%>" href="newmenu.jsp?show=customer"><img src="customer.png" width="27" height="27"/>&nbsp;&nbsp;Customer</a>
@@ -152,6 +165,11 @@ div.content {
 </div>
 
 <div class="content">
+<div class="row">
+	<div class="col-md-2">
+		<a href="logout.jsp">Logout</a>
+	</div>
+</div>
 <jsp:include page="<%=pageName%>"/>
 </div>
 

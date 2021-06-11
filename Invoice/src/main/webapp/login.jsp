@@ -23,18 +23,20 @@
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    	if(this.responseText=="1"){
-	    		alert("Successfully login");
-	     		window.location.href='newmenu.jsp';
+	    		//window.location.href = 'newmenu.jsp';
+	    		document.getElementById("verifiedUserName").value=document.getElementById("userName").value;
+	    		document.getElementById("loginForm").action="newmenu.jsp";
+	    		document.getElementById("loginForm").submit();
 	    	}
      		else{
-     			alert("UsersName or Password are incorrect!!!");
+     			alert("UserName or Password are incorrect!!!");
      		}
 	     	
 	     		
 	     
 	    }
 	  };
-	  xhttp.open("POST", "../Invoice/webapi/user/login", true);
+	  xhttp.open("POST", "../Invoice/webapi/user/login", false);
 	  xhttp.setRequestHeader("Content-Type", "application/json");
 	  xhttp.send(requestSTR); 
 	//  alert(requestSTR);
@@ -65,7 +67,8 @@
 				</div>
 			</div>
 			<div class="card-body">
-				<form action="#" method="post">
+				<form action="#" method="post" id="loginForm">
+				<input type="hidden" id="verifiedUserName" name="verifiedUserName"/>
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>

@@ -4,16 +4,16 @@
 /* $(document).ready(function() {
 
 } ); */
-var estimateTable;
+var invoiceTable;
 var dataTableLoaded=false;
-var estimateID;
+var invoiceID;
 function populateModal(id){
-	estimateID=id;
+	invoiceID=id;
 	if(!dataTableLoaded){
-	 estimateTable=$('#viewEstimateTable').DataTable( {
+	 invoiceTable=$('#viewInvoiceTable').DataTable( {
 	  	  "ajax": {
-	  		    "url": "../Invoice/webapi/estimate/"+id,
-	  		    "dataSrc":"estimateProducts",
+	  		    "url": "../Invoice/webapi/invoice/"+id,
+	  		    "dataSrc":"invoiceProducts",
 	  		  	"async": false
 	  		  },
 	    columns:[
@@ -26,56 +26,35 @@ function populateModal(id){
 	    dom: ''
 	    } );
 		
-		estimateData=estimateTable.ajax.json();
-		document.getElementById("customerdata").innerHTML=estimateData.customerName + "<br>" + estimateData.mobilePhone + "<br>" + estimateData.email;
+		invoiceData=invoiceTable.ajax.json();
+		document.getElementById("customerdata").innerHTML=invoiceData.customerName + "<br>" + invoiceData.mobilePhone + "<br>" + invoiceData.email;
 
-		document.getElementById("quotationdata").innerHTML= "Estimate No.:" + estimateData.estimateNo + "<br>" + "Estimate Date:" + estimateData.creationDate + "<br>" + "Billing Address:" + estimateData.billingAddress;
+		document.getElementById("quotationdata").innerHTML= "invoice No.:" + invoiceData.invoiceNo + "<br>" + "invoice Date:" + invoiceData.creationDate + "<br>" + "Billing Address:" + invoiceData.billingAddress;
 		
-		document.getElementById("salesTaxDetails").innerHTML=estimateData.salesTax;
-		document.getElementById("californiaTaxDetails").innerHTML=estimateData.californiaTax;
-		document.getElementById("labourCostDetails").innerHTML=estimateData.labourCost;
-		document.getElementById("recyclingChargesDetails").innerHTML=estimateData.recyclingCharges;
-		document.getElementById("totalAmountDetails").innerHTML=estimateData.totalAmount;
-		//alert(estimateData.totalAmount);
+		document.getElementById("salesTaxDetails").innerHTML=invoiceData.salesTax;
+		document.getElementById("californiaTaxDetails").innerHTML=invoiceData.californiaTax;
+		document.getElementById("labourCostDetails").innerHTML=invoiceData.labourCost;
+		document.getElementById("recyclingChargesDetails").innerHTML=invoiceData.recyclingCharges;
+		document.getElementById("totalAmountDetails").innerHTML=invoiceData.totalAmount;
+		//alert(invoiceData.totalAmount);
 		dataTableLoaded=true;
 	}else{
 
-		estimateTable.destroy();	
+		invoiceTable.destroy();	
 		dataTableLoaded=false;
 		populateModal(id);
 	}
 }
 
-function generateInvoice(){
-	var requestSTR; 
-	requestSTR+="{\"estimateID\":"+ estimateID +"}";
 
-	  var xhttp = new XMLHttpRequest();
-	  xhttp.onreadystatechange = function() {
-	    if (this.readyState == 4 && this.status == 200) {
-	    	if(this.responseText=="1"){
-	    		alert("Successfully generated the invoice");
-	    	}
-     		else{
-     			alert("Not able to generate Invoice");
-     		}
-	     	
-	     		
-	     
-	    }
-	  };
-	  xhttp.open("POST", "../Invoice/webapi/estimate/generateInvoice/"+estimateID, false);
-	  xhttp.setRequestHeader("Content-Type", "application/json");
-	  xhttp.send(); 
-}
 
 
 </script>
-<div class="modal fade" id="viewEstimate" tabindex="-1"  role="dialog">
+<div class="modal fade" id="viewinvoice" tabindex="-1"  role="dialog">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
-				<h4 class="modal-title"> Estimate </h4>
+				<h4 class="modal-title"> invoice </h4>
 			</div>	
 			<div class="modal-body">
 	
@@ -89,7 +68,7 @@ function generateInvoice(){
 		</tr>
 	</table>		
 	
-	<table id="viewEstimateTable" class="table  table-striped table-bordered dataTable" style="width:100%">
+	<table id="viewInvoiceTable" class="table  table-striped table-bordered dataTable" style="width:100%">
         <thead>
             <tr>
                 <th>Product Name</th>

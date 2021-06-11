@@ -12,6 +12,8 @@ import com.accounting.data.Customer;
 import com.accounting.data.Product;
 import com.accounting.data.Estimate;
 import com.accounting.data.EstimateProduct;
+import com.accounting.data.Invoice;
+import com.accounting.data.InvoiceProduct;
 import com.accounting.util.HibernateUtil;
 import com.google.gson.Gson;
 
@@ -122,6 +124,67 @@ public class EstimateAction {
 			
 		}
 		
+		return response;
+	}
+	
+	public String generateInvoice(int estimateID) {
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		String response="2";
+		session.beginTransaction();
+		try {
+			
+			Estimate estimate=session.get(Estimate.class, estimateID);
+			
+			Invoice invoice=new Invoice();
+			
+			Query q = session.createQuery("select max(invoiceID) from Invoice"); 
+
+		    Integer invoiceID = (Integer)q.uniqueResult();
+		    
+		    String invoiceNo = "INV" + String.format("%05d" , invoiceID.intValue());
+		    
+		    invoice.setInvoiceNo(invoiceNo);			
+			
+
+			
+			invoice.setCaliforniaTax(estimate.getCaliforniaTax());
+			invoice.setCar(estimate.getCar());
+			invoice.setCustomer(estimate.getCustomer());
+			invoice.setLabourCost(estimate.getLabourCost());
+			invoice.setRecyclingCharges(estimate.getRecyclingCharges());
+			invoice.setSalesTax(estimate.getSalesTax());
+			
+			session.save(invoice);
+			
+			//List<InvoiceProduct> invoiceProducts=new ArrayList<>();
+			
+			for(int index=0;index<estimate.getEstimateProducts().size();index++) {
+				
+				EstimateProduct estimateProduct=estimate.getEstimateProducts().get(index);
+				
+				InvoiceProduct invoiceProduct=new InvoiceProduct();
+				invoiceProduct.setAmount(estimateProduct.getAmount());
+				invoiceProduct.setPrice(estimateProduct.getPrice());
+				invoiceProduct.setProduct(estimateProduct.getProduct());
+				invoiceProduct.setQuantity(invoiceProduct.getQuantity());
+				invoiceProduct.setInvoice(invoice);
+				//invoiceProducts.add(invoiceProduct);
+				
+				session.save(invoiceProduct);
+				response="1";
+				
+			}
+			
+			session.getTransaction().commit();
+			//invoice.setInvoiceProducts(invoiceProducts);
+			
+		}catch(Exception err) {
+			err.printStackTrace();
+			session.getTransaction().rollback();
+		}finally {
+			session.close();
+		}
 		return response;
 	}
 
