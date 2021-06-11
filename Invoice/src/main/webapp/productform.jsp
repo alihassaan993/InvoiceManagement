@@ -31,7 +31,7 @@
   		
  		requestSTR=requestSTR+"}";
  		
- 		alert(requestSTR);
+ 		//alert(requestSTR);
  		
 	  var xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {
