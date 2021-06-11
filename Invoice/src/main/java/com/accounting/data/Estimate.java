@@ -144,7 +144,50 @@ public class Estimate {
 		this.car = car;
 	}
 	
-	
+	public String toString() {
+		
+		String response="";
+		
+		response+="{";
+		response+="\"estimateID\":" + estimateID + ",";
+		response+="\"creationDate\":\"" + creationDate + "\",";
+		response+="\"customerName\":\"" + customer.getFirstName() + " " + customer.getLastName() + "\",";
+		response+="\"mobilePhone\":\"" + customer.getMobilePhone()+ "\",";
+		response+="\"email\":\"" + customer.getEmail()+ "\",";
+		response+="\"estimateNo\":\"" + estimateNo + "\",";
+		response+="\"billingAddress\":\"" + customer.getBillingAddress()+ "\",";
+		
+		response+="\"totalAmount\":" + totalAmount + ",";
+		response+="\"salesTax\":" + salesTax + ",";
+		response+="\"californiaTax\":" + californiaTax + ",";
+		response+="\"labourCost\":" + labourCost + ",";
+		response+="\"recyclingCharges\":" + recyclingCharges + ",";
+		
+		response+="\"estimateProducts\":[";
+		
+		for(int index=0;index<estimateProducts.size();index++) {
+			EstimateProduct estimateProduct=estimateProducts.get(index);
+			if(index>0) response+=",";
+			
+			Product product=estimateProduct.getProduct();
+			response+="{";
+			response+="\"productName\": \"" + product.getProductName() + "\","; 
+			response+="\"description\": \"" + product.getDescription() + "\",";
+			response+="\"quantity\": " + estimateProduct.getQuantity() + ",";
+			response+="\"price\": " + estimateProduct.getPrice() + ",";
+			response+="\"amount\": " + estimateProduct.getAmount();
+			response+="}";
+					
+		}
+		
+		response+="]";
+		
+		
+		response+="}";
+		
+		return response;		
+		
+	}
 	
 	
 

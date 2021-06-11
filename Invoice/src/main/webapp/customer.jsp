@@ -19,11 +19,13 @@
 	    dom: '<"toolbar">frtip',
 	    select:true
 	    } );
-		 $("div.toolbar").html('<button class="btn" data-toggle="modal" data-target="#createCustomer">Add New</button>');
+		 $("div.toolbar").html('<a class="btn" data-toggle="modal" data-target="#createCustomer"><img src="add.png" width="27" height="27"/> Add Customer </a>');
 	} );
 	</script>
 	<jsp:include page="customerform.jsp" />  
-
+	<br><br>
+	<h2><img src="customer.png" width="50" height="50"/>&nbsp;&nbsp;&nbsp;Customer</h2>
+	<br><br>
 	<table id="customerTable" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>

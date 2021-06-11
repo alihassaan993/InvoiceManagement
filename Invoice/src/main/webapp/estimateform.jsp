@@ -242,6 +242,10 @@
 		     		//document.getElementById("result").innerHTML = "Successfully added the Product!!!"
 		     		//resetForm();
 		     		alert("Estimate Added Successfully");
+		     		document.getElementById("resetButton").click();
+		     		$("#estimateTable").DataTable().ajax.reload();
+		     		$('#createEstimate').modal('hide');
+
 		    	}
 	     		else{
 	     			//document.getElementById("result").innerHTML ="Cannot add Customer at this time!!!";
@@ -255,6 +259,10 @@
 		  xhttp.setRequestHeader("Content-Type", "application/json");
 		  xhttp.send(formData); 
 		
+		
+	}
+	
+	function resetForm(){
 		
 	}
 	
@@ -317,14 +325,15 @@
 			                <th>Amount	</th>
 			                <th>&nbsp;&nbsp;</th>
 			            </tr>
-			            <tr>
+			        </thead>
+			        	<tr>
 			            	<td><select class="form-control" id="selectProduct1" onchange="javascript:fillQty('1')"><option> Choose Product </option></select></td>
 			            	<td><input class="form-control" type="number" id="quantity1" onchange="javascript:calculateAmount('1')" value="0"/></td>
 			            	<td><input class="form-control" type="text" id="price1" value="0" readonly/></td>
 			            	<td><input class="form-control" type="number" id="amount1" value="0"/></td>
 			            	<td>&nbsp;</td>
 			            </tr>
-			        </thead>
+
 				</table>
 				
 			</div>
@@ -395,6 +404,7 @@
 
 		</div>
       <div class="modal-footer">
+      <input type="reset" id="resetButton" class="btn btn-secondary" />
        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary" onclick="javascript:saveEstimate();">Save changes</button>
       </div>

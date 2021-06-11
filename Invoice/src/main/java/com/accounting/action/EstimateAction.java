@@ -22,29 +22,78 @@ public class EstimateAction {
 	public String fetch() throws Exception{
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		List<Customer> results = null;
+		List<Estimate> results = null;
+		String response="";
 		
 		try {
 			String hql = "FROM Estimate";
 	        Query query = session.createQuery(hql);
 	        results = query.getResultList();
-	              
+	        
+	        response="[";
+	        
+	        for(int index=0;index<results.size();index++) {
+	        	if(index>0)
+	        		response+=",";
+	        		       	
+	        	Estimate _prod=results.get(index);
+	        	response+=_prod.toString();
+	        }
+	        
+	        response+="]";
+	        
+	        
+	        
 		}catch(Exception err) {
 			err.printStackTrace();
 		}finally {
 			session.close(); 
 		}
-        return new Gson().toJson(results);
+        return response;
+	}	
+
+	public String fetch(int estimateID) throws Exception{
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		//List<Estimate> results = null;
+		String response="";
+		
+		try {
+//			String hql = "FROM Estimate";
+//	        Query query = session.createQuery(hql);
+//	        results = query.getResultList();
+//	        
+	        Estimate estimate=session.get(Estimate.class, estimateID);
+	        
+	        response=estimate.toString();
+	        
+	        
+	        
+		}catch(Exception err) {
+			err.printStackTrace();
+		}finally {
+			session.close(); 
+		}
+        return response;
 	}	
 	
 	public String create(Estimate estimate) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		String response="2";
 		
 		try {
 			
 			session.beginTransaction();
 			
+		    Query q = session.createQuery("select max(estimateID) from Estimate"); 
+
+		    Integer estimateID = (Integer)q.uniqueResult();
+		    
+		    String estimateNo = "EST" + String.format("%05d" , estimateID.intValue());
+		    
+		    estimate.setEstimateNo(estimateNo);
+		    
 			session.save(estimate.getCar());
 			
 			session.save(estimate);
@@ -61,6 +110,8 @@ public class EstimateAction {
 			
 			session.getTransaction().commit();
 			
+			response="1";
+			
 		}catch(Exception err) {
 			session.getTransaction().rollback();
 			err.printStackTrace();
@@ -71,7 +122,7 @@ public class EstimateAction {
 			
 		}
 		
-		return "Error";
+		return response;
 	}
 
 }

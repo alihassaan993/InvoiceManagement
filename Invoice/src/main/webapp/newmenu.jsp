@@ -62,6 +62,22 @@
           font-size: 3.5rem;
         }
       }
+  .table.dataTable  {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 13px;
+    
+	}
+	.etoolbar {
+	    float:left;
+	}
+	.toolbar {
+	    float:left;
+	}
+	table thead{
+	  background-color: rgba(25, 94, 148, 1);
+	  color:white;
+	}  
+ 
     </style>
 
 	<link href="sidebars.css" rel="stylesheet">
@@ -76,7 +92,7 @@ body {
   margin: 0;
   padding: 0;
   width: 200px;
-  background-color: #f1f1f1;
+  background-color: rgba(25, 94, 148, 1);
   position: fixed;
   height: 100%;
   overflow: auto;
@@ -84,19 +100,19 @@ body {
 
 .sidebar a {
   display: block;
-  color: black;
+  color: white;
   padding: 16px;
   text-decoration: none;
 }
  
 .sidebar a.active {
-  background-color: rgba(25, 94, 148, 1);
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 .sidebar a:hover:not(.active) {
-  background-color: #555;
-  color: white;
+  background-color: #fff;
+  color: black;
 }
 
 div.content {
@@ -126,13 +142,13 @@ div.content {
 <body>
 
 <div class="sidebar">
-<h3>BEST AMERICAN TYRES WORK</h3>
+<h4><font color="white">BEST AMERICAN TYRES WORK</font></h4>
 <br/>
 <br/>
-  <a class="<%=_page.equals("customer")?"active":""%>" href="newmenu.jsp?show=customer">Customer</a>
-  <a class="<%=_page.equals("product")?"active":""%>" href="newmenu.jsp?show=product">Product</a>
-  <a class="<%=_page.equals("estimate")?"active":""%>" href="newmenu.jsp?show=estimate">Estimate</a>
-  <a class="<%=_page.equals("invoice")?"active":""%>" href="newmenu.jsp?show=invoice">Invoice</a>
+  <a class="<%=_page.equals("customer")?"active":""%>" href="newmenu.jsp?show=customer"><img src="customer.png" width="27" height="27"/>&nbsp;&nbsp;Customer</a>
+  <a class="<%=_page.equals("product")?"active":""%>" href="newmenu.jsp?show=product"><img src="products.png" width="27" height="27"/>&nbsp;&nbsp;Product</a>
+  <a class="<%=_page.equals("estimate")?"active":""%>" href="newmenu.jsp?show=estimate"><img src="estimates.png" width="27" height="27"/>&nbsp;&nbsp;Estimate</a>
+  <a class="<%=_page.equals("invoice")?"active":""%>" href="newmenu.jsp?show=invoice"><img src="invoice.png" width="27" height="27"/>&nbsp;&nbsp;Invoice</a>
 </div>
 
 <div class="content">

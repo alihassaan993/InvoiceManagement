@@ -4,6 +4,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
@@ -48,9 +49,26 @@ public class EstimateResource {
     public String createEstimate(Estimate estimate) {
 	   
 	    EstimateAction estimateAction=new EstimateAction();
-	    estimateAction.create(estimate);
+	    String response=estimateAction.create(estimate);
 	   	
-    	return "";
+    	return response;
     }
+   
+   @GET
+   @Path("/{id}")
+   public String fetch(@PathParam("id") Integer id) {
+   	String response="Error";
+	
+   	try {
+	    	
+   		EstimateAction custAction=new EstimateAction();
+   		response=custAction.fetch(id.intValue());
+	    	
+   	}catch(Exception err) {
+   		err.printStackTrace();
+   	}
+   	System.out.println(response);
+       return response;
+   }
     
 }

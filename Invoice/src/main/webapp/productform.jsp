@@ -78,13 +78,15 @@ $(document).ready(function() {
     			  {data:"price"}
     		  ],
               		  
-    dom: '<"toolbar">rtip',
+    dom: '<"toolbar">frtip',
     select:true
     } );
-    $("div.toolbar").html('<button class="btn" data-toggle="modal" data-target="#myModal">Add New</button>');
+    $("div.toolbar").html('<a class="btn" data-toggle="modal" data-target="#myModal"><img src="add.png" width="27" height="27"/> Add Product </a>');
 } );
 </script>
-
+	<br><br>
+	<h2><img src="products.png" width="50" height="50"/>&nbsp;&nbsp;&nbsp;Product</h2>
+	<br><br>
 <div class="modal fade" id="myModal" role="dialog">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
