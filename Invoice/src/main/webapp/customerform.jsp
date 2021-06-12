@@ -55,8 +55,8 @@
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
 				<h4 class="modal-title"> Add New Customer </h4>
 			</div>	
-			<div class="modal-body">
 		<form method="POST" action="javascript:submitForm();" id="productForm">
+			<div class="modal-body">
 		
 		<div id="result"></div>	
 		<div class="container">	
@@ -106,16 +106,21 @@
 			<div class="col-md-12">
 		    
 		
-			<button type="submit" class="btn btn-primary">Submit</button>
+			
 		
 		 </div>
 		 </div>
 		  </div>
-		</form>
+
 		
 
 			</div>
-			
+			      <div class="modal-footer">
+      <input type="reset" id="resetButton" class="btn btn-secondary" />
+       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+      		</form>
 		</div>
 	</div>
 </div> 

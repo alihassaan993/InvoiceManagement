@@ -157,6 +157,7 @@ public class Invoice {
 		response+="\"invoiceNo\":\"" + invoiceNo + "\",";
 		response+="\"billingAddress\":\"" + customer.getBillingAddress()+ "\",";
 		
+		response+="\"status\":\"" + status + "\",";
 		response+="\"totalAmount\":" + totalAmount + ",";
 		response+="\"salesTax\":" + salesTax + ",";
 		response+="\"californiaTax\":" + californiaTax + ",";

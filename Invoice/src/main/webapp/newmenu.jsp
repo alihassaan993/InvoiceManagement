@@ -51,6 +51,9 @@
 	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="icon" type="image/png" href="tire.png"/>
+	
  
  <script src="formToJson.js"></script>
  
@@ -120,12 +123,12 @@ body {
  
 .sidebar a.active {
   background-color: white;
-  color: black;
+  color: rgba(25, 94, 148, 1);
 }
 
 .sidebar a:hover:not(.active) {
-  background-color: #fff;
-  color: black;
+  background-color: white;
+  color: rgba(25, 94, 148, 1);
 }
 
 div.content {
@@ -153,11 +156,8 @@ div.content {
 </style>
 </head>
 <body>
-
 <div class="sidebar">
-<h4><font color="white">invoicing</font></h4>
-<br/>
-<br/>
+<img src="bestlogo.png"/>
   <a class="<%=_page.equals("customer")?"active":""%>" href="newmenu.jsp?show=customer"><img src="customer.png" width="27" height="27"/>&nbsp;&nbsp;Customer</a>
   <a class="<%=_page.equals("product")?"active":""%>" href="newmenu.jsp?show=product"><img src="products.png" width="27" height="27"/>&nbsp;&nbsp;Product</a>
   <a class="<%=_page.equals("estimate")?"active":""%>" href="newmenu.jsp?show=estimate"><img src="estimates.png" width="27" height="27"/>&nbsp;&nbsp;Estimate</a>
@@ -166,8 +166,8 @@ div.content {
 
 <div class="content">
 <div class="row">
-	<div class="col-md-2">
-		<a href="logout.jsp">Logout</a>
+	<div class="col-md-12">
+		<div align="right"><a href="logout.jsp">Logout</a></div>
 	</div>
 </div>
 <jsp:include page="<%=pageName%>"/>

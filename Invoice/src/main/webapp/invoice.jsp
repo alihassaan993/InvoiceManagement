@@ -11,7 +11,8 @@
 	    columns:[
 	    	{data:"invoiceNo"},
 	    	{data:"creationDate"},
-	    	{data:"customerName"},      
+	    	{data:"customerName"},
+	    	{data:"status"},
 	    	{ 
 	            "data": "invoiceID",
 	            "render": function(data, type, row, meta){
@@ -45,6 +46,7 @@
                 <th>Invoice Number</th>
                 <th>Creation Date</th>
                 <th>Customer Name</th>
+                <th>Status</th>
                 <th>View Invoice</th>
             </tr>
         </thead>

@@ -125,5 +125,33 @@ public class InvoiceAction {
 		
 		return response;
 	}
+	
+	public String payInvoice(int invoiceID) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		String response="2";
+		try {
+			
+			session.beginTransaction();
+			Invoice invoice=session.get(Invoice.class, invoiceID);
+			invoice.setStatus("Paid");
+			
+			session.update(invoice);
+			
+			session.getTransaction().commit();
+			
+			
+			
+			response="1";
+			
+		}catch(Exception err) {
+			err.printStackTrace();
+			session.getTransaction().commit();
+		}finally {
+			session.close();
+		}
+		
+		return response;
+		
+	}
 
 }

@@ -7,6 +7,7 @@
 var invoiceTable;
 var dataTableLoaded=false;
 var invoiceID;
+
 function populateModal(id){
 	invoiceID=id;
 	if(!dataTableLoaded){
@@ -27,8 +28,12 @@ function populateModal(id){
 	    } );
 		
 		invoiceData=invoiceTable.ajax.json();
-		document.getElementById("customerdata").innerHTML=invoiceData.customerName + "<br>" + invoiceData.mobilePhone + "<br>" + invoiceData.email;
 
+		if(invoiceData.status=="Paid")
+			document.getElementById("customerdata").innerHTML="<img src='paid.png' width='60' heign='60'><br>";	
+		else
+			document.getElementById("customerdata").innerHTML="";
+		document.getElementById("customerdata").innerHTML+=invoiceData.customerName + "<br>" + invoiceData.mobilePhone + "<br>" + invoiceData.email;
 		document.getElementById("quotationdata").innerHTML= "invoice No.:" + invoiceData.invoiceNo + "<br>" + "invoice Date:" + invoiceData.creationDate + "<br>" + "Billing Address:" + invoiceData.billingAddress;
 		
 		document.getElementById("salesTaxDetails").innerHTML=invoiceData.salesTax;
@@ -46,7 +51,27 @@ function populateModal(id){
 	}
 }
 
+function payInvoice(){
+	  var xhttp = new XMLHttpRequest();
+	  xhttp.onreadystatechange = function() {
+	    if (this.readyState == 4 && this.status == 200) {
+	    	if(this.responseText=="1"){
+	    		//window.location.href = 'newmenu.jsp';
+	    		populateModal(invoiceID);
+	    	}
+     		else{
+     			alert("System have some issue. Please contact the administrator.");
+     		}
+	     	
+	     		
+	     
+	    }
+	  };
+	  xhttp.open("POST", "../Invoice/webapi/invoice/"+invoiceID, false);
+	  xhttp.setRequestHeader("Content-Type", "application/json");
+	  xhttp.send(); 
 
+}
 
 
 </script>
@@ -120,7 +145,7 @@ function populateModal(id){
       <div class="modal-footer">
        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
        <button type="button" class="btn btn-primary" onclick="javascript:window.print();">Print</button>
-       <button type="button" class="btn btn-primary" onclick="javascript:generateInvoice();">Generate Invoice</button>
+       <button type="button" class="btn btn-primary" onclick="javascript:payInvoice();">Paid</button>
       </div>	
   </div>
   </div>
