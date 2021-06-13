@@ -77,6 +77,43 @@ public class InvoiceAction {
 		}
         return response;
 	}	
+
+	
+	public String fetchCustomerInvoices(int customerID) throws Exception{
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		//List<invoice> results = null;
+		String response="";
+		
+		try {
+			String hql = "FROM Invoice inv where inv.customer.customerID = :customer_id ";
+	        Query query = session.createQuery(hql);
+	        query.setParameter("customer_id",customerID);
+	        List<Invoice> results = query.getResultList();
+	        
+	        //Invoice invoice=session.get(Invoice.class, custom);
+	        
+	        response="[";
+	        
+	        for(int index=0;index<results.size();index++) {
+	        	if(index>0)
+	        		response+=",";
+	        		       	
+	        	Invoice _prod=results.get(index);
+	        	response+=_prod.toString();
+	        }
+	        
+	        response+="]";
+	        
+	        
+	        
+		}catch(Exception err) {
+			err.printStackTrace();
+		}finally {
+			session.close(); 
+		}
+        return response;
+	}		
 	
 	public String create(Invoice invoice) {
 		
@@ -91,7 +128,7 @@ public class InvoiceAction {
 
 		    Integer invoiceID = (Integer)q.uniqueResult();
 		    
-		    String invoiceNo = "EST" + String.format("%05d" , invoiceID.intValue());
+		    String invoiceNo = "EST" + String.format("%05d" , invoiceID.intValue()+1);
 		    
 		    invoice.setInvoiceNo(invoiceNo);
 		    

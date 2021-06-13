@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import com.accounting.data.Car;
 import com.accounting.data.Customer;
 import com.accounting.data.Product;
 import com.accounting.data.Estimate;
@@ -96,7 +97,10 @@ public class EstimateAction {
 		    
 		    estimate.setEstimateNo(estimateNo);
 		    
-			session.save(estimate.getCar());
+		    Car car=estimate.getCar();
+		    car.setCustomer(estimate.getCustomer());
+		    
+			session.save(car);
 			
 			session.save(estimate);
 			
@@ -142,7 +146,7 @@ public class EstimateAction {
 
 		    Integer invoiceID = (Integer)q.uniqueResult();
 		    
-		    String invoiceNo = "INV" + String.format("%05d" , invoiceID.intValue());
+		    String invoiceNo = "INV" + String.format("%05d" , invoiceID.intValue()+1);
 		    
 		    invoice.setInvoiceNo(invoiceNo);			
 			
@@ -156,6 +160,8 @@ public class EstimateAction {
 			invoice.setSalesTax(estimate.getSalesTax());
 			
 			session.save(invoice);
+			
+			response="{\"result\":\"Success\",\"invoiceID\":"+ invoice.getInvoiceID() +"}";
 			
 			//List<InvoiceProduct> invoiceProducts=new ArrayList<>();
 			
@@ -172,7 +178,7 @@ public class EstimateAction {
 				//invoiceProducts.add(invoiceProduct);
 				
 				session.save(invoiceProduct);
-				response="1";
+				//response="1";
 				
 			}
 			
@@ -180,6 +186,7 @@ public class EstimateAction {
 			//invoice.setInvoiceProducts(invoiceProducts);
 			
 		}catch(Exception err) {
+			response="{\"result\":\"Error\"}";
 			err.printStackTrace();
 			session.getTransaction().rollback();
 		}finally {

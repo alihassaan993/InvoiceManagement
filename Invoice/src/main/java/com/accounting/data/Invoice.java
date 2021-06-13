@@ -16,6 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 
 
@@ -29,6 +30,8 @@ public class Invoice {
 	
 	@CreationTimestamp
 	private Date creationDate;
+	
+	@ColumnDefault("Not Paid")
 	private String status;
 	private String invoiceNo;
 	private float salesTax;

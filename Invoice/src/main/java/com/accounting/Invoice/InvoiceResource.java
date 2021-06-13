@@ -49,6 +49,23 @@ public class InvoiceResource {
 	       return response;
 	   }
 
+	   @GET
+	   @Path("customerInvoices/{id}")
+	   public String fetchCustomerInvoices(@PathParam("id") Integer id) {
+	   	String response="Error";
+		
+	   	try {
+		    	
+	   		InvoiceAction custAction=new InvoiceAction();
+	   		response=custAction.fetchCustomerInvoices(id.intValue());
+		    	
+	   	}catch(Exception err) {
+	   		err.printStackTrace();
+	   	}
+	   	System.out.println(response);
+	       return response;
+	   }	   
+	   
 	   @POST
 	   @Path("/{id}")
 	   public String payInvoice(@PathParam("id") Integer id) {

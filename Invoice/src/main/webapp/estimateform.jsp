@@ -1,3 +1,4 @@
+<link href="jquery.signaturepad.css" rel="stylesheet">
 <style>
 
 .modal-dialog {
@@ -16,7 +17,8 @@
 	
 	$(document).ready(function() {
 		//alert("Populating Products");
-		populateProductDropDown('#selectProduct1')
+		populateProductDropDown('#selectProduct1');
+		
 	} );
 	
 	function populateProductDropDown(dropDownID){
@@ -167,6 +169,10 @@
 	}
 
 	function saveEstimate(){
+		
+		sign=document.getElementById("output").value;
+		alert(sign);
+		
 		formData="";
 		//alert("i am here");
 		customerName=document.getElementById("customerName").value.split("-");
@@ -261,14 +267,13 @@
 		
 		
 	}
-	
-	function resetForm(){
-		
-	}
+
 	
 	</script>
 
-<div class="modal fade" id="createEstimate" tabindex="-1"  role="dialog">
+
+
+<div class="modal fade" id="createEstimate" tabindex="-1" style="width:1250px;"  role="dialog">
 <form action="#" id="estimateForm" name="estimateForm">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content">
@@ -276,14 +281,9 @@
 				<h4 class="modal-title"> Create New Estimate </h4>
 			</div>	
 			<div class="modal-body yScroll">
-			<div class="jumbotron">
 				<div class="container">
-				<div class="container text-center">
-					<h3>Customer Details</h3>
-				</div>
 					<div class="row">
 						<div class="col-md-12">
-							
 							<div class="input-group mb-3">
 								<input type="text" class="form-control" name="customerName" id="customerName" placeHolder="Select Customer" required readonly/>
 								<div class="input-group-append">
@@ -294,26 +294,34 @@
 					</div>
 					<div class="row">
 						<div class="col-md-6">
+							<div class="form-group form-group-sm">
 							<label for="model">Car Model</label>
 							<input type="text" class="form-control input-sm" name="model" id="model" placeHolder="Car Model" required/>
+							</div>
 						</div>
 						<div class="col-md-6">
+							<div class="form-group form-group-sm">
 							<label for="plateNo">License Plate</label>
 							<input type="text" class="form-control input-sm" name="plateNo" id="plateNo" placeHolder="Car License Plate" required/>
+							</div>
 						</div>
 					</div>				
 					<div class="row">
 						<div class="col-md-6">
+							<div class="form-group form-group-sm">
 							<label for="model">ODO Meter</label>
-							<input type="text" class="form-control input-sm" name="odometer" id="odometer" placeHolder="ODO Meter Reading" required/>
+							<input type="number" class="form-control input-sm" name="odometer" id="odometer" placeHolder="ODO Meter Reading" required/>
+							</div>
 						</div>
 						<div class="col-md-6">
+							<div class="form-group form-group-sm">
 							<label for="make">Make</label>
 							<input type="text" class="form-control input-sm" name="make" id="make" placeHolder="Car Make" required/>
+							</div>
 						</div>
 					</div>					
 				</div>
-				</div>
+			<br><br>	
 			<div class="container"> 
 			<button type="button" class="btn btn-info add-new" onclick="javascript:addRow()"><i class="fa fa-plus"></i>Add Product</button>
 				<table id="products" class="table table-condensed">
@@ -398,9 +406,19 @@
 				</div>
 			</div>	
 
+  <div class="sigPad">
+    <ul class="sigNav">
+      <li class="drawIt"><a href="#draw-it" class="current">Draw It</a></li>
+      <li class="clearButton"><a href="#clear">Clear</a></li>
+    </ul>
+    <div class="sig sigWrapper">
+      <div class="typed"></div>
+      <canvas class="pad" width="400" height="400"></canvas>
+      <input type="hidden" id="output" name="output" class="output">
+     </div>
+  </div>
 
 		</div>			
-	
 
 		</div>
       <div class="modal-footer">
@@ -411,7 +429,12 @@
 	</div>
 </div>
 </form>
-<script type="text/javascript">
 
-</script>
+  <script src="jquery.signaturepad.js"></script>
+  <script>
+    $(document).ready(function() {
+      $('.sigPad').signaturePad();
+    });
+  </script>
+  <script src="json2.min.js"></script>
 </div>

@@ -16,7 +16,7 @@
 	            "data": "estimateID",
 	            "render": function(data, type, row, meta){
 	               if(type === 'display'){
-	                   data = '<a data-toggle="modal" onclick="javascript:populateModal('+data+');" data-target="#viewEstimate"><img src="estimates.png" width="20" height="20"/></a>';
+	                   data = '<a data-toggle="modal" onclick="javascript:populateEstimate('+data+');" data-target="#viewEstimate"><img src="estimates.png" width="20" height="20"/></a>';
 	               }
 	               return data;
 	            }
@@ -37,6 +37,7 @@
 	<jsp:include page="customerlist.jsp" />
 	<jsp:include page="customerform.jsp" />
 	<jsp:include page="viewestimate.jsp" />
+	<jsp:include page="viewinvoice.jsp" />	
 	<br><br>
 	<h2><img src="estimates.png" width="50" height="50"/>&nbsp;&nbsp;&nbsp;Estimate</h2>
 	<br><br>

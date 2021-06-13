@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -28,6 +29,10 @@ public class Customer {
 	private String officePhone;
 	private String billingAddress;
 	private String email;
+	
+	@OneToMany
+	(mappedBy="customer")
+	private List<Car> cars;
 	
 	private String categoryID;
 
@@ -93,6 +98,52 @@ public class Customer {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public List<Car> getCars() {
+		return cars;
+	}
+
+	public void setCars(List<Car> cars) {
+		this.cars = cars;
+	}
+	
+	public String toString() {
+		
+		String response="";
+		
+		response+="{";
+		
+		response+="\"customerID\":" + customerID;
+		response+=",\"firstName\":\"" + firstName + "\"";
+		response+=",\"lastName\":\"" + lastName + "\"";
+		response+=",\"email\":\"" + email + "\"";
+		response+=",\"mobilePhone\":\"" + mobilePhone + "\"";
+		response+=",\"officePhone\":\"" + officePhone + "\"";
+		response+=",\"cars\":[";
+		
+		System.out.println("CustomerID " + customerID + " has " + cars.size() + " cars ");
+		
+		for(int index=0;index<cars.size();index++) {
+			
+			if(index>0)response+=",";
+			
+			Car car=cars.get(index);
+		
+			response+="{\"carID\":" + car.getCarID();
+			response+=",\"model\":\"" + car.getModel() + "\"";
+			response+=",\"make\":\"" + car.getMake() + "\"";
+			response+=",\"odoMeter\":\"" + car.getOdoMeter() + "\"";
+			response+=",\"plateNo\":\"" + car.getPlateNo() + "\"}";
+
+		}
+		
+		response+="]";
+		
+		response+="}";
+		
+		return response;
+		
 	}
 	
 	

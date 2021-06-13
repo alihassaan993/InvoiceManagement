@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 
@@ -20,11 +22,12 @@ public class Car {
 	private String plateNo;
 	//private String color;
 	private String make;
-	private int customerID;
 	
 	private String odoMeter;
 	
-	
+	@ManyToOne
+	@JoinColumn(name="customerID",nullable=false)
+	private Customer customer;
 	
 	public String getOdoMeter() {
 		return odoMeter;
@@ -62,11 +65,17 @@ public class Car {
 	public void setMake(String make) {
 		this.make = make;
 	}
-	public int getCustomerID() {
-		return customerID;
+//	public int getCustomerID() {
+//		return customerID;
+//	}
+//	public void setCustomerID(int customerID) {
+//		this.customerID = customerID;
+//	}
+	public Customer getCustomer() {
+		return customer;
 	}
-	public void setCustomerID(int customerID) {
-		this.customerID = customerID;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	

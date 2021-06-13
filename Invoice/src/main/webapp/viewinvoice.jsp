@@ -4,14 +4,15 @@
 /* $(document).ready(function() {
 
 } ); */
-var invoiceTable;
-var dataTableLoaded=false;
+var invoicedTable;
+var invoiceDataTableLoaded=false;
 var invoiceID;
 
 function populateModal(id){
 	invoiceID=id;
-	if(!dataTableLoaded){
-	 invoiceTable=$('#viewInvoiceTable').DataTable( {
+	var invoiceData;
+	if(!invoiceDataTableLoaded){
+		invoicedTable=$('#viewInvoiceTable').DataTable( {
 	  	  "ajax": {
 	  		    "url": "../Invoice/webapi/invoice/"+id,
 	  		    "dataSrc":"invoiceProducts",
@@ -27,10 +28,10 @@ function populateModal(id){
 	    dom: ''
 	    } );
 		
-		invoiceData=invoiceTable.ajax.json();
+		invoiceData=invoicedTable.ajax.json();
 
 		if(invoiceData.status=="Paid")
-			document.getElementById("customerdata").innerHTML="<img src='paid.png' width='60' heign='60'><br>";	
+			document.getElementById("customerdata").innerHTML="<img src='paid.png' width='60' height='60'><br>";	
 		else
 			document.getElementById("customerdata").innerHTML="";
 		document.getElementById("customerdata").innerHTML+=invoiceData.customerName + "<br>" + invoiceData.mobilePhone + "<br>" + invoiceData.email;
@@ -42,11 +43,13 @@ function populateModal(id){
 		document.getElementById("recyclingChargesDetails").innerHTML=invoiceData.recyclingCharges;
 		document.getElementById("totalAmountDetails").innerHTML=invoiceData.totalAmount;
 		//alert(invoiceData.totalAmount);
-		dataTableLoaded=true;
+		invoiceDataTableLoaded=true;
+		
+		//alert("Populate table successfully");
 	}else{
 
-		invoiceTable.destroy();	
-		dataTableLoaded=false;
+		invoicedTable.destroy();	
+		invoiceDataTableLoaded=false;
 		populateModal(id);
 	}
 }
@@ -79,7 +82,7 @@ function payInvoice(){
 	<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
-				<h4 class="modal-title"> invoice </h4>
+				<h4 class="modal-title"> Invoice </h4>
 			</div>	
 			<div class="modal-body">
 	
@@ -141,6 +144,7 @@ function payInvoice(){
 			</td>
 		</tr>
 	</table>
+
   	</div>
       <div class="modal-footer">
        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

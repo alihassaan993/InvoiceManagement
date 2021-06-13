@@ -7,7 +7,7 @@
 var estimateTable;
 var dataTableLoaded=false;
 var estimateID;
-function populateModal(id){
+function populateEstimate(id){
 	estimateID=id;
 	if(!dataTableLoaded){
 	 estimateTable=$('#viewEstimateTable').DataTable( {
@@ -42,7 +42,7 @@ function populateModal(id){
 
 		estimateTable.destroy();	
 		dataTableLoaded=false;
-		populateModal(id);
+		populateEstimate(id);
 	}
 }
 
@@ -53,8 +53,14 @@ function generateInvoice(){
 	  var xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
-	    	if(this.responseText=="1"){
-	    		alert("Successfully generated the invoice");
+	    	var response=JSON.parse(this.responseText);
+	    	if(response.result=="Success"){
+	    		
+
+	    		//document.getElementById("viewinvoice").style.display="block";
+	    		$('#viewinvoice').modal();
+	    		//populateModal(response.invoiceID);	    		
+	    		//alert("Successfully generated the invoice "+ response.invoiceID);
 	    	}
      		else{
      			alert("Not able to generate Invoice");
