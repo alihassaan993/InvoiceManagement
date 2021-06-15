@@ -55,6 +55,51 @@ public class CustomerAction {
         
 	}
 	
+	public String fetch(int customerID) throws Exception{
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		List<Customer> results=null;
+		String response="";
+		try {
+			
+			Customer customer=session.get(Customer.class, customerID);
+			
+	        //response="{";
+	        
+	        response+=customer.toString();
+	        
+	        //response+="}";		
+	        
+		
+		}catch(Exception err) {
+			err.printStackTrace();
+		}finally {
+			session.close(); 
+		}
+
+        return response;
+        
+	}
+	
+	public void update(Customer customer) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		try {
+			
+			session.beginTransaction();
+			
+			session.update(customer);
+			
+			session.getTransaction().commit();
+			
+		}catch(Exception err) {
+			session.getTransaction().rollback();
+		}finally {
+			session.close();
+		}
+	}
+	
+	
 	public void create(Customer customer) throws Exception {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();

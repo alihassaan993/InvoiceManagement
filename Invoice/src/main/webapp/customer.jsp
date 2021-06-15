@@ -65,8 +65,10 @@
 		   		    	{ 
 		   		            "data": "customerID",
 		   		            "render": function(data, type, row, meta){
+		   		            	customerID=data;
 		   		               if(type === 'display'){
-		   		                   data = '<a data-toggle="modal" onclick="javascript:populateInvoices('+data+');" data-target="#viewinvoices"><img src="invoice.png" width="20" height="20"/></a>';
+		   		                   data = '<a data-toggle="modal" onclick="javascript:populateInvoices('+customerID+');" data-target="#viewinvoices"><img src="invoice.png" width="20" height="20"/></a>';
+		   		               	   data += '&nbsp;&nbsp;<a data-toggle="modal" onclick="javascript:fetchCustomer('+customerID+');" data-target="#editCustomer"><span class="material-icons">mode_edit</span></a>';	
 		   		               }
 		   		               return data;
 		   		            }
@@ -107,6 +109,7 @@
 	<jsp:include page="viewcustomerinvoices.jsp" />  
 	<jsp:include page="viewinvoice.jsp" />
 	<jsp:include page="customerform.jsp" />
+	<jsp:include page="editcustomer.jsp" /> 
 	<br><br>
 	<h2><img src="customer.png" width="50" height="50"/>&nbsp;&nbsp;&nbsp;Customer</h2>
 	<br><br>

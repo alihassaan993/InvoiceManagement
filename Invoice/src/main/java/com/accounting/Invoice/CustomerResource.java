@@ -4,6 +4,7 @@ import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
+import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 
@@ -42,6 +43,26 @@ public class CustomerResource {
     	System.out.println(response);
         return response;
     }
+ 
+    @POST
+    @Path("fetchCustomer/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String getIt(@PathParam("id") Integer id) {
+    	
+    	String response="Error";
+    	
+    	try {
+	    	
+    		CustomerAction custAction=new CustomerAction();
+    		response=custAction.fetch(id);
+	    	
+    	}catch(Exception err) {
+    		err.printStackTrace();
+    	}
+    	System.out.println(response);
+        return response;
+    }    
     
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -62,5 +83,26 @@ public class CustomerResource {
     	}
         return response;
     }   
+ 
+    @Path("/update")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.TEXT_PLAIN)
+    public String updateCustomer(Customer customer) {
+    	
+    	String response="2";
+    	
+    	try {
+	    	//System.out.println("i am receving in POST "+ product.getProductName());
+	    	CustomerAction prodAction=new CustomerAction();
+	    	prodAction.update(customer);
+	    	
+	    	response="1";
+	    	
+    	}catch(Exception err) {
+    		err.printStackTrace();
+    	}
+        return response;
+    }     
     
 }

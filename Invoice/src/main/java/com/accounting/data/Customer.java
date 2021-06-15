@@ -27,14 +27,21 @@ public class Customer {
 	private String lastName;
 	private String mobilePhone;
 	private String officePhone;
-	private String billingAddress;
 	private String email;
+	private String address1;
+	private String address2;
+	private String city;
+	private String dmvID;
+	private String employerID;
 	
 	@OneToMany
 	(mappedBy="customer")
 	private List<Car> cars;
 	
 	private String categoryID;
+	
+	private String companyName;
+	private int isTaxable;
 
 	public int getCustomerID() {
 		return customerID;
@@ -76,14 +83,6 @@ public class Customer {
 		this.officePhone = officePhone;
 	}
 
-	public String getBillingAddress() {
-		return billingAddress;
-	}
-
-	public void setBillingAddress(String billingAddress) {
-		this.billingAddress = billingAddress;
-	}
-
 	public String getCategoryID() {
 		return categoryID;
 	}
@@ -108,6 +107,70 @@ public class Customer {
 		this.cars = cars;
 	}
 	
+	
+	
+	
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+
+	public int getIsTaxable() {
+		return isTaxable;
+	}
+
+	public void setIsTaxable(int isTaxable) {
+		this.isTaxable = isTaxable;
+	}
+
+	
+	
+	
+	public String getAddress1() {
+		return address1;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public String getAddress2() {
+		return address2;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	
+	
+	public String getDmvID() {
+		return dmvID;
+	}
+
+	public void setDmvID(String dmvID) {
+		this.dmvID = dmvID;
+	}
+
+	public String getEmployerID() {
+		return employerID;
+	}
+
+	public void setEmployerID(String employerID) {
+		this.employerID = employerID;
+	}
+
 	public String toString() {
 		
 		String response="";
@@ -120,6 +183,13 @@ public class Customer {
 		response+=",\"email\":\"" + email + "\"";
 		response+=",\"mobilePhone\":\"" + mobilePhone + "\"";
 		response+=",\"officePhone\":\"" + officePhone + "\"";
+		response+=",\"companyName\":\"" + companyName + "\"";
+		response+=",\"address1\":\"" + address1 + "\"";
+		response+=",\"address2\":\"" + address2 + "\"";
+		response+=",\"dmvID\":\"" + dmvID + "\"";
+		response+=",\"employerID\":\"" + employerID + "\"";
+		response+=",\"city\":\"" + city + "\"";
+		response+=",\"isTaxable\":" + isTaxable;		
 		response+=",\"cars\":[";
 		
 		System.out.println("CustomerID " + customerID + " has " + cars.size() + " cars ");

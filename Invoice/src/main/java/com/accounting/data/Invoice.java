@@ -158,7 +158,7 @@ public class Invoice {
 		response+="\"mobilePhone\":\"" + customer.getMobilePhone()+ "\",";
 		response+="\"email\":\"" + customer.getEmail()+ "\",";
 		response+="\"invoiceNo\":\"" + invoiceNo + "\",";
-		response+="\"billingAddress\":\"" + customer.getBillingAddress()+ "\",";
+		response+="\"billingAddress\":\"" + customer.getAddress1()+ "<br>" + customer.getAddress2() + "<br>" + customer.getCity() + "\",";
 		
 		response+="\"status\":\"" + status + "\",";
 		response+="\"totalAmount\":" + totalAmount + ",";

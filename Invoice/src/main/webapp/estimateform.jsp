@@ -14,6 +14,7 @@
 	
 	var productList;
 	var position=2;
+	var isCustomerTaxable=true;
 	
 	$(document).ready(function() {
 		//alert("Populating Products");
@@ -65,67 +66,69 @@
 	}
 	
 	function calculateTax(id){
-		
-		document.getElementById("californiaTax").value=0;
-		document.getElementById("salesTax").value=0;
-		
-		totalAmount=0;
-		//alert(position);
-
-		for(var k=1;k<=position;k++){
-		
-			try {
-				_productID=document.getElementById("selectProduct"+k).value;
-				}
-				catch(err) {
-				  continue;
-				}
+		if(isCustomerTaxable!=0)
+		{
+			document.getElementById("californiaTax").value=0;
+			document.getElementById("salesTax").value=0;
 			
- 			var amount=parseFloat(document.getElementById("amount"+k).value);
- 			totalAmount+=amount;
-			
-			var	result;		
-				
-			for (var i = 0; i < productList.length; i++){
-				  if (productList[i].productID == _productID){
-				     result=productList[i];
-				     break;
-				  }
-				}	
-			
-			for(var i=0;i<result.taxIDs.length;i++){
-				if(result.taxIDs[i]==1){
+			totalAmount=0;
+			//alert(position);
 	
-					var salesTax=parseFloat(document.getElementById("salesTax").value);
-		 			
-		 			amount=amount*0.0018;
-		 			
-					salesTax=salesTax+amount;
+			for(var k=1;k<=position;k++){
+			
+				try {
+					_productID=document.getElementById("selectProduct"+k).value;
+					}
+					catch(err) {
+					  continue;
+					}
+				
+	 			var amount=parseFloat(document.getElementById("amount"+k).value);
+	 			totalAmount+=amount;
+				
+				var	result;		
 					
-					totalAmount+=salesTax;
-					
-					document.getElementById("salesTax").value=salesTax.toFixed(2);
+				for (var i = 0; i < productList.length; i++){
+					  if (productList[i].productID == _productID){
+					     result=productList[i];
+					     break;
+					  }
+					}	
+				
+				for(var i=0;i<result.taxIDs.length;i++){
+					if(result.taxIDs[i]==1){
 		
-				}else if (result.taxIDs[i]==2){
-					var californiaTax=parseFloat(document.getElementById("californiaTax").value);
-		 			
-		 			amount=amount*0.0027;
-		 			
-		 			californiaTax=californiaTax+amount;
-		 			totalAmount+=californiaTax;
-					
-					document.getElementById("californiaTax").value=californiaTax.toFixed(2);
-					
+						var salesTax=parseFloat(document.getElementById("salesTax").value);
+			 			
+			 			amount=amount*0.0018;
+			 			
+						salesTax=salesTax+amount;
+						
+						totalAmount+=salesTax;
+						
+						document.getElementById("salesTax").value=salesTax.toFixed(2);
+			
+					}else if (result.taxIDs[i]==2){
+						var californiaTax=parseFloat(document.getElementById("californiaTax").value);
+			 			
+			 			amount=amount*0.0027;
+			 			
+			 			californiaTax=californiaTax+amount;
+			 			totalAmount+=californiaTax;
+						
+						document.getElementById("californiaTax").value=californiaTax.toFixed(2);
+						
+					}
 				}
 			}
+			var labourCost=parseInt(document.getElementById("labourCost").value);
+			totalAmount=totalAmount+labourCost;
+			
+			var recyclingCharges=parseInt(document.getElementById("recyclingCharges").value);
+			totalAmount+=recyclingCharges;
+			
+			document.getElementById("totalAmount").value=totalAmount.toFixed(2);
 		}
-		var labourCost=parseInt(document.getElementById("labourCost").value);
-		totalAmount=totalAmount+labourCost;
-		
-		var recyclingCharges=parseInt(document.getElementById("recyclingCharges").value);
-		totalAmount+=recyclingCharges;
-		
-		document.getElementById("totalAmount").value=totalAmount.toFixed(2);
 		
 	}
 	
@@ -273,7 +276,7 @@
 
 
 
-<div class="modal fade" id="createEstimate" tabindex="-1" style="width:1250px;"  role="dialog">
+<div class="modal fade" id="createEstimate" role="dialog">
 <form action="#" id="estimateForm" name="estimateForm">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content">

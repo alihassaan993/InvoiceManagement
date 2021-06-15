@@ -22,8 +22,13 @@
  					var data=table.row(this).data();
 
  					//alert('You clicked on ' + data.customerID);
- 					
- 					document.getElementById("customerName").value=data.customerID+"-"+data.firstName+" "+data.lastName; 
+ 					document.getElementById("resetButton").click();
+ 					document.getElementById("customerName").value=data.customerID+"-"+data.firstName+" "+data.lastName;
+ 					//alert(data.isTaxable);
+ 					if(data.isTaxable==0)
+ 						isCustomerTaxable=false;
+ 					else
+ 						isCustomerTaxable=true;
  					$('#customerList').modal('hide');
  				});
 	

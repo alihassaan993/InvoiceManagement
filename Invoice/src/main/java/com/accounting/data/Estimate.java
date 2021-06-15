@@ -155,7 +155,7 @@ public class Estimate {
 		response+="\"mobilePhone\":\"" + customer.getMobilePhone()+ "\",";
 		response+="\"email\":\"" + customer.getEmail()+ "\",";
 		response+="\"estimateNo\":\"" + estimateNo + "\",";
-		response+="\"billingAddress\":\"" + customer.getBillingAddress()+ "\",";
+		response+="\"billingAddress\":\"" + customer.getAddress1()+ "<br>" + customer.getAddress2() + "<br>" + customer.getCity() + "\",";
 		
 		response+="\"totalAmount\":" + totalAmount + ",";
 		response+="\"salesTax\":" + salesTax + ",";

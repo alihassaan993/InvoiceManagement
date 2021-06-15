@@ -1,5 +1,5 @@
 <script lang="javascript">
- 	function submitForm() {
+ 	function editCustomer() {
  		
  		var isTaxableValue = $("input[name='isTaxable']:checked").val();
  		//alert(radioValue);
@@ -7,17 +7,19 @@
 		
  		var requestSTR="{";
  		
-  		requestSTR=requestSTR+"\"firstName\":\"" + document.getElementById("firstName").value + "\",";
-  		requestSTR=requestSTR+"\"lastName\":\"" + document.getElementById("lastName").value + "\",";
-  		requestSTR=requestSTR+"\"email\":\"" + document.getElementById("email").value + "\",";
-  		requestSTR=requestSTR+"\"mobilePhone\":\"" + document.getElementById("mobilePhone").value + "\",";
-  		requestSTR=requestSTR+"\"officePhone\":\"" + document.getElementById("officePhone").value + "\",";
-  		requestSTR=requestSTR+"\"companyName\":\"" + document.getElementById("companyName").value + "\",";
-  		requestSTR=requestSTR+"\"address1\":\"" + document.getElementById("address1").value + "\",";
- 		requestSTR=requestSTR+"\"address2\":\"" + document.getElementById("address2").value + "\",";
- 		requestSTR=requestSTR+"\"city\":\"" + document.getElementById("city").value + "\",";
- 		requestSTR=requestSTR+"\"dmvID\":\"" + document.getElementById("dmvID").value + "\",";
- 		requestSTR=requestSTR+"\"employerID\":\"" + document.getElementById("employerID").value + "\",";
+ 		requestSTR=requestSTR+"\"customerID\":" + document.getElementById("customerID").value + ",";
+  		
+  		requestSTR=requestSTR+"\"firstName\":\"" + document.getElementById("efirstName").value + "\",";
+  		requestSTR=requestSTR+"\"lastName\":\"" + document.getElementById("elastName").value + "\",";
+  		requestSTR=requestSTR+"\"email\":\"" + document.getElementById("eemail").value + "\",";
+  		requestSTR=requestSTR+"\"mobilePhone\":\"" + document.getElementById("emobilePhone").value + "\",";
+  		requestSTR=requestSTR+"\"officePhone\":\"" + document.getElementById("eofficePhone").value + "\",";
+  		requestSTR=requestSTR+"\"companyName\":\"" + document.getElementById("ecompanyName").value + "\",";
+  		requestSTR=requestSTR+"\"address1\":\"" + document.getElementById("eaddress1").value + "\",";
+ 		requestSTR=requestSTR+"\"address2\":\"" + document.getElementById("eaddress2").value + "\",";
+ 		requestSTR=requestSTR+"\"city\":\"" + document.getElementById("ecity").value + "\",";
+ 		requestSTR=requestSTR+"\"dmvID\":\"" + document.getElementById("edmvID").value + "\",";
+ 		requestSTR=requestSTR+"\"employerID\":\"" + document.getElementById("eemployerID").value + "\",";
  		requestSTR=requestSTR+"\"isTaxable\":\"" + isTaxableValue + "\"";
   		
  		requestSTR=requestSTR+"}";
@@ -28,8 +30,8 @@
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    	if(this.responseText=="1"){
-	     		alert("Customer has been added successfully");
-	     		document.getElementById("resetButton").click();
+	     		//alert("Customer has been updated successfully");
+	     		//document.getElementById("resetButton").click();
 	     		$("#customerTable").DataTable().ajax.reload();
 	     		$('#createCustomer').modal('hide');
 	    	}
@@ -41,10 +43,52 @@
 	     
 	    }
 	  };
-	  xhttp.open("POST", "../Invoice/webapi/customer", true);
+	  xhttp.open("POST", "../Invoice/webapi/customer/update", true);
 	  xhttp.setRequestHeader("Content-Type", "application/json");
 	  xhttp.send(requestSTR); 
 	} 
+ 	
+ 	function fetchCustomer(customerID){
+ 		
+		//Submitting Request
+		  var xhttp = new XMLHttpRequest();
+		  xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		    	var response=JSON.parse(this.responseText);
+		    	//alert(response);
+		    	if(response!=""){
+		     		//document.getElementById("result").innerHTML = "Successfully added the Product!!!"
+		     		//resetForm();
+		     		//alert(response.firstName);
+		     		document.getElementById("efirstName").value=response.firstName;
+					document.getElementById("elastName").value=response.lastName;
+					document.getElementById("edmvID").value=response.dmvID;
+					document.getElementById("eemail").value=response.email;
+					document.getElementById("emobilePhone").value=response.mobilePhone;
+					document.getElementById("eofficePhone").value=response.officePhone;
+					document.getElementById("ecompanyName").value=response.companyName;
+					document.getElementById("eemployerID").value=response.employerID;
+					document.getElementById("eaddress1").value=response.address1;
+					document.getElementById("eaddress2").value=response.address2;
+					document.getElementById("ecity").value=response.city;
+					
+					document.getElementById("customerID").value=response.customerID;
+		    	}
+	     		else{
+	     			//document.getElementById("result").innerHTML ="Cannot add Customer at this time!!!";
+	     		}
+		     	
+		     		
+		     
+		    }
+		  };
+		  xhttp.open("POST", "../Invoice/webapi/customer/fetchCustomer/"+customerID, true);
+		  xhttp.setRequestHeader("Content-Type", "application/json");
+		  xhttp.send(); 
+		
+ 		
+ 		
+ 	}
 
  	function resetForm(){
  		document.getElementById("firstName").value="";
@@ -60,17 +104,15 @@
  	
 </script>
 
-<style>
-	p.groove{border-style:groove;}
-</style>
 
-<div class="modal fade" id="createCustomer" role="dialog">
+<div class="modal fade" id="editCustomer" role="dialog">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
-				<h4 class="modal-title"> Add New Customer </h4>
+				<h4 class="modal-title"> Edit Customer </h4>
 			</div>	
-		<form method="POST" action="javascript:submitForm();" id="productForm">
+		<form method="POST" id="productForm">
+		<input type="hidden" id="customerID" name="customerID"/>
 			<div class="modal-body">
 		
 		<div id="result"></div>	
@@ -84,7 +126,7 @@
             <i class="fa fa-address-book"></i>
           </div>
         </div> 
-        <input id="firstName" name="firstName" type="text" class="form-control" required="required">
+        <input id="efirstName" name="efirstName" type="text" class="form-control" required="required">
       </div>
     </div>
     <label for="lastName" class="col-2 col-form-label">Last Name</label> 
@@ -95,7 +137,7 @@
             <i class="fa fa-address-book"></i>
           </div>
         </div> 
-        <input id="lastName" name="lastName" type="text" required="required" class="form-control">
+        <input id="elastName" name="elastName" type="text" required="required" class="form-control">
       </div>
     </div>
   </div>
@@ -108,7 +150,7 @@
             <i class="fa fa-address-card-o"></i>
           </div>
         </div> 
-        <input id="dmvID" name="dmvID" type="text" class="form-control">
+        <input id="edmvID" name="edmvID" type="text" class="form-control">
       </div>
     </div>
   </div>
@@ -121,7 +163,7 @@
             <i class="fa fa-address-card-o"></i>
           </div>
         </div> 
-        <input id="companyName" name="companyName" type="text" class="form-control">
+        <input id="ecompanyName" name="ecompanyName" type="text" class="form-control">
       </div>
     </div>
 
@@ -133,7 +175,7 @@
             <i class="fa fa-address-card-o"></i>
           </div>
         </div> 
-        <input id="employerID" name="employerID" type="text" class="form-control">
+        <input id="eemployerID" name="eemployerID" type="text" class="form-control">
       </div>
     </div>
   </div>
@@ -146,7 +188,7 @@
             <i class="fa fa-envelope-open"></i>
           </div>
         </div> 
-        <input id="email" name="email" type="text" class="form-control">
+        <input id="eemail" name="eemail" type="text" class="form-control">
       </div>
     </div>
   </div>
@@ -159,7 +201,7 @@
             <i class="fa fa-phone"></i>
           </div>
         </div> 
-        <input id="mobilePhone" name="mobilePhone" type="text" class="form-control">
+        <input id="emobilePhone" name="emobilePhone" type="text" class="form-control">
       </div>
     </div>
     <label for="officePhone" class="col-2 col-form-label">Office Phone</label> 
@@ -170,7 +212,7 @@
             <i class="fa fa-phone"></i>
           </div>
         </div> 
-        <input id="officePhone" name="officePhone" type="text" class="form-control">
+        <input id="eofficePhone" name="eofficePhone" type="text" class="form-control">
       </div>
     </div>
   </div>
@@ -183,7 +225,7 @@
             <i class="fa fa-home"></i>
           </div>
         </div> 
-        <input id="address1" name="address1" placeholder="Street Address 1" type="text" class="form-control">
+        <input id="eaddress1" name="eaddress1" placeholder="Street Address 1" type="text" class="form-control">
       </div>
     </div>
   </div>
@@ -196,25 +238,25 @@
             <i class="fa fa-home"></i>
           </div>
         </div> 
-        <input id="address2" name="address2" placeholder="Street Address 2" type="text" class="form-control">
+        <input id="eaddress2" name="eaddress2" placeholder="Street Address 2" type="text" class="form-control">
       </div>
     </div>
   </div>
   <div class="form-group row">
     <label for="city" class="col-2 col-form-label">City</label> 
     <div class="col-8">
-      <input id="city" name="city" type="text" class="form-control">
+      <input id="ecity" name="ecity" type="text" class="form-control">
     </div>
   </div>
   <div class="form-group row">
     <label class="col-2">Taxable</label> 
     <div class="col-8">
       <div class="custom-control custom-radio custom-control-inline">
-        <input name="isTaxable" id="isTaxable" type="radio" class="custom-control-input" value="1" required="required" checked="checked"> 
+        <input name="eisTaxable" id="eisTaxable" type="radio" class="custom-control-input" value="1" required="required" checked="checked"> 
         <label for="isTaxable_0" class="custom-control-label">Yes</label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input name="isTaxable" id="isTaxable_1" type="radio" class="custom-control-input" value="0" required="required"> 
+        <input name="eisTaxable" id="eisTaxable" type="radio" class="custom-control-input" value="0" required="required"> 
         <label for="isTaxable_1" class="custom-control-label">No</label>
       </div>
     </div>
@@ -222,9 +264,8 @@
 
 			</div>
 			      <div class="modal-footer">
-      <input type="reset" id="resetButton" class="btn btn-secondary" />
        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button class="btn btn-primary" onclick="editCustomer();">Submit</button>
       </div>
       		</form>
 		</div>

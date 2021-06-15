@@ -58,6 +58,9 @@
  		document.getElementById("description").value="";
  		document.getElementById("cost").value="";
  		document.getElementById("price").value="";
+ 		
+ 		$("#productTable").DataTable().ajax.reload();
+ 		//$('#createCustomer').modal('hide');
  	}
  	
 </script>
@@ -66,7 +69,7 @@
 $(document).ready(function() {
 	
 
-    $('#example').DataTable( {
+    $('#productTable').DataTable( {
     	  "ajax": {
     		    "url": "http://localhost:8080/Invoice/webapi/product",
     		    "dataSrc":""
@@ -97,63 +100,79 @@ $(document).ready(function() {
 			<form method="POST" action="javascript:submitForm();" id="productForm">
 			
 			<div id="result"></div>	
-			
-			<div class="container">
-			<div class="row">
-			<div class="col-md-12">
-			
-				<label for="productName">Product Name</label>
-				<input type="text" name="productName" id="productName" placeHolder="Product Name" required/>
-			
-			  </div>
-			</div>
-			<div class="row">
-			<div class="col-md-12">
-			
-				<label for="description">Product Description</label>
-				<textarea class="form-control" name="description" id="description" 
-				placeHolder="Product Details" 
-			rows="2"></textarea>
-			</div>
-			</div>
-			<div class="row">
-			<div class="col-md-6">
-					<label for="cost">Cost</label>
-					<input type="number" name="cost" id="cost" placeHolder="$$" required/>
-				
-			</div>
-			</div>
-			<div class="row">
-			<div class="col-md-6">	
-					<label for="price">Price</label>
-					<input type="number" name="price" id="price" placeHolder="$$" required/>
-			</div>
-				
-			</div>  
-			<div class=row>
-			<div class="col-md-6">
-			  <input class="form-check-input" type="checkbox" value="1" id="salesTax">
-			  <label class="form-check-label" for="flexCheckDefault">
-			    Sales Tax
-			  </label>
-			</div>
-			<div class="col-md-6">
-			  <input class="form-check-input" type="checkbox" value="2" id="californiaTax" checked>
-			  <label class="form-check-label" for="flexCheckChecked">
-			    California Tax
-			  </label>
-			
-			</div>
-			</div>
-			<div class="row">
-			<div class="col-md-12">
-		    
-			
-				<button type="submit" class="btn btn-primary">Submit</button>
-			
-			 </div>
-			 </div>
-</div>
+
+  <div class="form-group row">
+    <label for="productName" class="col-2 col-form-label">Product Name</label> 
+    <div class="col-4">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <i class="fa fa-product-hunt"></i>
+          </div>
+        </div> 
+        <input id="productName" name="productName" type="text" class="form-control" required="required">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="description" class="col-2 col-form-label">Description</label> 
+    <div class="col-4">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <i class="fa fa-arrow-circle-right"></i>
+          </div>
+        </div> 
+        <input id="description" name="description" type="text" class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="cost" class="col-2 col-form-label">Cost</label> 
+    <div class="col-4">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <i class="fa fa-dollar"></i>
+          </div>
+        </div> 
+        <input id="cost" name="cost" type="number" required="required" class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="price" class="col-2 col-form-label">Price</label> 
+    <div class="col-4">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <div class="input-group-text">
+            <i class="fa fa-dollar"></i>
+          </div>
+        </div> 
+        <input id="price" name="price" type="number" class="form-control" required="required">
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-2">Taxable</label> 
+    <div class="col-4">
+      <div class="custom-control custom-checkbox custom-control-inline">
+        <input name="taxable" id="salesTax" type="checkbox" class="custom-control-input" value="1" checked="checked"> 
+        <label for="taxable_0" class="custom-control-label">Sales Tax</label>
+      </div>
+      <div class="custom-control custom-checkbox custom-control-inline">
+        <input name="taxable" id="californiaTax" type="checkbox" class="custom-control-input" value="2" checked="checked"> 
+        <label for="taxable_1" class="custom-control-label">California Tax</label>
+      </div>
+    </div>
+  </div> 
+
+
+		<div class="modal-footer">
+      <input type="reset" id="resetButton" class="btn btn-secondary" />
+       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" onclick="javascript:submitForm();">Submit</button>
+      </div>
 			</form>
 			
 			</div>
@@ -162,7 +181,7 @@ $(document).ready(function() {
 	</div>
 </div> 
 
-	<table id="example" class="table table-striped table-bordered" style="width:100%">
+	<table id="productTable" class="table table-striped table-bordered" style="width:100%">
         <thead>
             <tr>
                 <th>Product Name</th>
