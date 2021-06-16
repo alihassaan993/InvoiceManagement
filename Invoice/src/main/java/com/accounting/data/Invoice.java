@@ -39,6 +39,8 @@ public class Invoice {
 	private float labourCost;
 	private float recyclingCharges;
 	private float totalAmount;
+	private String paymentMethod;
+	private String remarks;
 	
     @OneToOne
     @JoinColumn(name = "carID")
@@ -147,6 +149,27 @@ public class Invoice {
 		this.car = car;
 	}
 	
+	
+	
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
+
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
+	}
+	
+	
+	
+
+	public String getRemarks() {
+		return remarks;
+	}
+
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
+	}
+
 	public String toString() {
 		
 		String response="";
@@ -158,6 +181,7 @@ public class Invoice {
 		response+="\"mobilePhone\":\"" + customer.getMobilePhone()+ "\",";
 		response+="\"email\":\"" + customer.getEmail()+ "\",";
 		response+="\"invoiceNo\":\"" + invoiceNo + "\",";
+		response+="\"paymentMethod\":\"" + paymentMethod + "\",";
 		response+="\"billingAddress\":\"" + customer.getAddress1()+ "<br>" + customer.getAddress2() + "<br>" + customer.getCity() + "\",";
 		
 		response+="\"status\":\"" + status + "\",";
@@ -166,6 +190,7 @@ public class Invoice {
 		response+="\"californiaTax\":" + californiaTax + ",";
 		response+="\"labourCost\":" + labourCost + ",";
 		response+="\"recyclingCharges\":" + recyclingCharges + ",";
+		response+="\"remarks\":\"" + remarks + "\",";
 		
 		response+="\"invoiceProducts\":[";
 		

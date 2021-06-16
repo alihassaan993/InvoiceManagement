@@ -20,6 +20,7 @@ public class Tax {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)	
 	private int taxID;
 	private String taxName;
+	private float percentage;
 	
 
 	@OneToMany(mappedBy="tax")
@@ -45,7 +46,24 @@ public class Tax {
 	public void setTaxName(String taxName) {
 		this.taxName = taxName;
 	}
+	public float getPercentage() {
+		return percentage;
+	}
+	public void setPercentage(int percentage) {
+		this.percentage = percentage;
+	}
 
-	
+	public String toString() {
+		
+		String response="{";
+		
+		response+="\"taxID\":"+taxID + ",";
+		response+="\"taxName\":\""+taxName + "\",";
+		response+="\"percentage\":"+percentage;
+		
+		response+="}";
+		
+		return response;
+	}
 	
 }

@@ -16,8 +16,48 @@
 	var position=2;
 	var isCustomerTaxable=true;
 	
+	$(document).ready(function() {
+		//alert("Populating Products");
+		populateProductDropDown('#selectProduct1');
+		
+	} );
+	
+	function populateProductDropDown(dropDownID){
+		
+		let dropdown = $(dropDownID);
+
+		dropdown.empty();
+
+		dropdown.append('<option selected="true" disabled>Choose Product</option>');
+		dropdown.prop('selectedIndex', 0);
+
+		const url = '../Invoice/webapi/product';
+
+		// Populate dropdown with list of provinces
+		$.getJSON(url, function (data) {
+			productList=data;
+		  $.each(data, function (key, entry) {
+		    dropdown.append($('<option></option>').attr('value', entry.productID).text(entry.productName));
+		  })
+		});
+		
+	}
 	
 	function fillQty(id){
+
+		_productID=document.getElementById("selectProduct"+id).value;
+		
+		var	result;		
+			
+		for (var i = 0; i < productList.length; i++){
+			  if (productList[i].productID == _productID){
+			     result=productList[i];
+			     break;
+			  }
+			}			
+			
+			
+		document.getElementById("price"+id).value=result.price;
 		
 		calculateAmount(id);
 
@@ -33,8 +73,6 @@
 			
 			totalAmount=0;
 			//alert(position);
-			salesTaxValue=0;
-			californiaTaxValue=0;
 	
 			for(var k=1;k<=position;k++){
 			
@@ -48,18 +86,43 @@
 	 			var amount=parseFloat(document.getElementById("amount"+k).value);
 	 			totalAmount+=amount;
 				
-	 			var salesTaxPercentage=parseFloat(document.getElementById("salesTaxPercentage"+k).value);
-	 			var californiaTaxPercentage=parseFloat(document.getElementById("californiaTaxPercentage"+k).value);
-	 			
-	 			salesTaxValue+=amount*salesTaxPercentage;
-	 			californiaTaxValue+=amount*californiaTaxPercentage;
-	 		
+				var	result;		
+					
+				for (var i = 0; i < productList.length; i++){
+					  if (productList[i].productID == _productID){
+					     result=productList[i];
+					     break;
+					  }
+					}	
+				
+				for(var i=0;i<result.taxIDs.length;i++){
+					if(result.taxIDs[i].taxID==1){
+		
+						var salesTax=parseFloat(document.getElementById("salesTax").value);
+			 			var salesTaxPercentage=parseFloat(result.taxIDs[i].percentage);
+						
+			 			amount=amount*salesTaxPercentage;
+			 			
+						salesTax=salesTax+amount;
+						
+						totalAmount+=salesTax;
+						
+						document.getElementById("salesTax").value=salesTax.toFixed(2);
+			
+					}else if (result.taxIDs[i].taxID==2){
+						var californiaTax=parseFloat(document.getElementById("californiaTax").value);
+						var californiaTaxPercentage=parseFloat(result.taxIDs[i].percentage);
+						
+			 			amount=amount*californiaTaxPercentage;
+			 			
+			 			californiaTax=californiaTax+amount;
+			 			totalAmount+=californiaTax;
+						
+						document.getElementById("californiaTax").value=californiaTax.toFixed(2);
+						
+					}
+				}
 			}
-			
-			document.getElementById("salesTax").value=salesTaxValue;
-			document.getElementById("californiaTax").value=californiaTaxValue;
-			
-			
 			var labourCost=parseInt(document.getElementById("labourCost").value);
 			totalAmount=totalAmount+labourCost;
 			
@@ -93,13 +156,10 @@
 		var cell4 = row.insertCell(3);
 		var cell5 = row.insertCell(4);
 		
-		//cell1.innerHTML = "<select class='form-control' id='selectProduct"+position+"' onchange='javascript:fillQty("+position+")'></select>";
-		cell1.innerHTML = "<input type='text' readonly class='form-control' id='selectProduct" +position+ "' onchange='javascript:fillQty("+position+")'><button type='button' onclick='setSelectBox("+position+");' data-toggle='modal' data-target='#productList'>Choose</button>";
+		cell1.innerHTML = "<select class='form-control' id='selectProduct"+position+"' onchange='javascript:fillQty("+position+")'></select>";
 		cell2.innerHTML="<input class='form-control' type='number' id='quantity"+position+"' onchange='javascript:calculateAmount("+position+")' value='0'/>";
 		cell3.innerHTML="<input class='form-control' type='text' id='price"+position+"' value='0' readonly/>";
 		cell4.innerHTML="<input class='form-control' type='number' id='amount"+position+"' value='0'/>";
-		cell4.innerHTML+="<input type='hidden' type='text' id='salesTaxPercentage"+position+"' value='0'>";
-		cell4.innerHTML+="<input type='hidden' type='text' id='californiaTaxPercentage"+position+"' value='0'>";
 		cell5.innerHTML="<a class='delete' title='Delete' data-toggle='tooltip' href='javascript:deleteRow("+position+")''><i class='material-icons'>&#xE872;</i></a>";
 		
 		populateProductDropDown("#selectProduct"+position);
@@ -113,7 +173,8 @@
 		//position=position-1;
 	}
 
-	function saveEstimate(){
+	function saveInvoice(){
+		
 		sign=document.getElementById("output").value;
 		//alert(sign);
 		
@@ -134,8 +195,7 @@
 		labourCost=document.getElementById("labourCost").value;
 		recyclingCharges=document.getElementById("recyclingCharges").value;
 		totalAmount=document.getElementById("totalAmount").value;
-		remarks=document.getElementById("remarks").value;
-		year=document.getElementById("year").value;
+		
 		
 		formData="{\"car\":{\"customerID\":"+ customerID;
 		formData+=",\"model\":\""+ model +"\"";
@@ -145,11 +205,11 @@
 		
 		//alert(formData);
 		
-		formData+="\"estimateProducts\":[";
-		// estimate Product Details
+		formData+="\"invoiceProducts\":[";
+		// invoice Product Details
  		for(index=1;index<=position;index++){
 			try {
-				productID=document.getElementById("selectProduct"+index).value.split('-')[0];
+				productID=document.getElementById("selectProduct"+index).value;
 				quantity=document.getElementById("quantity"+index).value;
 				price=document.getElementById("price"+index).value;
 				amount=document.getElementById("amount"+index).value;
@@ -181,13 +241,11 @@
 		formData+=",\"recyclingCharges\":"+recyclingCharges;
 		formData+=",\"totalAmount\":"+totalAmount;
 		formData+=",\"remarks\":\""+remarks +"\"";
-		formData+=",\"year\":\""+year +"\"";
 		formData+=",\"status\":\"Unpaid\"";
 		
 		
 		formData+="}";
-		//alert('Saving estimate');
-
+		
 		document.getElementById("odometer").value=formData;
 		
 		//Submitting Request
@@ -197,10 +255,10 @@
 		    	if(this.responseText=="1"){
 		     		//document.getElementById("result").innerHTML = "Successfully added the Product!!!"
 		     		//resetForm();
-		     		alert("Estimate Added Successfully");
+		     		alert("Invoice Added Successfully");
 		     		document.getElementById("resetButton").click();
-		     		$("#estimateTable").DataTable().ajax.reload();
-		     		$('#createEstimate').modal('hide');
+		     		$("#invoiceTable").DataTable().ajax.reload();
+		     		$('#createinvoice').modal('hide');
 
 		    	}
 	     		else{
@@ -213,7 +271,7 @@
 		  };
 		  
 		  //alert(formData);
-		  xhttp.open("POST", "../Invoice/webapi/estimate", true);
+		  xhttp.open("POST", "../Invoice/webapi/invoice", true);
 		  xhttp.setRequestHeader("Content-Type", "application/json");
 		  xhttp.send(formData); 
 		
@@ -225,12 +283,12 @@
 
 
 
-<div class="modal fade" id="createEstimate" role="dialog">
-<form action="#" id="estimateForm" name="estimateForm">
+<div class="modal fade" id="createInvoice" role="dialog">
+<form action="#" id="invoiceForm" name="invoiceForm">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
-				<h4 class="modal-title"> Create New Estimate </h4>
+				<h4 class="modal-title"> Create New invoice </h4>
 			</div>	
 			<div class="modal-body yScroll">
 				<div class="container">
@@ -247,8 +305,8 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group form-group-sm">
-							<label for="model">ODO Meter</label>
-							<input type="number" class="form-control input-sm" name="odometer" id="odometer" placeHolder="ODO Meter Reading" required/>
+							<label for="model">Car Model</label>
+							<input type="text" class="form-control input-sm" name="model" id="model" placeHolder="Car Model" required/>
 							</div>
 						</div>
 						<div class="col-md-6">
@@ -261,25 +319,16 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group form-group-sm">
-							<label for="model">Car Model</label>
-							<input type="text" class="form-control input-sm" name="model" id="model" placeHolder="Car Model" required/>
+							<label for="model">ODO Meter</label>
+							<input type="number" class="form-control input-sm" name="odometer" id="odometer" placeHolder="ODO Meter Reading" required/>
 							</div>
-						</div>					
-
+						</div>
 						<div class="col-md-6">
 							<div class="form-group form-group-sm">
 							<label for="make">Make</label>
 							<input type="text" class="form-control input-sm" name="make" id="make" placeHolder="Car Make" required/>
 							</div>
 						</div>
-					</div>	
-					<div class="row">
-						<div class="col-md-12">
-							<div class="form-group form-group-sm">
-							<label for="year">Year</label>
-							<input type="text" class="form-control input-sm" name="year" id="year" placeHolder="Year" required/>
-							</div>
-						</div>					
 					</div>	
 					<div class="row">
 						<div class="col-md-12">
@@ -304,13 +353,10 @@
 			            </tr>
 			        </thead>
 			        	<tr>
-			            	<td><input type="text" readonly class="form-control" id="selectProduct1" onchange="javascript:fillQty('1')"><button type="button" onclick="setSelectBox('1');" data-toggle="modal" data-target="#productList">Choose</button></td>
+			            	<td><select class="form-control" id="selectProduct1" onchange="javascript:fillQty('1')"><option> Choose Product </option></select></td>
 			            	<td><input class="form-control" type="number" id="quantity1" onchange="javascript:calculateAmount('1')" value="0"/></td>
 			            	<td><input class="form-control" type="text" id="price1" value="0" readonly/></td>
-			            	<td><input class="form-control" type="number" id="amount1" value="0"/>
-			            		<input type="hidden" type="text" id="salesTaxPercentage1" value="0">
-			            		<input type="hidden" type="text" id="californiaTaxPercentage1" value="0">
-			            	</td>
+			            	<td><input class="form-control" type="number" id="amount1" value="0"/></td>
 			            	<td>&nbsp;</td>
 			            </tr>
 
@@ -347,7 +393,7 @@
 				<div class="col-4">
 					<div class="input-group input-group-sm mb-3">
 					  <div class="input-group-prepend">
-					    <span class="input-group-text" id="inputGroup-sizing-sm">Labor Cost</span>
+					    <span class="input-group-text" id="inputGroup-sizing-sm">Labour Cost</span>
 					  </div>
 					  <input class="form-control" type="text" id="labourCost" name="labourCost" value="0" onchange="javascript:calculateTax(0)"/>
 					</div>				
@@ -396,7 +442,7 @@
       <div class="modal-footer">
       <input type="reset" id="resetButton" class="btn btn-secondary" />
        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="javascript:saveEstimate();">Save Changes</button>
+        <button type="button" class="btn btn-primary" onclick="javascript:saveInvoice();">Save changes</button>
       </div>
 	</div>
 </div>

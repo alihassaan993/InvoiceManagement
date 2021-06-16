@@ -26,17 +26,19 @@
 	    dom: '<"etoolbar">frtip',
 	    initComplete: function(){
 	        $("div.etoolbar")
-	           .html('<a class="btn" data-toggle="modal" data-target="#createinvoice"><img src="add.png" width="27" height="27"/> Add invoice </a>');           
-	     },  
-	    select:true
+	           .html('<a class="btn" data-toggle="modal" data-target="#createInvoice"><img src="add.png" width="27" height="27"/> Add invoice </a>');           
+	     }
 	    } );
 
 		
 	} );
 	</script>
+	<jsp:include page="invoiceform.jsp" />
 	<jsp:include page="customerlist.jsp" />
 	<jsp:include page="customerform.jsp" />
 	<jsp:include page="viewinvoice.jsp" />
+	<jsp:include page="productlist.jsp" />
+
 	<br><br>
 	<h2><img src="invoice.png" width="50" height="50"/>&nbsp;&nbsp;&nbsp;Invoice</h2>
 	<br><br>

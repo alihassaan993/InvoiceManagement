@@ -86,6 +86,34 @@
           font-size: 3.5rem;
         }
       }
+      
+ 
+      @media screen {
+	  #printSection {
+	      display: none;
+	  }
+	}
+
+	@media print {
+	  body * {
+	    visibility:hidden;
+	  }
+	  #printSection, #printSection * {
+	    visibility:visible;
+	  }
+	  #printSection {
+	    position:absolute;
+	    left:0;
+	    top:0;
+	  }
+	.modal-dialog {
+	    max-width: 100%;
+	    width: 100%;
+	  }
+	}
+	      
+      
+      
   .table.dataTable  {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-size: 13px;

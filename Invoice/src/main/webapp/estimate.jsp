@@ -38,6 +38,7 @@
 	<jsp:include page="customerform.jsp" />
 	<jsp:include page="viewestimate.jsp" />
 	<jsp:include page="viewinvoice.jsp" />	
+	<jsp:include page="productlist.jsp" />
 	<br><br>
 	<h2><img src="estimates.png" width="50" height="50"/>&nbsp;&nbsp;&nbsp;Estimate</h2>
 	<br><br>

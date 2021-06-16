@@ -1,8 +1,8 @@
 <script lang="javascript">
  	function editCustomer() {
  		
- 		var isTaxableValue = $("input[name='isTaxable']:checked").val();
- 		//alert(radioValue);
+ 		var isTaxableValue = $("input[name='eisTaxable']:checked").val();
+ 		//alert(isTaxableValue);
  		
 		
  		var requestSTR="{";
@@ -71,7 +71,10 @@
 					document.getElementById("eaddress1").value=response.address1;
 					document.getElementById("eaddress2").value=response.address2;
 					document.getElementById("ecity").value=response.city;
-					
+					//if(response.isTaxable==0){
+					//	document.getElementById("eisTaxable").value=response.isTaxable;
+					//}
+					$('input:radio[name=eisTaxable]').val([response.isTaxable]);
 					document.getElementById("customerID").value=response.customerID;
 		    	}
 	     		else{
@@ -252,21 +255,21 @@
     <label class="col-2">Taxable</label> 
     <div class="col-8">
       <div class="custom-control custom-radio custom-control-inline">
-        <input name="eisTaxable" id="eisTaxable" type="radio" class="custom-control-input" value="1" required="required" checked="checked"> 
-        <label for="isTaxable_0" class="custom-control-label">Yes</label>
+        <input name="eisTaxable" id="eisTaxable_1" type="radio" class="custom-control-input" value="1" > 
+        <label for="eisTaxable_1" class="custom-control-label">Yes</label>
       </div>
       <div class="custom-control custom-radio custom-control-inline">
-        <input name="eisTaxable" id="eisTaxable" type="radio" class="custom-control-input" value="0" required="required"> 
-        <label for="isTaxable_1" class="custom-control-label">No</label>
+        <input name="eisTaxable" id="eisTaxable_0" type="radio" class="custom-control-input" value="0" > 
+        <label for="eisTaxable_0" class="custom-control-label">No</label>
       </div>
     </div>
   </div> 
 
-			</div>
-			      <div class="modal-footer">
-       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button class="btn btn-primary" onclick="editCustomer();">Submit</button>
-      </div>
+  </div>
+	<div class="modal-footer">
+	     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	     <button class="btn btn-primary" onclick="editCustomer();">Submit</button>
+	</div>
       		</form>
 		</div>
 	</div>

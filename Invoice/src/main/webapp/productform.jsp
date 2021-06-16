@@ -71,14 +71,24 @@ $(document).ready(function() {
 
     $('#productTable').DataTable( {
     	  "ajax": {
-    		    "url": "http://localhost:8080/Invoice/webapi/product",
+    		    "url": "../Invoice/webapi/product",
     		    "dataSrc":""
     		  },
     		  columns:[
     			  {data:"productName"},
     			  {data:"description"},
     			  {data:"cost"},
-    			  {data:"price"}
+    			  {data:"price"},
+    			  { 
+    				    data: "productID",
+	   		            "render": function(data, type, row, meta){
+	   		            	productID=data;
+	   		               if(type === 'display'){
+	   		               	   data = '<a data-toggle="modal" onclick="javascript:fetchProduct('+productID+');" data-target="#editProduct"><span class="material-icons">mode_edit</span></a>';	
+	   		               }
+	   		               return data;
+	   		            }
+	   		       } 
     		  ],
               		  
     dom: '<"toolbar">frtip',
@@ -87,6 +97,7 @@ $(document).ready(function() {
     $("div.toolbar").html('<a class="btn" data-toggle="modal" data-target="#myModal"><img src="add.png" width="27" height="27"/> Add Product </a>');
 } );
 </script>
+	<jsp:include page="editproduct.jsp" />  
 	<br><br>
 	<h2><img src="products.png" width="50" height="50"/>&nbsp;&nbsp;&nbsp;Product</h2>
 	<br><br>
@@ -188,6 +199,7 @@ $(document).ready(function() {
                 <th>Description</th>
                 <th>Cost</th>
                 <th>Price</th>
+                <th>&nbsp;</th>
             </tr>
         </thead>
   	</table>

@@ -16,8 +16,53 @@
 	var position=2;
 	var isCustomerTaxable=true;
 	
+	$(document).ready(function() {
+		//alert("Populating Products");
+		//populateProductDropDown('#selectProduct1');
+		
+	} );
+	
+	function populateProductDropDown(dropDownID){
+		
+		let dropdown = $(dropDownID);
+
+		dropdown.empty();
+
+		dropdown.append('<option selected="true" disabled>Choose Product</option>');
+		dropdown.prop('selectedIndex', 0);
+
+		const url = '../Invoice/webapi/product';
+
+		// Populate dropdown with list of provinces
+		$.getJSON(url, function (data) {
+			productList=data;
+		  $.each(data, function (key, entry) {
+		    dropdown.append($('<option></option>').attr('value', entry.productID).text(entry.productName));
+		  })
+		});
+		
+	}
 	
 	function fillQty(id){
+		
+		//alert('hi' + document.getElementById("selectProduct"+id).v);
+/* 		var selectProductValue=document.getElementById("selectProduct"+id).value.split("-");
+
+		_productID=selectProductValue[0];
+
+		alert(productList.length);
+		
+		var	result;		
+			
+		for (var i = 0; i < productList.length; i++){
+			  if (productList[i].productID == _productID){
+			     result=productList[i];
+			     break;
+			  }
+			}			
+			
+			
+		document.getElementById("price"+id).value=result.price; */
 		
 		calculateAmount(id);
 
@@ -53,7 +98,45 @@
 	 			
 	 			salesTaxValue+=amount*salesTaxPercentage;
 	 			californiaTaxValue+=amount*californiaTaxPercentage;
-	 		
+	 			
+	 			/*
+	 			var	result;		
+				
+				
+				for (var i = 0; i < productList.length; i++){
+					  if (productList[i].productID == _productID){
+					     result=productList[i];
+					     break;
+					  }
+					}	
+				
+				for(var i=0;i<result.taxIDs.length;i++){
+					if(result.taxIDs[i].taxID==1){
+		
+						var salesTax=parseFloat(document.getElementById("salesTax").value);
+			 			var salesTaxPercentage=parseFloat(result.taxIDs[i].percentage);
+						
+			 			amount=amount*salesTaxPercentage;
+			 			
+						salesTax=salesTax+amount;
+						
+						totalAmount+=salesTax;
+						
+						document.getElementById("salesTax").value=salesTax.toFixed(2);
+			
+					}else if (result.taxIDs[i].taxID==2){
+						var californiaTax=parseFloat(document.getElementById("californiaTax").value);
+						var californiaTaxPercentage=parseFloat(result.taxIDs[i].percentage);
+						
+			 			amount=amount*californiaTaxPercentage;
+			 			
+			 			californiaTax=californiaTax+amount;
+			 			totalAmount+=californiaTax;
+						
+						document.getElementById("californiaTax").value=californiaTax.toFixed(2);
+						
+					}
+				}*/
 			}
 			
 			document.getElementById("salesTax").value=salesTaxValue;
@@ -113,7 +196,8 @@
 		//position=position-1;
 	}
 
-	function saveEstimate(){
+	function saveInvoice(){
+		
 		sign=document.getElementById("output").value;
 		//alert(sign);
 		
@@ -145,8 +229,8 @@
 		
 		//alert(formData);
 		
-		formData+="\"estimateProducts\":[";
-		// estimate Product Details
+		formData+="\"invoiceProducts\":[";
+		// invoice Product Details
  		for(index=1;index<=position;index++){
 			try {
 				productID=document.getElementById("selectProduct"+index).value.split('-')[0];
@@ -186,8 +270,7 @@
 		
 		
 		formData+="}";
-		//alert('Saving estimate');
-
+		
 		document.getElementById("odometer").value=formData;
 		
 		//Submitting Request
@@ -197,10 +280,10 @@
 		    	if(this.responseText=="1"){
 		     		//document.getElementById("result").innerHTML = "Successfully added the Product!!!"
 		     		//resetForm();
-		     		alert("Estimate Added Successfully");
+		     		alert("Invoice Added Successfully");
 		     		document.getElementById("resetButton").click();
-		     		$("#estimateTable").DataTable().ajax.reload();
-		     		$('#createEstimate').modal('hide');
+		     		$("#invoiceTable").DataTable().ajax.reload();
+		     		$('#createinvoice').modal('hide');
 
 		    	}
 	     		else{
@@ -213,7 +296,7 @@
 		  };
 		  
 		  //alert(formData);
-		  xhttp.open("POST", "../Invoice/webapi/estimate", true);
+		  xhttp.open("POST", "../Invoice/webapi/invoice", true);
 		  xhttp.setRequestHeader("Content-Type", "application/json");
 		  xhttp.send(formData); 
 		
@@ -225,12 +308,12 @@
 
 
 
-<div class="modal fade" id="createEstimate" role="dialog">
-<form action="#" id="estimateForm" name="estimateForm">
+<div class="modal fade" id="createInvoice" role="dialog">
+<form action="#" id="invoiceForm" name="invoiceForm">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
-				<h4 class="modal-title"> Create New Estimate </h4>
+				<h4 class="modal-title"> Create New invoice </h4>
 			</div>	
 			<div class="modal-body yScroll">
 				<div class="container">
@@ -396,7 +479,7 @@
       <div class="modal-footer">
       <input type="reset" id="resetButton" class="btn btn-secondary" />
        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="javascript:saveEstimate();">Save Changes</button>
+        <button type="button" class="btn btn-primary" onclick="javascript:saveInvoice();">Save changes</button>
       </div>
 	</div>
 </div>

@@ -25,6 +25,8 @@ public class Car {
 	
 	private String odoMeter;
 	
+	private String year;
+	
 	@ManyToOne
 	@JoinColumn(name="customerID",nullable=false)
 	private Customer customer;
@@ -76,6 +78,12 @@ public class Car {
 	}
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+	public String getYear() {
+		return year;
+	}
+	public void setYear(String year) {
+		this.year = year;
 	}
 
 	

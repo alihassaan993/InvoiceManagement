@@ -64,7 +64,8 @@ public class ProductAction {
 	        }
 	        
 	        response+="]";
-
+	        
+	        System.out.println(response);
         
 
 		}catch(Exception err) {
@@ -104,6 +105,52 @@ public class ProductAction {
 			session.close();
 		}
 		
-	}	
+	}
+	
+	public String fetch(int productID) throws Exception{
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		String response="";
+		
+		Product _product=new Product();
+		try {
+       
+		_product=session.get(Product.class, productID);
+		response=_product.toString();
+		
+		}catch(Exception err) {
+			err.printStackTrace();
+		}finally {
+	        session.close();
+		}
+        
+
+        return response;
+		
+	}
+	
+	public String update(Product product) {
+		
+		System.out.println("Updating Product");
+
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		String response="Success";
+		try {
+			
+			session.beginTransaction();
+			
+			session.update(product);
+			
+			session.getTransaction().commit();
+			
+		}catch(Exception err) {
+			response="Error";
+			session.getTransaction().rollback();
+		}finally {
+			session.close();
+		}
+		return response;
+	}
+	
 
 }

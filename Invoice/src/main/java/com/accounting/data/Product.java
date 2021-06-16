@@ -93,7 +93,7 @@ public class Product {
 			if(index>0)
         		response+=",";
 			
-			response+=taxID.get(index).getTax().getTaxID();
+			response+=taxID.get(index).getTax().toString();
 					
 		}
 		response+="]";

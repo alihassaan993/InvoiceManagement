@@ -2,6 +2,8 @@ package com.accounting.Invoice;
 
 import com.accounting.action.EstimateAction;
 import com.accounting.action.InvoiceAction;
+import com.accounting.data.Estimate;
+import com.accounting.data.Invoice;
 
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
@@ -66,15 +68,17 @@ public class InvoiceResource {
 	       return response;
 	   }	   
 	   
+	   @Path("pay")
 	   @POST
-	   @Path("/{id}")
-	   public String payInvoice(@PathParam("id") Integer id) {
+	   @Consumes(MediaType.APPLICATION_JSON)
+	   @Produces(MediaType.TEXT_PLAIN)
+	   public String payInvoice(Invoice invoice) {
 	   	String response="Error";
 		
 	   	try {
 		    	
 	   		InvoiceAction custAction=new InvoiceAction();
-	   		response=custAction.payInvoice(id.intValue());
+	   		response=custAction.payInvoice(invoice);
 		    	
 	   	}catch(Exception err) {
 	   		err.printStackTrace();
@@ -82,4 +86,15 @@ public class InvoiceResource {
 	   	System.out.println(response);
 	       return response;
 	   }
+	   
+	   @POST
+	   @Consumes(MediaType.APPLICATION_JSON)
+	   @Produces(MediaType.TEXT_PLAIN)
+	    public String createInvoice(Invoice invoice) {
+		   
+		    InvoiceAction estimateAction=new InvoiceAction();
+		    String response=estimateAction.create(invoice);
+		   	
+	    	return response;
+	    }
 }

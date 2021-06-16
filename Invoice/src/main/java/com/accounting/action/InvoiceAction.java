@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import com.accounting.data.Car;
 import com.accounting.data.Customer;
 import com.accounting.data.Product;
 import com.accounting.data.Invoice;
@@ -121,10 +122,11 @@ public class InvoiceAction {
 		String response="2";
 		
 		try {
+			System.out.println(invoice.toString());
 			
 			session.beginTransaction();
 			
-		    Query q = session.createQuery("select max(invoiceID) from invoice"); 
+		    Query q = session.createQuery("select max(invoiceID) from Invoice"); 
 
 		    Integer invoiceID = (Integer)q.uniqueResult();
 		    
@@ -132,7 +134,11 @@ public class InvoiceAction {
 		    
 		    invoice.setInvoiceNo(invoiceNo);
 		    
-			session.save(invoice.getCar());
+		    
+		    Car car=invoice.getCar();
+		    car.setCustomer(invoice.getCustomer());
+		    
+			session.save(car);
 			
 			session.save(invoice);
 			
@@ -173,6 +179,40 @@ public class InvoiceAction {
 			invoice.setStatus("Paid");
 			
 			session.update(invoice);
+			
+			session.getTransaction().commit();
+			
+			
+			
+			response="1";
+			
+		}catch(Exception err) {
+			err.printStackTrace();
+			session.getTransaction().commit();
+		}finally {
+			session.close();
+		}
+		
+		return response;
+		
+	}
+	
+	public String payInvoice(Invoice invoice) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		String response="2";
+		try {
+			
+			session.beginTransaction();
+			Invoice _invoice=session.get(Invoice.class, invoice.getInvoiceID());
+			if(!invoice.getPaymentMethod().equals("Return")) {
+				_invoice.setStatus("Paid");
+				_invoice.setPaymentMethod(invoice.getPaymentMethod());
+			}else {
+				_invoice.setStatus("Return");
+				//_invoice.setPaymentMethod("");				
+			}
+			
+			session.update(_invoice);
 			
 			session.getTransaction().commit();
 			
