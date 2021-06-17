@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -127,19 +128,26 @@ public class InvoiceAction {
 			session.beginTransaction();
 			
 		    Query q = session.createQuery("select max(invoiceID) from Invoice"); 
-
 		    Integer invoiceID = (Integer)q.uniqueResult();
-		    
 		    String invoiceNo = "EST" + String.format("%05d" , invoiceID.intValue()+1);
-		    
 		    invoice.setInvoiceNo(invoiceNo);
-		    
 		    
 		    Car car=invoice.getCar();
 		    car.setCustomer(invoice.getCustomer());
 		    
-			session.save(car);
-			
+		    
+		    Query q2=session.createQuery("from Car c where c.plateNo=:plate_no");
+		    q2.setParameter("plate_no", car.getPlateNo());
+		    Car _car=null;
+		    try {
+		    	_car = (Car)q2.uniqueResult();
+		    	car.setCarID(_car.getCarID());
+		    	session.clear();
+		    	session.update(car);
+		    }catch (NoResultException err){
+		    	session.save(car);
+		    }
+		    		    
 			session.save(invoice);
 			
 			List<InvoiceProduct> invoiceProducts = invoice.getInvoiceProducts();

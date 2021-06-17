@@ -19,6 +19,8 @@
  		requestSTR=requestSTR+"\"address2\":\"" + document.getElementById("eaddress2").value + "\",";
  		requestSTR=requestSTR+"\"city\":\"" + document.getElementById("ecity").value + "\",";
  		requestSTR=requestSTR+"\"dmvID\":\"" + document.getElementById("edmvID").value + "\",";
+ 		requestSTR=requestSTR+"\"categoryID\":\"" + $("input[name='ecategoryID']:checked").val() + "\",";
+ 				
  		requestSTR=requestSTR+"\"employerID\":\"" + document.getElementById("eemployerID").value + "\",";
  		requestSTR=requestSTR+"\"isTaxable\":\"" + isTaxableValue + "\"";
   		
@@ -74,7 +76,19 @@
 					//if(response.isTaxable==0){
 					//	document.getElementById("eisTaxable").value=response.isTaxable;
 					//}
+					$('input:radio[name=ecategoryID]').val([response.categoryID]);
 					$('input:radio[name=eisTaxable]').val([response.isTaxable]);
+					
+					if(response.categoryID==1){
+						document.getElementById("edmvDIV").style.display="block";
+						document.getElementById("ecompanyDIV").style.display="none";
+						
+					}else{
+
+						document.getElementById("edmvDIV").style.display="none";
+						document.getElementById("ecompanyDIV").style.display="block";
+					}
+					
 					document.getElementById("customerID").value=response.customerID;
 		    	}
 	     		else{
@@ -144,8 +158,26 @@
       </div>
     </div>
   </div>
+  
+    
+   <div class="form-group row">
+    <label class="col-4">Customer Type</label> 
+    <div class="col-8">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="ecategoryID" id="ecategoryID_0" type="radio" class="custom-control-input" value="1" required="required" checked="checked"> 
+        <label for="ecategoryID_0" class="custom-control-label">Private</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="ecategoryID" id="ecategoryID_1" type="radio" class="custom-control-input" value="2" required="required"> 
+        <label for="ecategoryID_1" class="custom-control-label">Company</label>
+      </div>
+    </div>
+  </div>  
+  
+  
+  <div id="edmvDIV" style="display:block">
   <div class="form-group row">
-    <label for="companyName" class="col-2 col-form-label">DMV ID</label> 
+    <label for="edmvID" class="col-2 col-form-label">DMV ID</label> 
     <div class="col-4">
       <div class="input-group">
         <div class="input-group-prepend">
@@ -157,8 +189,10 @@
       </div>
     </div>
   </div>
+  </div>
+  <div id="ecompanyDIV" style="display:none">
   <div class="form-group row">
-    <label for="companyName" class="col-2 col-form-label">Company</label> 
+    <label for="ecompanyName" class="col-2 col-form-label">Company</label> 
     <div class="col-4">
       <div class="input-group">
         <div class="input-group-prepend">
@@ -170,7 +204,7 @@
       </div>
     </div>
 
-    <label for="companyName" class="col-2 col-form-label">Employer ID</label> 
+    <label for="eemployerID" class="col-2 col-form-label">Employer ID</label> 
     <div class="col-4">
       <div class="input-group">
         <div class="input-group-prepend">
@@ -181,6 +215,7 @@
         <input id="eemployerID" name="eemployerID" type="text" class="form-control">
       </div>
     </div>
+  </div>
   </div>
   <div class="form-group row">
     <label for="email" class="col-2 col-form-label">Email</label> 
@@ -274,3 +309,21 @@
 		</div>
 	</div>
 </div> 
+<script>
+	$("input[name='ecategoryID']").change(function(){
+ 	
+ 	    categoryID=$("input[name='ecategoryID']:checked").val();
+ 	    
+ 	    if(categoryID==1){
+ 	    	document.getElementById("ecompanyName").value="";
+ 	    	document.getElementById("eemployerID").value="";
+ 	    	document.getElementById("ecompanyDIV").style.display="none";
+ 	    	document.getElementById("edmvDIV").style.display="block";
+ 	    }else{
+ 	    	document.getElementById("edmvID").value="";
+ 	    	document.getElementById("edmvDIV").style.display="none";
+ 	    	document.getElementById("ecompanyDIV").style.display="block";
+ 	    }
+ 	    
+ 	});
+</script>

@@ -2,7 +2,6 @@
  	function submitForm() {
  		
  		var isTaxableValue = $("input[name='isTaxable']:checked").val();
- 		//alert(radioValue);
  		
 		
  		var requestSTR="{";
@@ -16,6 +15,9 @@
   		requestSTR=requestSTR+"\"address1\":\"" + document.getElementById("address1").value + "\",";
  		requestSTR=requestSTR+"\"address2\":\"" + document.getElementById("address2").value + "\",";
  		requestSTR=requestSTR+"\"city\":\"" + document.getElementById("city").value + "\",";
+ 		
+ 		requestSTR=requestSTR+"\"categoryID\":\"" + $("input[name='categoryID']:checked").val() + "\",";
+ 		
  		requestSTR=requestSTR+"\"dmvID\":\"" + document.getElementById("dmvID").value + "\",";
  		requestSTR=requestSTR+"\"employerID\":\"" + document.getElementById("employerID").value + "\",";
  		requestSTR=requestSTR+"\"isTaxable\":\"" + isTaxableValue + "\"";
@@ -58,6 +60,8 @@
  		$('#createCustomer').modal('hide');
  	}
  	
+
+ 	
 </script>
 
 <style>
@@ -99,6 +103,22 @@
       </div>
     </div>
   </div>
+  
+   <div class="form-group row">
+    <label class="col-4">Customer Type</label> 
+    <div class="col-8">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="categoryID" id="categoryID_0" type="radio" class="custom-control-input" value="1" required="required" checked="checked"> 
+        <label for="categoryID_0" class="custom-control-label">Private</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input name="categoryID" id="categoryID_1" type="radio" class="custom-control-input" value="2" required="required"> 
+        <label for="categoryID_1" class="custom-control-label">Company</label>
+      </div>
+    </div>
+  </div>  
+  
+  <div id="dmvDIV" style="display:block">
   <div class="form-group row">
     <label for="companyName" class="col-2 col-form-label">DMV ID</label> 
     <div class="col-4">
@@ -112,6 +132,8 @@
       </div>
     </div>
   </div>
+  </div>
+  <div id="companyDIV" style="display:none">
   <div class="form-group row">
     <label for="companyName" class="col-2 col-form-label">Company</label> 
     <div class="col-4">
@@ -136,6 +158,7 @@
         <input id="employerID" name="employerID" type="text" class="form-control">
       </div>
     </div>
+  </div>
   </div>
   <div class="form-group row">
     <label for="email" class="col-2 col-form-label">Email</label> 
@@ -230,3 +253,22 @@
 		</div>
 	</div>
 </div> 
+
+<script>
+	$("input[name='categoryID']").change(function(){
+ 	
+ 	    categoryID=$("input[name='categoryID']:checked").val();
+ 	    
+ 	    if(categoryID==1){
+ 	    	document.getElementById("companyName").value="";
+ 	    	document.getElementById("employerID").value="";
+ 	    	document.getElementById("companyDIV").style.display="none";
+ 	    	document.getElementById("dmvDIV").style.display="block";
+ 	    }else{
+ 	    	document.getElementById("dmvID").value="";
+ 	    	document.getElementById("dmvDIV").style.display="none";
+ 	    	document.getElementById("companyDIV").style.display="block";
+ 	    }
+ 	    
+ 	});
+</script>

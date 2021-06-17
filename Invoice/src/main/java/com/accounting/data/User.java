@@ -59,6 +59,22 @@ public class User {
 		this.userRole = userRole;
 	}
 	
+	public String toString() {
+		
+		String response="{";
+		
+		response+="\"userID\":"+userID;
+		response+=",\"userName\":\""+userName+"\"";
+		response+=",\"firstName\":\""+firstName+"\"";
+		response+=",\"lastName\":\""+lastName+"\"";
+		response+=",\"userRole\":\""+userRole+"\"";
+		
+		
+		response+="}";
+		
+		return response;
+		
+	}
 	
 	
 

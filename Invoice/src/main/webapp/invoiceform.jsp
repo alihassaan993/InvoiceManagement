@@ -98,45 +98,7 @@
 	 			
 	 			salesTaxValue+=amount*salesTaxPercentage;
 	 			californiaTaxValue+=amount*californiaTaxPercentage;
-	 			
-	 			/*
-	 			var	result;		
-				
-				
-				for (var i = 0; i < productList.length; i++){
-					  if (productList[i].productID == _productID){
-					     result=productList[i];
-					     break;
-					  }
-					}	
-				
-				for(var i=0;i<result.taxIDs.length;i++){
-					if(result.taxIDs[i].taxID==1){
-		
-						var salesTax=parseFloat(document.getElementById("salesTax").value);
-			 			var salesTaxPercentage=parseFloat(result.taxIDs[i].percentage);
-						
-			 			amount=amount*salesTaxPercentage;
-			 			
-						salesTax=salesTax+amount;
-						
-						totalAmount+=salesTax;
-						
-						document.getElementById("salesTax").value=salesTax.toFixed(2);
-			
-					}else if (result.taxIDs[i].taxID==2){
-						var californiaTax=parseFloat(document.getElementById("californiaTax").value);
-						var californiaTaxPercentage=parseFloat(result.taxIDs[i].percentage);
-						
-			 			amount=amount*californiaTaxPercentage;
-			 			
-			 			californiaTax=californiaTax+amount;
-			 			totalAmount+=californiaTax;
-						
-						document.getElementById("californiaTax").value=californiaTax.toFixed(2);
-						
-					}
-				}*/
+
 			}
 			
 			document.getElementById("salesTax").value=salesTaxValue;
@@ -209,6 +171,7 @@
 		customerID=customerName[0];	
 		model=document.getElementById("model").value;
 		plateNo=document.getElementById("plateNo").value;
+		//alert(document.getElementById("odometer").value);
 		odoMeter=document.getElementById("odometer").value;
 		make=document.getElementById("make").value;
 		
@@ -271,7 +234,7 @@
 		
 		formData+="}";
 		
-		document.getElementById("odometer").value=formData;
+		//document.getElementById("odometer").value=formData;
 		
 		//Submitting Request
 		  var xhttp = new XMLHttpRequest();
@@ -309,7 +272,7 @@
 
 
 <div class="modal fade" id="createInvoice" role="dialog">
-<form action="#" id="invoiceForm" name="invoiceForm">
+<form id="invoiceForm" name="invoiceForm">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
@@ -368,7 +331,7 @@
 						<div class="col-md-12">
 							<div class="form-group form-group-sm">
 							<label for="make">Remarks</label>
-							<input type="text" class="form-control input-sm" name="remarks" id="remarks" placeHolder="Notes" required/>
+							<input type="text" class="form-control input-sm" name="remarks" id="remarks" placeHolder="Notes"/>
 							</div>
 						</div>					
 					</div>				
@@ -479,7 +442,7 @@
       <div class="modal-footer">
       <input type="reset" id="resetButton" class="btn btn-secondary" />
        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="javascript:saveInvoice();">Save changes</button>
+        <input type="submit" class="btn btn-primary" onclick="javascript:saveInvoice();" value="Save">
       </div>
 	</div>
 </div>

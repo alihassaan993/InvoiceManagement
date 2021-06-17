@@ -28,6 +28,9 @@
 	  		case "invoice":
 	  			pageName="invoice.jsp";
 	  			break;	
+	  		case "user":
+	  			pageName="users.jsp";
+	  			break;		
 	  		}
   		}else{
   			pageName="customer.jsp";
@@ -198,6 +201,7 @@ div.content {
   <a class="<%=_page.equals("product")?"active":""%>" href="newmenu.jsp?show=product"><img src="products.png" width="27" height="27"/>&nbsp;&nbsp;Product</a>
   <a class="<%=_page.equals("estimate")?"active":""%>" href="newmenu.jsp?show=estimate"><img src="estimates.png" width="27" height="27"/>&nbsp;&nbsp;Estimate</a>
   <a class="<%=_page.equals("invoice")?"active":""%>" href="newmenu.jsp?show=invoice"><img src="invoice.png" width="27" height="27"/>&nbsp;&nbsp;Invoice</a>
+  <a class="<%=_page.equals("user")?"active":""%>" href="newmenu.jsp?show=user"><img src="invoice.png" width="27" height="27"/>&nbsp;&nbsp;User</a>
 </div>
 
 <div class="content">

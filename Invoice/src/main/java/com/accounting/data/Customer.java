@@ -178,6 +178,7 @@ public class Customer {
 		response+="{";
 		
 		response+="\"customerID\":" + customerID;
+		response+=",\"categoryID\":" + categoryID;
 		response+=",\"firstName\":\"" + firstName + "\"";
 		response+=",\"lastName\":\"" + lastName + "\"";
 		response+=",\"email\":\"" + email + "\"";
