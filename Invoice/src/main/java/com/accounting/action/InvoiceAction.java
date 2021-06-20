@@ -10,12 +10,15 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import com.accounting.data.AuditLog;
 import com.accounting.data.Car;
 import com.accounting.data.Customer;
 import com.accounting.data.Product;
+import com.accounting.data.User;
 import com.accounting.data.Invoice;
 import com.accounting.data.InvoiceProduct;
 import com.accounting.util.HibernateUtil;
+import com.accounting.util.Logger;
 import com.google.gson.Gson;
 
 public class InvoiceAction {
@@ -129,7 +132,7 @@ public class InvoiceAction {
 			
 		    Query q = session.createQuery("select max(invoiceID) from Invoice"); 
 		    Integer invoiceID = (Integer)q.uniqueResult();
-		    String invoiceNo = "EST" + String.format("%05d" , invoiceID.intValue()+1);
+		    String invoiceNo = "INV" + String.format("%05d" , invoiceID.intValue()+1);
 		    invoice.setInvoiceNo(invoiceNo);
 		    
 		    Car car=invoice.getCar();
@@ -141,6 +144,7 @@ public class InvoiceAction {
 		    Car _car=null;
 		    try {
 		    	_car = (Car)q2.uniqueResult();
+		    	if(_car==null) throw new NoResultException();
 		    	car.setCarID(_car.getCarID());
 		    	session.clear();
 		    	session.update(car);
@@ -159,6 +163,16 @@ public class InvoiceAction {
 				session.save(invoiceProduct);
 				
 			}
+
+	    	///////////////////////////////////
+	    	AuditLog auditLog=new AuditLog();
+	    	auditLog.setDetails("Add invoice number "+ invoice.getInvoiceNo());
+	    	User user=new User();
+	    	user.setUserID(invoice.getCreatedBy());
+	    	auditLog.setUser(user);
+	    	Logger.log(auditLog);
+	    	///////////////////////////////////	
+			
 			
 			session.getTransaction().commit();
 			

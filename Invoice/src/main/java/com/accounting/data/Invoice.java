@@ -41,6 +41,7 @@ public class Invoice {
 	private float totalAmount;
 	private String paymentMethod;
 	private String remarks;
+	private int createdBy;
 	
     @OneToOne
     @JoinColumn(name = "carID")
@@ -169,6 +170,16 @@ public class Invoice {
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
 	}
+	
+	
+
+	public int getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(int createdBy) {
+		this.createdBy = createdBy;
+	}
 
 	public String toString() {
 		
@@ -203,6 +214,7 @@ public class Invoice {
 			response+="\"productName\": \"" + product.getProductName() + "\","; 
 			response+="\"description\": \"" + product.getDescription() + "\",";
 			response+="\"quantity\": " + invoiceProduct.getQuantity() + ",";
+			response+="\"discount\": \"" + invoiceProduct.getDiscount() + "%" + "\",";
 			response+="\"price\": " + invoiceProduct.getPrice() + ",";
 			response+="\"amount\": " + invoiceProduct.getAmount();
 			response+="}";

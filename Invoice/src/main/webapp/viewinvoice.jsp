@@ -22,6 +22,7 @@ function populateModal(id){
 	    	{data:"productName"},
 	    	{data:"description"},
 	    	{data:"quantity"},
+	    	{data:"discount"},
 	    	{data:"price"},
 	    	{data:"amount"}
 	    ],
@@ -117,6 +118,7 @@ function payInvoice(paymentMethod){
                 <th>Product Name</th>
                 <th>Description</th>
                 <th>Quantity</th>
+                <th>Discount</th>
                 <th>Unit Price</th>
                 <th>Amount</th>
             </tr>

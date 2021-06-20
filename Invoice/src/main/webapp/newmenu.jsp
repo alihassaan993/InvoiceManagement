@@ -64,7 +64,19 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
  
+<script>
 
+function getCookie(cName) {
+    const name = cName + "=";
+    const cDecoded = decodeURIComponent(document.cookie); //to be careful
+    const cArr = cDecoded .split('; ');
+    let res;
+    cArr.forEach(val => {
+        if (val.indexOf(name) === 0) res = val.substring(name.length);
+    })
+    return res;
+}
+</script>
     
     <style>
       .bd-placeholder-img {
@@ -207,7 +219,7 @@ div.content {
 <div class="content">
 <div class="row">
 	<div class="col-md-12">
-		<div align="right"><a href="logout.jsp">Logout</a></div>
+		<div align="right"><div id="welcomeDiv"></div><a href="logout.jsp">Logout</a></div>
 	</div>
 </div>
 <jsp:include page="<%=pageName%>"/>
@@ -215,3 +227,11 @@ div.content {
 
 </body>
 </html>
+
+<script>
+$(document).ready(function() {
+	
+	document.getElementById("welcomeDiv").innerHTML="Welcome " + getCookie("fullName");
+	
+});
+</script>

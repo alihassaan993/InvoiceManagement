@@ -33,6 +33,7 @@ public class Customer {
 	private String city;
 	private String dmvID;
 	private String employerID;
+	private int createdBy;
 	
 	@OneToMany
 	(mappedBy="customer")
@@ -169,6 +170,16 @@ public class Customer {
 
 	public void setEmployerID(String employerID) {
 		this.employerID = employerID;
+	}
+
+	
+	
+	public int getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(int createdBy) {
+		this.createdBy = createdBy;
 	}
 
 	public String toString() {

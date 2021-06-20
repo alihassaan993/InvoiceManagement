@@ -36,6 +36,7 @@ public class Estimate {
 	private float labourCost;
 	private float recyclingCharges;
 	private float totalAmount;
+	private int createdBy;
 	
     @OneToOne
     @JoinColumn(name = "carID")
@@ -144,6 +145,16 @@ public class Estimate {
 		this.car = car;
 	}
 	
+	
+	
+	public int getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(int createdBy) {
+		this.createdBy = createdBy;
+	}
+
 	public String toString() {
 		
 		String response="";

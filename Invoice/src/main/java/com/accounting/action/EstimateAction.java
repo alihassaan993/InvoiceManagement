@@ -3,19 +3,23 @@ package com.accounting.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
+import com.accounting.data.AuditLog;
 import com.accounting.data.Car;
 import com.accounting.data.Customer;
 import com.accounting.data.Product;
+import com.accounting.data.User;
 import com.accounting.data.Estimate;
 import com.accounting.data.EstimateProduct;
 import com.accounting.data.Invoice;
 import com.accounting.data.InvoiceProduct;
 import com.accounting.util.HibernateUtil;
+import com.accounting.util.Logger;
 import com.google.gson.Gson;
 
 public class EstimateAction {
@@ -99,8 +103,18 @@ public class EstimateAction {
 		    
 		    Car car=estimate.getCar();
 		    car.setCustomer(estimate.getCustomer());
-		    
-			session.save(car);
+		    Query q2=session.createQuery("from Car c where c.plateNo=:plate_no");
+		    q2.setParameter("plate_no", car.getPlateNo());
+		    Car _car=null;
+		    try {
+		    	_car = (Car)q2.uniqueResult();
+		    	if(_car==null) throw new NoResultException();
+		    	car.setCarID(_car.getCarID());
+		    	session.clear();
+		    	session.update(car);
+		    }catch (NoResultException err){
+		    	session.save(car);
+		    }
 			
 			session.save(estimate);
 			
@@ -113,6 +127,15 @@ public class EstimateAction {
 				session.save(estimateProduct);
 				
 			}
+			
+	    	///////////////////////////////////
+	    	AuditLog auditLog=new AuditLog();
+	    	auditLog.setDetails("Add estimate number "+ estimate.getEstimateNo());
+	    	User user=new User();
+	    	user.setUserID(estimate.getCreatedBy());
+	    	auditLog.setUser(user);
+	    	Logger.log(auditLog);
+	    	///////////////////////////////////	
 			
 			session.getTransaction().commit();
 			
@@ -181,7 +204,16 @@ public class EstimateAction {
 				//response="1";
 				
 			}
-			
+
+	    	///////////////////////////////////
+	    	AuditLog auditLog=new AuditLog();
+	    	auditLog.setDetails("Add invoice number "+ invoice.getInvoiceNo());
+	    	User user=new User();
+	    	user.setUserID(estimate.getCreatedBy());
+	    	auditLog.setUser(user);
+	    	Logger.log(auditLog);
+	    	///////////////////////////////////	
+	    	
 			session.getTransaction().commit();
 			//invoice.setInvoiceProducts(invoiceProducts);
 			

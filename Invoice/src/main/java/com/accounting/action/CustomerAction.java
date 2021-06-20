@@ -12,8 +12,11 @@ import org.hibernate.query.Query;
 import com.accounting.data.Customer;
 import com.accounting.data.Estimate;
 import com.accounting.data.Product;
+import com.accounting.data.User;
+import com.accounting.data.AuditLog;
 import com.accounting.data.Car;
 import com.accounting.util.HibernateUtil;
+import com.accounting.util.Logger;
 import com.google.gson.Gson;
 
 //import com.google.gson.*;
@@ -89,10 +92,20 @@ public class CustomerAction {
 			session.beginTransaction();
 			
 			session.update(customer);
+
+	    	///////////////////////////////////
+	    	AuditLog auditLog=new AuditLog();
+	    	auditLog.setDetails("Updated Customer with Customer ID "+ customer.getCustomerID());
+	    	User user=new User();
+	    	user.setUserID(customer.getCreatedBy());
+	    	auditLog.setUser(user);
+	    	Logger.log(auditLog);
+	    	///////////////////////////////////			
 			
 			session.getTransaction().commit();
 			
 		}catch(Exception err) {
+			err.printStackTrace();
 			session.getTransaction().rollback();
 		}finally {
 			session.close();
@@ -109,7 +122,17 @@ public class CustomerAction {
 	    	
 	    	session.save(customer);
 	    	
+	    	///////////////////////////////////
+	    	AuditLog auditLog=new AuditLog();
+	    	auditLog.setDetails("Create New Customer with CustomerID "+ customer.getCustomerID());
+	    	User user=new User();
+	    	user.setUserID(customer.getCreatedBy());
+	    	auditLog.setUser(user);
+	    	Logger.log(auditLog);
+	    	///////////////////////////////////
+	    	
 	    	session.getTransaction().commit();
+	    	
 		}catch(Exception err) {
 			err.printStackTrace();
 		}finally {

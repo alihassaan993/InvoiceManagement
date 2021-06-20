@@ -19,6 +19,11 @@
  		requestSTR=requestSTR+"\"address2\":\"" + document.getElementById("eaddress2").value + "\",";
  		requestSTR=requestSTR+"\"city\":\"" + document.getElementById("ecity").value + "\",";
  		requestSTR=requestSTR+"\"dmvID\":\"" + document.getElementById("edmvID").value + "\",";
+ 
+		
+ 		requestSTR=requestSTR+"\"createdBy\":\"" + getCookie("userID") + "\",";
+ 		
+  		
  		requestSTR=requestSTR+"\"categoryID\":\"" + $("input[name='ecategoryID']:checked").val() + "\",";
  				
  		requestSTR=requestSTR+"\"employerID\":\"" + document.getElementById("eemployerID").value + "\",";

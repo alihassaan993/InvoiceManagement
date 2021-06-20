@@ -3,6 +3,7 @@ package com.accounting.action;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.transaction.Transactional;
 
 import org.hibernate.Session;
@@ -10,33 +11,51 @@ import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 
 import com.accounting.data.User;
+import com.accounting.data.AuditLog;
 import com.accounting.data.Product;
 import com.accounting.data.ProductTax;
 import com.accounting.util.HibernateUtil;
+import com.accounting.util.Logger;
 import com.google.gson.Gson;
 
 public class UserAction {
 	
 
-	protected static SessionFactory sessionFactory;
-	
-	public boolean login(User user) {
+	public String login(User user) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
+		String response="";
+		
+		try {
+		
         String hql = "FROM User u WHERE u.userName = :user_name and u.password=:password";
         Query query = session.createQuery(hql);
         query.setParameter("user_name",user.getUserName());
         query.setParameter("password",user.getPassword());
-        List<User> results = query.getResultList();
-        session.close();
         
-        if (results.size()!=0) {
-        	return true;
-        }else {
-        	return false;
-        }
-     
+        try {
+	        User results = (User) query.getSingleResult();
+	        response=results.toString();
+	
+	    	///////////////////////////////////
+	    	AuditLog auditLog=new AuditLog();
+	    	auditLog.setDetails("Logged In");
+	    	auditLog.setUser(results);
+	    	Logger.log(auditLog);
+	    	///////////////////////////////////
+        
+        }catch (NoResultException err){
+	    	response="Error";
+	    }
+	        
+		}catch(Exception err) {
+			err.printStackTrace();
+		}finally {
+			session.close();
+		}
+		
+		return response;
         
 	}
 	

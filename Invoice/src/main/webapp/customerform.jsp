@@ -16,6 +16,9 @@
  		requestSTR=requestSTR+"\"address2\":\"" + document.getElementById("address2").value + "\",";
  		requestSTR=requestSTR+"\"city\":\"" + document.getElementById("city").value + "\",";
  		
+ 		requestSTR=requestSTR+"\"createdBy\":\"" + getCookie("userID") + "\",";
+ 		
+ 		
  		requestSTR=requestSTR+"\"categoryID\":\"" + $("input[name='categoryID']:checked").val() + "\",";
  		
  		requestSTR=requestSTR+"\"dmvID\":\"" + document.getElementById("dmvID").value + "\",";
@@ -28,7 +31,7 @@
  		
 	  var xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {
-	    if (this.readyState == 4 && this.status == 200) {
+	    //if (this.readyState == 4 && this.status == 200) {
 	    	if(this.responseText=="1"){
 	     		alert("Customer has been added successfully");
 	     		document.getElementById("resetButton").click();
@@ -41,7 +44,7 @@
 	     	
 	     		
 	     
-	    }
+	 //   }
 	  };
 	  xhttp.open("POST", "../Invoice/webapi/customer", true);
 	  xhttp.setRequestHeader("Content-Type", "application/json");
@@ -74,7 +77,7 @@
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
 				<h4 class="modal-title"> Add New Customer </h4>
 			</div>	
-		<form method="POST" action="javascript:submitForm();" id="productForm">
+		<form method="POST" id="customerForm">
 			<div class="modal-body">
 		
 		<div id="result"></div>	
@@ -244,10 +247,11 @@
   </div> 
 
 			</div>
-			      <div class="modal-footer">
-      <input type="reset" id="resetButton" class="btn btn-secondary" />
-       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
+			<div class="modal-footer">
+      	<input type="reset" id="resetButton" class="btn btn-secondary" />
+       	<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+       	<input type="submit" class="btn btn-primary" onclick="javascript:submitForm();" value="Save">
+        
       </div>
       		</form>
 		</div>
@@ -271,4 +275,11 @@
  	    }
  	    
  	});
+</script>
+
+<script>
+$('#customerForm').submit(function(){
+    $('input[type=submit]', this).attr('disabled', 'disabled');
+});
+
 </script>

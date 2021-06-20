@@ -22,8 +22,17 @@
 	  var xhttp = new XMLHttpRequest();
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
-	    	if(this.responseText=="1"){
+	    	//alert(this.responseText);
+	    	if(this.responseText!="Error"){
 	    		//window.location.href = 'newmenu.jsp';
+	    		var response=JSON.parse(this.responseText);
+	    		document.cookie="userName="+response.userName + ";";
+	    		document.cookie="userRole="+response.userRole + ";";
+	    		document.cookie="userID="+response.userID + ";";
+	    		document.cookie="fullName="+ response.firstName + " " + response.lastName + ";";
+	    		
+	    		//document.cookie=cookieValue;
+	    		
 	    		document.getElementById("verifiedUserName").value=document.getElementById("userName").value;
 	    		document.getElementById("loginForm").action="newmenu.jsp";
 	    		document.getElementById("loginForm").submit();
@@ -103,3 +112,9 @@
 </div>
 </body>
 </html>
+<script>
+$('#loginForm').submit(function(){
+    $('input[type=submit]', this).attr('disabled', 'disabled');
+});
+
+</script>

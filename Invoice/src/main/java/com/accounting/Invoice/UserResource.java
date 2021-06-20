@@ -25,12 +25,7 @@ public class UserResource {
     	System.out.println("userName " + user.getUserName());
     	UserAction userAction=new UserAction();
     	
-	    if(userAction.login(user)) {
-	        return "1";
-	    }else {
-	    	return "2";
-	    }
-    	//return "{\"result\":\"Success\"}"; 
+    	return userAction.login(user); 
     }
 	
     @GET

@@ -27,6 +27,7 @@
     <mapping class="com.accounting.data.User" />
     <mapping class="com.accounting.data.Invoice" />
     <mapping class="com.accounting.data.InvoiceProduct"/>
+    <mapping class="com.accounting.data.AuditLog"/>
     
   </session-factory>
 </hibernate-configuration>

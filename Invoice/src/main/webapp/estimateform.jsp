@@ -16,8 +16,53 @@
 	var position=2;
 	var isCustomerTaxable=true;
 	
+	$(document).ready(function() {
+		//alert("Populating Products");
+		//populateProductDropDown('#selectProduct1');
+		
+	} );
+	
+	function populateProductDropDown(dropDownID){
+		
+		let dropdown = $(dropDownID);
+
+		dropdown.empty();
+
+		dropdown.append('<option selected="true" disabled>Choose Product</option>');
+		dropdown.prop('selectedIndex', 0);
+
+		const url = '../Estimate/webapi/product';
+
+		// Populate dropdown with list of provinces
+		$.getJSON(url, function (data) {
+			productList=data;
+		  $.each(data, function (key, entry) {
+		    dropdown.append($('<option></option>').attr('value', entry.productID).text(entry.productName));
+		  })
+		});
+		
+	}
 	
 	function fillQty(id){
+		
+		//alert('hi' + document.getElementById("selectProduct"+id).v);
+/* 		var selectProductValue=document.getElementById("selectProduct"+id).value.split("-");
+
+		_productID=selectProductValue[0];
+
+		alert(productList.length);
+		
+		var	result;		
+			
+		for (var i = 0; i < productList.length; i++){
+			  if (productList[i].productID == _productID){
+			     result=productList[i];
+			     break;
+			  }
+			}			
+			
+			
+		document.getElementById("price"+id).value=result.price; */
 		
 		calculateAmount(id);
 
@@ -53,7 +98,7 @@
 	 			
 	 			salesTaxValue+=amount*salesTaxPercentage;
 	 			californiaTaxValue+=amount*californiaTaxPercentage;
-	 		
+
 			}
 			
 			document.getElementById("salesTax").value=salesTaxValue;
@@ -75,10 +120,13 @@
 	function calculateAmount(id){
 		
 		var unitPrice=document.getElementById("price"+id).value;
-		var quantity=document.getElementById("quantity"+id).value
+		var quantity=document.getElementById("quantity"+id).value;
+		var discount=$("input[id='rangeDiscount"+id+"']").val();
+		
+		//alert(discount);
 		
 		if(unitPrice!=""){
-			document.getElementById("amount"+id).value=unitPrice*quantity;
+			document.getElementById("amount"+id).value=(unitPrice*quantity)-((unitPrice*quantity)*(discount/100));
 		}
 		calculateTax(id);
 	}
@@ -96,11 +144,14 @@
 		//cell1.innerHTML = "<select class='form-control' id='selectProduct"+position+"' onchange='javascript:fillQty("+position+")'></select>";
 		cell1.innerHTML = "<input type='text' readonly class='form-control' id='selectProduct" +position+ "' onchange='javascript:fillQty("+position+")'><button type='button' onclick='setSelectBox("+position+");' data-toggle='modal' data-target='#productList'>Choose</button>";
 		cell2.innerHTML="<input class='form-control' type='number' id='quantity"+position+"' onchange='javascript:calculateAmount("+position+")' value='0'/>";
-		cell3.innerHTML="<input class='form-control' type='text' id='price"+position+"' value='0' readonly/>";
-		cell4.innerHTML="<input class='form-control' type='number' id='amount"+position+"' value='0'/>";
-		cell4.innerHTML+="<input type='hidden' type='text' id='salesTaxPercentage"+position+"' value='0'>";
-		cell4.innerHTML+="<input type='hidden' type='text' id='californiaTaxPercentage"+position+"' value='0'>";
-		cell5.innerHTML="<a class='delete' title='Delete' data-toggle='tooltip' href='javascript:deleteRow("+position+")''><i class='material-icons'>&#xE872;</i></a>";
+		cell3.innerHTML="<input type='range' class='form-range' min='0' max='10' value='0' id='rangeDiscount"+position+"' oninput='this.form.discount"+position+".value=this.value;calculateAmount("+position+");'>";
+		cell3.innerHTML+="<output id='discount"+position+"' name='discount"+position+"' for='rangeDiscount"+position+"'>0%</output>";
+		
+		cell4.innerHTML="<input class='form-control' type='text' id='price"+position+"' value='0' readonly/>";
+		cell5.innerHTML="<input class='form-control' type='number' step='any' id='amount"+position+"' value='0'/>";
+		cell5.innerHTML+="<input type='hidden' type='text' id='salesTaxPercentage"+position+"' value='0'>";
+		cell5.innerHTML+="<input type='hidden' type='text' id='californiaTaxPercentage"+position+"' value='0'>";
+		cell6.innerHTML="<a class='delete' title='Delete' data-toggle='tooltip' href='javascript:deleteRow("+position+")''><i class='material-icons'>&#xE872;</i></a>";
 		
 		populateProductDropDown("#selectProduct"+position);
 
@@ -114,6 +165,8 @@
 	}
 
 	function saveEstimate(){
+		
+		
 		sign=document.getElementById("output").value;
 		//alert(sign);
 		
@@ -125,6 +178,7 @@
 		customerID=customerName[0];	
 		model=document.getElementById("model").value;
 		plateNo=document.getElementById("plateNo").value;
+		//alert(document.getElementById("odometer").value);
 		odoMeter=document.getElementById("odometer").value;
 		make=document.getElementById("make").value;
 		
@@ -153,13 +207,14 @@
 				quantity=document.getElementById("quantity"+index).value;
 				price=document.getElementById("price"+index).value;
 				amount=document.getElementById("amount"+index).value;
-				
+				discount=$("input[id='rangeDiscount"+index+"']").val()
 				if(index>1)
 					formData+=",";
 				
 				formData+="{";
 				formData+="\"productID\":"+productID;
 				formData+=",\"quantity\":"+quantity;
+				formData+=",\"discount\":"+discount;
 				formData+=",\"amount\":"+amount;
 				formData+=",\"price\":"+price;
 				
@@ -174,6 +229,7 @@
 		formData+="]";
 		
 		formData+=",\"customer\":{\"customerID\":"+customerID+"}";
+		formData+= ",\"createdBy\":\"" + getCookie("userID") + "\"";
 		
 		formData+=",\"salesTax\":"+salesTax;
 		formData+=",\"californiaTax\":"+californiaTax;
@@ -186,10 +242,9 @@
 		
 		
 		formData+="}";
-		//alert('Saving estimate');
-
-		document.getElementById("odometer").value=formData;
 		
+		//document.getElementById("odometer").value=formData;
+	
 		//Submitting Request
 		  var xhttp = new XMLHttpRequest();
 		  xhttp.onreadystatechange = function() {
@@ -198,12 +253,13 @@
 		     		//document.getElementById("result").innerHTML = "Successfully added the Product!!!"
 		     		//resetForm();
 		     		alert("Estimate Added Successfully");
-		     		document.getElementById("resetButton").click();
+		     		//document.getElementById("resetButton").click();
 		     		$("#estimateTable").DataTable().ajax.reload();
 		     		$('#createEstimate').modal('hide');
 
 		    	}
 	     		else{
+	     			alert("Not able to create Estimate. Please contact Administrator.");
 	     			//document.getElementById("result").innerHTML ="Cannot add Customer at this time!!!";
 	     		}
 		     	
@@ -226,11 +282,11 @@
 
 
 <div class="modal fade" id="createEstimate" role="dialog">
-<form action="#" id="estimateForm" name="estimateForm">
+<form id="estimateForm" name="estimateForm">
 	<div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header" style="background: rgba(25, 94, 148, 1);color:white">
-				<h4 class="modal-title"> Create New Estimate </h4>
+				<h4 class="modal-title"> Create New estimate </h4>
 			</div>	
 			<div class="modal-body yScroll">
 				<div class="container">
@@ -285,7 +341,7 @@
 						<div class="col-md-12">
 							<div class="form-group form-group-sm">
 							<label for="make">Remarks</label>
-							<input type="text" class="form-control input-sm" name="remarks" id="remarks" placeHolder="Notes" required/>
+							<input type="text" class="form-control input-sm" name="remarks" id="remarks" placeHolder="Notes"/>
 							</div>
 						</div>					
 					</div>				
@@ -298,6 +354,7 @@
 			            <tr>
 			                <th>Product</th>
 			                <th>Quantity</th>
+			                <th>Discount</th>
 			                <th>Unit Price</th>
 			                <th>Amount	</th>
 			                <th>&nbsp;&nbsp;</th>
@@ -306,8 +363,11 @@
 			        	<tr>
 			            	<td><input type="text" readonly class="form-control" id="selectProduct1" onchange="javascript:fillQty('1')"><button type="button" onclick="setSelectBox('1');" data-toggle="modal" data-target="#productList">Choose</button></td>
 			            	<td><input class="form-control" type="number" id="quantity1" onchange="javascript:calculateAmount('1')" value="0"/></td>
+			            	<td><input type="range" class="form-range" min="0" max="10" value="0" id="rangeDiscount1" oninput="this.form.discount.value=this.value+'%';calculateAmount('1');">
+			            	<output id="discount" name=discount for="rangeDiscount">0%</output>
+			            	</td>
 			            	<td><input class="form-control" type="text" id="price1" value="0" readonly/></td>
-			            	<td><input class="form-control" type="number" id="amount1" value="0"/>
+			            	<td><input class="form-control" type="number" step="any" id="amount1" value="0"/>
 			            		<input type="hidden" type="text" id="salesTaxPercentage1" value="0">
 			            		<input type="hidden" type="text" id="californiaTaxPercentage1" value="0">
 			            	</td>
@@ -396,7 +456,7 @@
       <div class="modal-footer">
       <input type="reset" id="resetButton" class="btn btn-secondary" />
        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" onclick="javascript:saveEstimate();">Save Changes</button>
+        <input type="submit" class="btn btn-primary" onclick="javascript:saveEstimate();" value="Save">
       </div>
 	</div>
 </div>
@@ -406,7 +466,20 @@
   <script>
     $(document).ready(function() {
       $('.sigPad').signaturePad();
+/*       $("input[id='rangeDiscount']").change(function(){
+      	alert("Discount changed " + $("input[id='rangeDiscount']").val());
+      });       */
     });
+    
+
+    
   </script>
   <script src="json2.min.js"></script>
 </div>
+
+<script>
+$('#estimateForm').submit(function(){
+    $('input[type=submit]', this).attr('disabled', 'disabled');
+});
+
+</script>

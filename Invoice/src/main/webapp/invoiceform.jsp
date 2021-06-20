@@ -120,10 +120,13 @@
 	function calculateAmount(id){
 		
 		var unitPrice=document.getElementById("price"+id).value;
-		var quantity=document.getElementById("quantity"+id).value
+		var quantity=document.getElementById("quantity"+id).value;
+		var discount=$("input[id='rangeDiscount"+id+"']").val();
+		
+		//alert(discount);
 		
 		if(unitPrice!=""){
-			document.getElementById("amount"+id).value=unitPrice*quantity;
+			document.getElementById("amount"+id).value=(unitPrice*quantity)-((unitPrice*quantity)*(discount/100));
 		}
 		calculateTax(id);
 	}
@@ -141,11 +144,14 @@
 		//cell1.innerHTML = "<select class='form-control' id='selectProduct"+position+"' onchange='javascript:fillQty("+position+")'></select>";
 		cell1.innerHTML = "<input type='text' readonly class='form-control' id='selectProduct" +position+ "' onchange='javascript:fillQty("+position+")'><button type='button' onclick='setSelectBox("+position+");' data-toggle='modal' data-target='#productList'>Choose</button>";
 		cell2.innerHTML="<input class='form-control' type='number' id='quantity"+position+"' onchange='javascript:calculateAmount("+position+")' value='0'/>";
-		cell3.innerHTML="<input class='form-control' type='text' id='price"+position+"' value='0' readonly/>";
-		cell4.innerHTML="<input class='form-control' type='number' id='amount"+position+"' value='0'/>";
-		cell4.innerHTML+="<input type='hidden' type='text' id='salesTaxPercentage"+position+"' value='0'>";
-		cell4.innerHTML+="<input type='hidden' type='text' id='californiaTaxPercentage"+position+"' value='0'>";
-		cell5.innerHTML="<a class='delete' title='Delete' data-toggle='tooltip' href='javascript:deleteRow("+position+")''><i class='material-icons'>&#xE872;</i></a>";
+		cell3.innerHTML="<input type='range' class='form-range' min='0' max='10' value='0' id='rangeDiscount"+position+"' oninput='this.form.discount"+position+".value=this.value;calculateAmount("+position+");'>";
+		cell3.innerHTML+="<output id='discount"+position+"' name='discount"+position+"' for='rangeDiscount"+position+"'>0%</output>";
+		
+		cell4.innerHTML="<input class='form-control' type='text' id='price"+position+"' value='0' readonly/>";
+		cell5.innerHTML="<input class='form-control' type='number' step='any' id='amount"+position+"' value='0'/>";
+		cell5.innerHTML+="<input type='hidden' type='text' id='salesTaxPercentage"+position+"' value='0'>";
+		cell5.innerHTML+="<input type='hidden' type='text' id='californiaTaxPercentage"+position+"' value='0'>";
+		cell6.innerHTML="<a class='delete' title='Delete' data-toggle='tooltip' href='javascript:deleteRow("+position+")''><i class='material-icons'>&#xE872;</i></a>";
 		
 		populateProductDropDown("#selectProduct"+position);
 
@@ -200,13 +206,14 @@
 				quantity=document.getElementById("quantity"+index).value;
 				price=document.getElementById("price"+index).value;
 				amount=document.getElementById("amount"+index).value;
-				
+				discount=$("input[id='rangeDiscount"+index+"']").val()
 				if(index>1)
 					formData+=",";
 				
 				formData+="{";
 				formData+="\"productID\":"+productID;
 				formData+=",\"quantity\":"+quantity;
+				formData+=",\"discount\":"+discount;
 				formData+=",\"amount\":"+amount;
 				formData+=",\"price\":"+price;
 				
@@ -221,6 +228,8 @@
 		formData+="]";
 		
 		formData+=",\"customer\":{\"customerID\":"+customerID+"}";
+
+		formData+= ",\"createdBy\":\"" + getCookie("userID") + "\"";
 		
 		formData+=",\"salesTax\":"+salesTax;
 		formData+=",\"californiaTax\":"+californiaTax;
@@ -344,6 +353,7 @@
 			            <tr>
 			                <th>Product</th>
 			                <th>Quantity</th>
+			                <th>Discount</th>
 			                <th>Unit Price</th>
 			                <th>Amount	</th>
 			                <th>&nbsp;&nbsp;</th>
@@ -352,8 +362,11 @@
 			        	<tr>
 			            	<td><input type="text" readonly class="form-control" id="selectProduct1" onchange="javascript:fillQty('1')"><button type="button" onclick="setSelectBox('1');" data-toggle="modal" data-target="#productList">Choose</button></td>
 			            	<td><input class="form-control" type="number" id="quantity1" onchange="javascript:calculateAmount('1')" value="0"/></td>
+			            	<td><input type="range" class="form-range" min="0" max="10" value="0" id="rangeDiscount1" oninput="this.form.discount.value=this.value+'%';calculateAmount('1');">
+			            	<output id="discount" name=discount for="rangeDiscount">0%</output>
+			            	</td>
 			            	<td><input class="form-control" type="text" id="price1" value="0" readonly/></td>
-			            	<td><input class="form-control" type="number" id="amount1" value="0"/>
+			            	<td><input class="form-control" type="number" step="any" id="amount1" value="0"/>
 			            		<input type="hidden" type="text" id="salesTaxPercentage1" value="0">
 			            		<input type="hidden" type="text" id="californiaTaxPercentage1" value="0">
 			            	</td>
@@ -452,7 +465,20 @@
   <script>
     $(document).ready(function() {
       $('.sigPad').signaturePad();
+/*       $("input[id='rangeDiscount']").change(function(){
+      	alert("Discount changed " + $("input[id='rangeDiscount']").val());
+      });       */
     });
+    
+
+    
   </script>
   <script src="json2.min.js"></script>
 </div>
+
+<script>
+$('#invoiceForm').submit(function(){
+    $('input[type=submit]', this).attr('disabled', 'disabled');
+});
+
+</script>

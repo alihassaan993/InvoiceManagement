@@ -46,6 +46,9 @@
 	}	
 	
 	$(document).ready(function() {
+		
+		//alert(getCookie("userID"));
+		
 		var table = $('#customerTable').DataTable( {
 	    	  "ajax": {
 	    		    "url": "../Invoice/webapi/customer",

@@ -1,6 +1,6 @@
 
 <script lang="javascript">
- 	function submitForm() {
+ 	function saveProduct() {
  		
 		
  		var requestSTR="{";
@@ -48,7 +48,7 @@
 	     
 	    }
 	  };
-	  xhttp.open("POST", "http://localhost:8080/Invoice/webapi/product", true);
+	  xhttp.open("POST", "../Invoice/webapi/product", true);
 	  xhttp.setRequestHeader("Content-Type", "application/json");
 	  xhttp.send(requestSTR); 
 	} 
@@ -108,7 +108,7 @@ $(document).ready(function() {
 				<h4 class="modal-title"> Add New Product </h4>
 			</div>	
 			<div class="modal-body">
-			<form method="POST" action="javascript:submitForm();" id="productForm">
+			<form method="POST" id="productForm">
 			
 			<div id="result"></div>	
 
@@ -182,7 +182,7 @@ $(document).ready(function() {
 		<div class="modal-footer">
       <input type="reset" id="resetButton" class="btn btn-secondary" />
        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary" onclick="javascript:submitForm();">Submit</button>
+        <input type="submit" class="btn btn-primary" onclick="javascript:saveProduct();" value="Save">
       </div>
 			</form>
 			
@@ -203,6 +203,11 @@ $(document).ready(function() {
             </tr>
         </thead>
   	</table>
-            
+  <script>
+$('#productForm').submit(function(){
+    $('input[type=submit]', this).attr('disabled', 'disabled');
+});
+
+</script>          
 
 

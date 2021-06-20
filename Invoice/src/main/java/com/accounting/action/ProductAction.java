@@ -19,8 +19,6 @@ import com.google.gson.Gson;
 
 public class ProductAction {
 	
-	protected static SessionFactory sessionFactory;
-	
 	//public Customer fetch() throws Exception
 	
 	public String fetch(Product product) throws Exception{
