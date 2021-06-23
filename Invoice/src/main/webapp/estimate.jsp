@@ -7,7 +7,7 @@
 	    	  "ajax": {
 	    		    "url": "../Invoice/webapi/estimate",
 	    		    "dataSrc":""
-	    		  },
+	    		  },responsive:true,
 	    columns:[
 	    	{data:"estimateNo"},
 	    	{data:"creationDate"},

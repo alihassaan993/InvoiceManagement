@@ -19,14 +19,14 @@
  		
  		if (document.getElementById('esalesTax').checked) {
  			esalesTax=true;
- 			requestSTR+="{\"taxID\":1}"
+ 			requestSTR+="{\"tax\":{\"taxID\":1}}";
  		}
  		if (document.getElementById('ecaliforniaTax').checked) {
  			if(!esalesTax)
- 				requestSTR+="{\"taxID\":2}"
+ 	 			requestSTR+="{\"tax\":{\"taxID\":2}}";
  			else{
- 				requestSTR+=",{\"taxID\":2}"
- 			}
+ 	 			requestSTR+=",{\"tax\":{\"taxID\":2}}";
+			}
  		} 
  		
  		requestSTR+="]";

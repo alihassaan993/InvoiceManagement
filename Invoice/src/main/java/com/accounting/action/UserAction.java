@@ -116,6 +116,8 @@ public class UserAction {
 	
 	public String update(User user) {
 		System.out.println("Updating User");
+		
+		System.out.println(user.toString());
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		String response="Success";

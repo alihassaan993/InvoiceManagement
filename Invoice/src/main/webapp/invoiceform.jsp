@@ -228,8 +228,8 @@
 		formData+="]";
 		
 		formData+=",\"customer\":{\"customerID\":"+customerID+"}";
-
-		formData+= ",\"createdBy\":\"" + getCookie("userID") + "\"";
+		
+		formData+= ",\"createdBy\":{\"userID\":" + getCookie("userID") + "}";
 		
 		formData+=",\"salesTax\":"+salesTax;
 		formData+=",\"californiaTax\":"+californiaTax;
@@ -267,7 +267,7 @@
 		    }
 		  };
 		  
-		  //alert(formData);
+		  alert(formData);
 		  xhttp.open("POST", "../Invoice/webapi/invoice", true);
 		  xhttp.setRequestHeader("Content-Type", "application/json");
 		  xhttp.send(formData); 

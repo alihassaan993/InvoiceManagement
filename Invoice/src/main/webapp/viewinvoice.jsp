@@ -17,7 +17,7 @@ function populateModal(id){
 	  		    "url": "../Invoice/webapi/invoice/"+id,
 	  		    "dataSrc":"invoiceProducts",
 	  		  	"async": false
-	  		  },
+	  		  },	  
 	    columns:[
 	    	{data:"productName"},
 	    	{data:"description"},
@@ -32,7 +32,7 @@ function populateModal(id){
 		invoiceData=invoicedTable.ajax.json();
 
 		if(invoiceData.status=="Paid"){
-			document.getElementById("customerdata").innerHTML="<img src='paid.png' width='60' height='60'><br>";
+			document.getElementById("icustomerdata").innerHTML="<img src='paid.png' width='60' height='60'><br>";
 			document.getElementById("returnButton").style.display="block";
 			document.getElementById("paymentBlock").style.display="none";
 		}else if(invoiceData.status=="Return"){
@@ -40,18 +40,18 @@ function populateModal(id){
 			document.getElementById("paymentBlock").style.display="none";			
 		}
 		else{
-			document.getElementById("customerdata").innerHTML="";
+			document.getElementById("icustomerdata").innerHTML="";
 			document.getElementById("paymentBlock").style.display="block";
 			document.getElementById("returnButton").style.display="none";
 		}
-		document.getElementById("customerdata").innerHTML+=invoiceData.customerName + "<br>" + invoiceData.mobilePhone + "<br>" + invoiceData.email;
-		document.getElementById("quotationdata").innerHTML= "invoice No.:" + invoiceData.invoiceNo + "<br>" + "invoice Date:" + invoiceData.creationDate + "<br>" + "Billing Address:" + invoiceData.billingAddress;
+		document.getElementById("icustomerdata").innerHTML+=invoiceData.customerName + "<br>" + invoiceData.mobilePhone + "<br>" + invoiceData.email;
+		document.getElementById("iquotationdata").innerHTML= "invoice No.:" + invoiceData.invoiceNo + "<br>" + "invoice Date:" + invoiceData.creationDate + "<br>" + "Billing Address:" + invoiceData.billingAddress;
 		
-		document.getElementById("salesTaxDetails").innerHTML=invoiceData.salesTax;
-		document.getElementById("californiaTaxDetails").innerHTML=invoiceData.californiaTax;
-		document.getElementById("labourCostDetails").innerHTML=invoiceData.labourCost;
-		document.getElementById("recyclingChargesDetails").innerHTML=invoiceData.recyclingCharges;
-		document.getElementById("totalAmountDetails").innerHTML=invoiceData.totalAmount;
+		document.getElementById("isalesTaxDetails").innerHTML=invoiceData.salesTax;
+		document.getElementById("icaliforniaTaxDetails").innerHTML=invoiceData.californiaTax;
+		document.getElementById("ilabourCostDetails").innerHTML=invoiceData.labourCost;
+		document.getElementById("irecyclingChargesDetails").innerHTML=invoiceData.recyclingCharges;
+		document.getElementById("itotalAmountDetails").innerHTML=invoiceData.totalAmount;
 		//alert(invoiceData.totalAmount);
 		invoiceDataTableLoaded=true;
 	
@@ -102,9 +102,9 @@ function payInvoice(paymentMethod){
 	<div class="col-md-12">
 	<table class="table table-striped table-bordered dataTable" style="height:150px">
 		<tr>
-			<td id="customerdata">
+			<td id="icustomerdata">
 			</td>
-			<td id="quotationdata">
+			<td id="iquotationdata">
 			</td>
 		</tr>
 	</table>
@@ -158,35 +158,35 @@ function payInvoice(paymentMethod){
 			<td align="right">
 				Sales Tax
 			</td>
-			<td id="salesTaxDetails">
+			<td id="isalesTaxDetails">
 			</td>
 		</tr>
 		<tr>
 			<td align="right">
 				California Tax
 			</td>
-			<td id="californiaTaxDetails">
+			<td id="icaliforniaTaxDetails">
 			</td>
 		</tr>
 		<tr>
 			<td align="right">
 				Labour Cost
 			</td>
-			<td id="labourCostDetails">
+			<td id="ilabourCostDetails">
 			</td>
 		</tr>
 		<tr>
 			<td align="right">
 				Recycling Charges
 			</td>
-			<td id="recyclingChargesDetails">
+			<td id="irecyclingChargesDetails">
 			</td>
 		</tr>
 		<tr>
 			<td align="right">
 				Total Amount
 			</td>
-			<td id="totalAmountDetails">
+			<td id="itotalAmountDetails">
 			</td>
 		</tr>
 	</table>

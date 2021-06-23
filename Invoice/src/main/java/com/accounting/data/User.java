@@ -22,6 +22,15 @@ public class User {
 	private String userName;
 	private String password;
 	private String userRole;
+	
+	public User() {
+		
+	}
+	
+	public User(int _userID) {
+		userID=_userID;
+	}
+	
 	public int getUserID() {
 		return userID;
 	}

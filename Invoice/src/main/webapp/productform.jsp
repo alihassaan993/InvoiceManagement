@@ -16,13 +16,13 @@
  		
  		if (document.getElementById('salesTax').checked) {
  			salesTax=true;
- 			requestSTR+="{\"taxID\":1}"
+ 			requestSTR+="{\"tax\":{\"taxID\":1}}";
  		}
  		if (document.getElementById('californiaTax').checked) {
  			if(!salesTax)
- 				requestSTR+="{\"taxID\":2}"
- 			else{
- 				requestSTR+=",{\"taxID\":2}"
+ 	 			requestSTR+="{\"tax\":{\"taxID\":2}}";
+			else{
+	 			requestSTR+=",{\"tax\":{\"taxID\":2}}"
  			}
  		}
  		
@@ -48,6 +48,7 @@
 	     
 	    }
 	  };
+	 // alert(requestSTR);
 	  xhttp.open("POST", "../Invoice/webapi/product", true);
 	  xhttp.setRequestHeader("Content-Type", "application/json");
 	  xhttp.send(requestSTR); 
@@ -73,7 +74,7 @@ $(document).ready(function() {
     	  "ajax": {
     		    "url": "../Invoice/webapi/product",
     		    "dataSrc":""
-    		  },
+    		  },responsive:true,
     		  columns:[
     			  {data:"productName"},
     			  {data:"description"},
@@ -168,12 +169,12 @@ $(document).ready(function() {
     <label class="col-2">Taxable</label> 
     <div class="col-4">
       <div class="custom-control custom-checkbox custom-control-inline">
-        <input name="taxable" id="salesTax" type="checkbox" class="custom-control-input" value="1" checked="checked"> 
-        <label for="taxable_0" class="custom-control-label">Sales Tax</label>
+        <input name="salesTax" id="salesTax" type="checkbox" class="custom-control-input" value="1" checked="checked"> 
+        <label for="salesTax" class="custom-control-label">Sales Tax</label>
       </div>
       <div class="custom-control custom-checkbox custom-control-inline">
-        <input name="taxable" id="californiaTax" type="checkbox" class="custom-control-input" value="2" checked="checked"> 
-        <label for="taxable_1" class="custom-control-label">California Tax</label>
+        <input name="californiaTax" id="californiaTax" type="checkbox" class="custom-control-input" value="2" checked="checked"> 
+        <label for="californiaTax" class="custom-control-label">California Tax</label>
       </div>
     </div>
   </div> 

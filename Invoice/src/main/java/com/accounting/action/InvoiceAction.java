@@ -132,7 +132,18 @@ public class InvoiceAction {
 			
 		    Query q = session.createQuery("select max(invoiceID) from Invoice"); 
 		    Integer invoiceID = (Integer)q.uniqueResult();
-		    String invoiceNo = "INV" + String.format("%05d" , invoiceID.intValue()+1);
+		    
+		    
+		    String invoiceNo="";
+		    
+		    try {
+		    
+		    	invoiceNo = "INV" + String.format("%05d" , invoiceID.intValue()+1);
+		    
+		    }catch(NullPointerException err) {
+		    	invoiceNo="INV000001";
+		    }
+		    
 		    invoice.setInvoiceNo(invoiceNo);
 		    
 		    Car car=invoice.getCar();
@@ -143,7 +154,7 @@ public class InvoiceAction {
 		    q2.setParameter("plate_no", car.getPlateNo());
 		    Car _car=null;
 		    try {
-		    	_car = (Car)q2.uniqueResult();
+		    	_car = (Car)q2.setMaxResults(1).uniqueResult();
 		    	if(_car==null) throw new NoResultException();
 		    	car.setCarID(_car.getCarID());
 		    	session.clear();
@@ -167,9 +178,8 @@ public class InvoiceAction {
 	    	///////////////////////////////////
 	    	AuditLog auditLog=new AuditLog();
 	    	auditLog.setDetails("Add invoice number "+ invoice.getInvoiceNo());
-	    	User user=new User();
-	    	user.setUserID(invoice.getCreatedBy());
-	    	auditLog.setUser(user);
+
+	    	auditLog.setUser(new User(invoice.getCreatedBy().getUserID()));
 	    	Logger.log(auditLog);
 	    	///////////////////////////////////	
 			

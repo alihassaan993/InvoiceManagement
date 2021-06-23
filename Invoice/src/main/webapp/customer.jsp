@@ -53,7 +53,7 @@
 	    	  "ajax": {
 	    		    "url": "../Invoice/webapi/customer",
 	    		    "dataSrc":""
-	    		  },
+	    		  },responsive:true,
 	    		  columns:[
 	    	            {
 	    	                "className":      'details-control',

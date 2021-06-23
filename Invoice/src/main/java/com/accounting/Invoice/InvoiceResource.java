@@ -19,7 +19,7 @@ public class InvoiceResource {
 	   @GET
 	    @Produces(MediaType.APPLICATION_JSON)
 	    public String getIt() {
-	    	
+	    	System.out.println("Fetching invoices");
 	    	String response="Error";
 	    	
 	    	try {

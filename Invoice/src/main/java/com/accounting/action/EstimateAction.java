@@ -97,7 +97,16 @@ public class EstimateAction {
 
 		    Integer estimateID = (Integer)q.uniqueResult();
 		    
-		    String estimateNo = "EST" + String.format("%05d" , estimateID.intValue());
+		    String estimateNo="";
+		    
+		    try {
+		    
+		    	estimateNo = "EST" + String.format("%05d" , estimateID.intValue());
+		    
+		    }catch(NullPointerException err) {
+		    	
+		    	estimateNo="EST000001";
+		    }
 		    
 		    estimate.setEstimateNo(estimateNo);
 		    
@@ -107,7 +116,7 @@ public class EstimateAction {
 		    q2.setParameter("plate_no", car.getPlateNo());
 		    Car _car=null;
 		    try {
-		    	_car = (Car)q2.uniqueResult();
+		    	_car = (Car)q2.setMaxResults(1).uniqueResult();
 		    	if(_car==null) throw new NoResultException();
 		    	car.setCarID(_car.getCarID());
 		    	session.clear();
@@ -169,7 +178,15 @@ public class EstimateAction {
 
 		    Integer invoiceID = (Integer)q.uniqueResult();
 		    
-		    String invoiceNo = "INV" + String.format("%05d" , invoiceID.intValue()+1);
+		    String invoiceNo="";
+		    
+		    try {
+		    
+		    	invoiceNo = "INV" + String.format("%05d" , invoiceID.intValue()+1);
+		    
+		    }catch(NullPointerException err) {
+		    	invoiceNo="INV000001";
+		    }
 		    
 		    invoice.setInvoiceNo(invoiceNo);			
 			
@@ -181,6 +198,9 @@ public class EstimateAction {
 			invoice.setLabourCost(estimate.getLabourCost());
 			invoice.setRecyclingCharges(estimate.getRecyclingCharges());
 			invoice.setSalesTax(estimate.getSalesTax());
+			invoice.setTotalAmount(estimate.getTotalAmount());
+			invoice.setStatus("Unpaid");
+			invoice.setCreatedBy(new User(estimate.getCreatedBy()));
 			
 			session.save(invoice);
 			

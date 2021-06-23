@@ -41,7 +41,10 @@ public class Invoice {
 	private float totalAmount;
 	private String paymentMethod;
 	private String remarks;
-	private int createdBy;
+	
+	@ManyToOne
+	@JoinColumn(name="createdBy")
+	private User createdBy;
 	
     @OneToOne
     @JoinColumn(name = "carID")
@@ -173,11 +176,11 @@ public class Invoice {
 	
 	
 
-	public int getCreatedBy() {
+	public User getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(User createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -202,6 +205,7 @@ public class Invoice {
 		response+="\"labourCost\":" + labourCost + ",";
 		response+="\"recyclingCharges\":" + recyclingCharges + ",";
 		response+="\"remarks\":\"" + remarks + "\",";
+		response+="\"createdBy\":\"" + createdBy.getFirstName() + " " + createdBy.getLastName() + "\",";
 		
 		response+="\"invoiceProducts\":[";
 		

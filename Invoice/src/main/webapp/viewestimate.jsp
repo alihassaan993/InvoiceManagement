@@ -54,13 +54,10 @@ function generateInvoice(){
 	  xhttp.onreadystatechange = function() {
 	    if (this.readyState == 4 && this.status == 200) {
 	    	var response=JSON.parse(this.responseText);
+			alert(response);
 	    	if(response.result=="Success"){
-	    		
-
-	    		//document.getElementById("viewinvoice").style.display="block";
+	    		populateModal(response.invoiceID);
 	    		$('#viewinvoice').modal();
-	    		//populateModal(response.invoiceID);	    		
-	    		//alert("Successfully generated the invoice "+ response.invoiceID);
 	    	}
      		else{
      			alert("Not able to generate Invoice");

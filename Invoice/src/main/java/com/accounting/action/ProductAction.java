@@ -86,14 +86,17 @@ public class ProductAction {
 			
 			session.save(product);
 			
-//			List<ProductTax> taxIDs=product.getTaxID();
-//			
-//			for(int index=0;index<taxIDs.size();index++)			
-//			{	
-//				ProductTax prodTax=taxIDs.get(index);
-//				prodTax.setProduct(product);
-//				session.save(prodTax);
-//			}
+			List<ProductTax> taxIDs=product.getTaxID();
+			
+			System.out.println("Tax Array Size " + taxIDs.size());
+			
+			for(int index=0;index<taxIDs.size();index++)			
+			{	
+				ProductTax prodTax=taxIDs.get(index);
+				System.out.println("Product Tax ID " + prodTax.getTax().getTaxID());
+				prodTax.setProduct(product);
+				session.save(prodTax);
+			}
 			session.getTransaction().commit();
 			
 		}catch(Exception err) {
